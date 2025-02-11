@@ -17,6 +17,7 @@ public class SceneFrame {
      */
     public void setUpGUI() {
         mainFrame.setTitle("Midterm Project - Diesta - Uy, C.");
+        mainFrame.pack();
     }
 
     /**
