@@ -17,6 +17,8 @@
  * of our program.
  */
 
-public abstract class DrawingObject {
-    
+import java.awt.*;
+
+public interface DrawingObject {
+    void draw(Graphics2D g2d);
 }
