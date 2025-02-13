@@ -1,5 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.*;
 
 public class SceneFrame {
     JFrame mainFrame;
@@ -14,7 +15,7 @@ public class SceneFrame {
         mainFrame = new JFrame();
 
         canvas = new SceneCanvas();
-        actionButton = new JButton("Some Action Here");
+        actionButton = new JButton("Open Laptop");
     }
     
     /**
@@ -39,6 +40,17 @@ public class SceneFrame {
      * Sets up the button listeners for the actions.
      */
     public void setUpButtonListeners() {
-        // TODO: add functionality here
+        ActionListener buttonListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                Object o = ae.getSource();
+
+                if (o == actionButton) {
+                    // TODO: CLOSE AND OPEN THE LAPTOP
+                }
+            }
+        };
+
+        actionButton.addActionListener(buttonListener);
     }
 }

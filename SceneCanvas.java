@@ -3,7 +3,7 @@ import java.util.*;
 import javax.swing.*;
 
 public class SceneCanvas extends JComponent {
-    ArrayList<DrawingObject> drawingObjects; 
+    ArrayList<DrawingObject> drawingObjects;
 
     /**
      * Instantiate a SceneCanvas (an extension of JComponent).
@@ -24,7 +24,7 @@ public class SceneCanvas extends JComponent {
         drawingObjects.add(new Circle(350, 100, 75, Color.PINK)); // Sample shape
         drawingObjects.add(new Triangle(100, 150, 200, 100, 100, 200, Color.BLACK)); // Sample custom shape
         drawingObjects.add(new Rectangle(100, 160, 170, 80, 300, 300, 400, 380, Color.BLUE)); // Sample custom shape
-        drawingObjects.add(new Laptop(100, 100)); // Sample combination of shape
+        drawingObjects.add(new Laptop(100, 100, false)); // Sample combination of shape
 
         // Set up miscellaneous details.
         this.setPreferredSize(new Dimension(800, 600));
