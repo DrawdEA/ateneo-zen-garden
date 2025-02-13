@@ -7,7 +7,7 @@ public class Triangle implements DrawingObject {
     Polygon triangle;
 
     /**
-     * Instantiates a triangle object.
+     * Instantiates a triangle object. Order of the coordinate goes: BOTTOM-LEFT, BOTTOM-RIGHT, TOP.
      * 
      * @param x1 first x coordinate of the triangle
      * @param x2 second x coordinate of the triangle
@@ -15,7 +15,7 @@ public class Triangle implements DrawingObject {
      * @param y1 first y coordinate of the triangle
      * @param y2 second y coordinate of the triangle
      * @param y3 third y coordinate of the triangle
-     * @param c  color of the triangle
+     * @param c color of the triangle
      */
     public Triangle(int x1, int x2, int x3, int y1, int y2, int y3, Color c) {
         xCoordinates = new int[3];
@@ -30,7 +30,7 @@ public class Triangle implements DrawingObject {
         yCoordinates[2] = y3;
         triangle = new Polygon(xCoordinates, yCoordinates, 3);
     }
-    
+
     /**
      * Draws the circle shape.
      * 
