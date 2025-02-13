@@ -23,7 +23,7 @@ public class Line implements DrawingObject {
         yStart = yS;
         xEnd = xE;
         yEnd = yE;
-        t = thickness;
+        thickness = t;
         color = c;
     }
     
