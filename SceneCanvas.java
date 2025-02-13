@@ -23,6 +23,7 @@ public class SceneCanvas extends JComponent {
         drawingObjects.add(new Square(300, 100, 75, Color.PINK)); // Sample shape
         drawingObjects.add(new Circle(350, 100, 75, Color.PINK)); // Sample shape
         drawingObjects.add(new Triangle(100, 150, 200, 100, 100, 200, Color.BLACK)); // Sample shape
+        drawingObjects.add(new Rectangle(100, 160, 170, 80, 300, 300, 400, 380, Color.BLUE)); // Sample shape
 
         // Set up miscellaneous details.
         this.setPreferredSize(new Dimension(800, 600));
