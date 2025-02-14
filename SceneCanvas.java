@@ -3,7 +3,8 @@ import java.util.*;
 import javax.swing.*;
 
 public class SceneCanvas extends JComponent {
-    ArrayList<DrawingObject> drawingObjects; 
+    ArrayList<DrawingObject> drawingObjects;
+    boolean laptopOpened;
 
     /**
      * Instantiate a SceneCanvas (an extension of JComponent).
@@ -22,8 +23,9 @@ public class SceneCanvas extends JComponent {
         drawingObjects.add(new Square(225, 100, 75, Color.PINK)); // Sample shape
         drawingObjects.add(new Square(300, 100, 75, Color.PINK)); // Sample shape
         drawingObjects.add(new Circle(350, 100, 75, Color.PINK)); // Sample shape
-        drawingObjects.add(new Triangle(100, 150, 200, 100, 100, 200, Color.BLACK)); // Sample shape
-        drawingObjects.add(new Rectangle(100, 160, 170, 80, 300, 300, 400, 380, Color.BLUE)); // Sample shape
+        drawingObjects.add(new Triangle(100, 150, 200, 100, 100, 200, Color.BLACK)); // Sample custom shape
+        drawingObjects.add(new Rectangle(100, 160, 170, 80, 300, 300, 400, 380, Color.BLUE)); // Sample custom shape
+        drawingObjects.add(new Laptop(100, 100, laptopOpened)); // Sample combination of shape
 
         // Set up miscellaneous details.
         this.setPreferredSize(new Dimension(800, 600));
@@ -39,5 +41,16 @@ public class SceneCanvas extends JComponent {
         for (DrawingObject object : drawingObjects) {
             object.draw((Graphics2D) g);
         }
+    }
+
+    public void toggleLaptop() {
+        laptopOpened = !laptopOpened;
+        // Find the Laptop object and update its state
+        for (DrawingObject object : drawingObjects) {
+            if (object instanceof Laptop) {
+                ((Laptop) object).toggleOpen();
+            }
+        }
+        repaint();
     }
 }
