@@ -26,4 +26,9 @@ public class Laptop implements DrawingObject {
         
         keyboard.draw(g2d);
     }
+
+    public void toggleOpen() {
+        isOpen = !isOpen;
+        keyboard = new Rectangle(298, 502, 510, 290, 585, 585, 600, 600, isOpen ? Color.GRAY : Color.BLACK);
+    }
 }
