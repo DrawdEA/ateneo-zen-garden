@@ -15,7 +15,7 @@ public class SceneFrame {
         mainFrame = new JFrame();
 
         canvas = new SceneCanvas();
-        actionButton = new JButton("Open Laptop");
+        actionButton = new JButton("Toggle Laptop");
     }
     
     /**
@@ -46,7 +46,7 @@ public class SceneFrame {
                 Object o = ae.getSource();
 
                 if (o == actionButton) {
-                    // TODO: CLOSE AND OPEN THE LAPTOP
+                    canvas.toggleLaptop();
                 }
             }
         };
