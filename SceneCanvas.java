@@ -11,22 +11,11 @@ public class SceneCanvas extends JComponent {
      */
     public SceneCanvas() {
         drawingObjects = new ArrayList<DrawingObject>();
-
-        // Add the DrawingObjects in the array list.
-        drawingObjects.add(new Circle(50, 50, 100, Color.PINK)); // Sample shape
-        drawingObjects.add(new Circle(50, 150, 100, Color.PINK)); // Sample shape
-        drawingObjects.add(new Line(450, 150, 500, 150, 10.0f, Color.BLACK)); // Sample shape
-        drawingObjects.add(new Line(450, 120, 500, 100, 10.0f, Color.BLACK)); // Sample shape
-        drawingObjects.add(new Line(450, 170, 500, 200, 10.0f, Color.BLACK)); // Sample shape
-        drawingObjects.add(new Square(75, 100, 75, Color.PINK)); // Sample shape
-        drawingObjects.add(new Square(150, 100, 75, Color.PINK)); // Sample shape
-        drawingObjects.add(new Square(225, 100, 75, Color.PINK)); // Sample shape
-        drawingObjects.add(new Square(300, 100, 75, Color.PINK)); // Sample shape
-        drawingObjects.add(new Circle(350, 100, 75, Color.PINK)); // Sample shape
-        drawingObjects.add(new Triangle(100, 150, 200, 100, 100, 200, Color.BLACK)); // Sample custom shape
-        drawingObjects.add(new Rectangle(100, 160, 170, 80, 300, 300, 400, 380, Color.BLUE)); // Sample custom shape
+       
+        // drawingObjects.add(new Triangle(100, 150, 200, 100, 100, 200, Color.BLACK)); // Sample custom shape
+        // drawingObjects.add(new Rectangle(100, 160, 170, 80, 300, 300, 400, 380, Color.BLUE)); // Sample custom shape
         drawingObjects.add(new Laptop(100, 100, laptopOpened)); // Sample combination of shape
-
+        drawingObjects.add(new GonzagaHall(0,150));
         // Set up miscellaneous details.
         this.setPreferredSize(new Dimension(800, 600));
     }
@@ -38,6 +27,8 @@ public class SceneCanvas extends JComponent {
      */
     @Override
     protected void paintComponent(Graphics g) {
+        g.drawImage(new ImageIcon("./assets/images/zen.png").getImage(),0,0,this);
+
         for (DrawingObject object : drawingObjects) {
             object.draw((Graphics2D) g);
         }
