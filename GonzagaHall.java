@@ -190,12 +190,6 @@ public class GonzagaHall implements DrawingObject {
 
     @Override
     public void draw(Graphics2D g2d) {
-        RenderingHints rh = new RenderingHints(
-            RenderingHints.KEY_ANTIALIASING,
-            RenderingHints.VALUE_ANTIALIAS_ON
-        );
-        g2d.setRenderingHints(rh);
-
         // Building wall everything is on
         buildingBase(x, y, new Color(201,115,100,opacity)).draw(g2d);
 

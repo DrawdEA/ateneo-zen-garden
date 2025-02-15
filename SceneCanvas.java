@@ -12,10 +12,9 @@ public class SceneCanvas extends JComponent {
     public SceneCanvas() {
         drawingObjects = new ArrayList<DrawingObject>();
        
-        // drawingObjects.add(new Triangle(100, 150, 200, 100, 100, 200, Color.BLACK)); // Sample custom shape
-        // drawingObjects.add(new Rectangle(100, 160, 170, 80, 300, 300, 400, 380, Color.BLUE)); // Sample custom shape
         drawingObjects.add(new Laptop(100, 100, laptopOpened)); // Sample combination of shape
         drawingObjects.add(new GonzagaHall(0,150));
+        drawingObjects.add(new SchmittHall(575,100));
         // Set up miscellaneous details.
         this.setPreferredSize(new Dimension(800, 600));
     }
@@ -29,8 +28,16 @@ public class SceneCanvas extends JComponent {
     protected void paintComponent(Graphics g) {
         g.drawImage(new ImageIcon("./assets/images/zen.png").getImage(),0,0,this);
 
+        // Cast Graphics to Graphics2D and apply anti-aliasing key 
+        Graphics2D g2d = (Graphics2D) g;
+        RenderingHints rh = new RenderingHints(
+            RenderingHints.KEY_ANTIALIASING,
+            RenderingHints.VALUE_ANTIALIAS_ON
+        );
+        g2d.setRenderingHints(rh);
+
         for (DrawingObject object : drawingObjects) {
-            object.draw((Graphics2D) g);
+            object.draw(g2d);
         }
     }
 
