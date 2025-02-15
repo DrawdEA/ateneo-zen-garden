@@ -42,7 +42,7 @@ public class Laptop extends JFrame{
             AffineTransform fold = new AffineTransform();
 
             fold.setToScale(1, Math.cos(Math.toRadians(laptopDegrees)));
-            fold.translate(0, 300 * Math.sin(Math.toRadians(laptopDegrees)));
+            // fold.translate(0, 300 * Math.sin(Math.toRadians(laptopDegrees)));
             
             g2d.setTransform(fold);
             g2d.fillRect(150, 400, 500, 300);  
