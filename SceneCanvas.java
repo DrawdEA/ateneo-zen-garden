@@ -31,7 +31,7 @@ public class SceneCanvas extends JComponent {
     public SceneCanvas() {
         drawingObjects = new ArrayList<DrawingObject>();
        
-        drawingObjects.add(new Laptop(100, 100, laptopOpened)); // Sample combination of shape
+        drawingObjects.add(new Laptop(300, 460, laptopOpened)); // Sample combination of shape
         drawingObjects.add(new GonzagaHall(0,150));
         drawingObjects.add(new SchmittHall(575,100));
         // Set up miscellaneous details.

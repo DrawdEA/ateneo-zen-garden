@@ -20,20 +20,61 @@
 import java.awt.*;
 
 public class Laptop implements DrawingObject {
-    int xPosition;
-    int yPosition;
+    int x;
+    int y;
     Rectangle border;
     Rectangle screen;
+    Rectangle navbar;
     Rectangle keyboard;
     boolean isOpen;
     
-    public Laptop(int x, int y, boolean iO) {
+    public Laptop(int x1, int y1, boolean iO) {
         isOpen = iO;
-        xPosition = x; // TODO: actually implement the x and y coordinates so that the positions are not hardcoded
-        yPosition = y;
-        border = new Rectangle(300, 460, 500, 460, 500, 585, 300, 585, Color.BLACK);
-        screen = new Rectangle(305, 465, 495, 465, 495 ,571, 305, 571, Color.WHITE);
-        keyboard = new Rectangle(298,585, 502, 585, 510, 600, 290, 600, isOpen ? Color.GRAY : Color.BLACK);
+        x = x1; // TODO: actually implement the x and y coordinates so that the positions are not hardcoded x 300 y 460
+        y = y1;
+        border = new Rectangle(
+            x, 
+            y, 
+            x + 200, 
+            y, 
+            x + 200, 
+            y + 125, 
+            x, 
+            y + 125, 
+        Color.BLACK);
+
+        screen = new Rectangle(
+            x + 5, 
+            y + 5, 
+            x + 195, 
+            y + 5, 
+            x + 195,
+            y + 111, 
+            x + 5, 
+            y + 111, 
+        Color.WHITE);
+
+        navbar = new Rectangle(
+            x + 5, 
+            y + 5, 
+            x + 195, 
+            y + 5, 
+            x + 195,
+            y + 25, 
+            x + 5, 
+            y + 25, 
+        Color.BLUE);
+
+        keyboard = new Rectangle(
+            x - 2, 
+            y + 125, 
+            x + 202, 
+            y + 125, 
+            x + 210, 
+            y + 140, 
+            x - 10, 
+            y + 140, 
+        isOpen ? Color.GRAY : Color.BLACK);
     }
 
     @Override
@@ -41,6 +82,13 @@ public class Laptop implements DrawingObject {
         if (isOpen) {
             border.draw(g2d);
             screen.draw(g2d);
+            navbar.draw(g2d);
+
+            g2d.setColor(Color.WHITE);
+            g2d.setFont(new Font("Serif", Font.BOLD, 15));
+            g2d.drawString("ADMU Command Runner", x + 15, y + 20);
+            g2d.setColor(Color.BLACK);
+            g2d.drawString(">", x + 10, y + 43);
         }
         
         keyboard.draw(g2d);
@@ -48,6 +96,15 @@ public class Laptop implements DrawingObject {
 
     public void toggleOpen() {
         isOpen = !isOpen;
-        keyboard = new Rectangle(300, 585, 500, 585, 510, 600, 290, 600, isOpen ? Color.GRAY : Color.BLACK);
+        keyboard = new Rectangle(
+            x, 
+            y + 125, 
+            x + 200, 
+            y + 125, 
+            x + 210, 
+            y + 140, 
+            x - 10, 
+            y + 140, 
+        isOpen ? Color.GRAY : Color.BLACK);
     }
 }
