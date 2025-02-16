@@ -1,10 +1,30 @@
+/**
+ * TODO: Description
+ * 
+ * @author Edward Joshua M. Diesta (241571), Charles Joshua T. Uy (244644)
+ * @version March 3, 2025
+ * 
+ * We have not discussed the Java language code in our program 
+ * with anyone other than our instructor or the teaching assistants 
+ * assigned to this course.
+ * 
+ * We have not used Java language code obtained from another student, 
+ * or any other unauthorized source, either modified or unmodified.
+ * 
+ * If any Java language code or documentation used in our program 
+ * was obtained from another source, such as a textbook or website, 
+ * that has been clearly noted with a proper citation in the comments 
+ * of our program.
+ */
+
 import java.awt.*;
+import java.awt.geom.*;
 
 public class Triangle implements DrawingObject {
     int[] xCoordinates;
     int[] yCoordinates;
     Color color;
-    Polygon triangle;
+    Path2D.Double triangle;
 
     /**
      * Instantiates a triangle object. Order of the coordinate goes: BOTTOM-LEFT, BOTTOM-RIGHT, TOP.
@@ -18,17 +38,12 @@ public class Triangle implements DrawingObject {
      * @param c color of the triangle
      */
     public Triangle(int x1, int x2, int x3, int y1, int y2, int y3, Color c) {
-        xCoordinates = new int[3];
-        yCoordinates = new int[3];
         color = c;
-
-        xCoordinates[0] = x1;
-        xCoordinates[1] = x2;
-        xCoordinates[2] = x3;
-        yCoordinates[0] = y1;
-        yCoordinates[1] = y2;
-        yCoordinates[2] = y3;
-        triangle = new Polygon(xCoordinates, yCoordinates, 3);
+        triangle = new Path2D.Double();
+        triangle.moveTo(x1, y1);
+        triangle.lineTo(x2, y2);
+        triangle.lineTo(x3, y3);
+        triangle.closePath();
     }
 
     /**
@@ -38,8 +53,7 @@ public class Triangle implements DrawingObject {
      */
     @Override
     public void draw(Graphics2D g2d) {
-        g2d.setPaint(color);
-        g2d.draw(triangle);
+        g2d.setColor(color);
         g2d.fill(triangle);
     }
 }
