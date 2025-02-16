@@ -28,16 +28,16 @@ public class Rectangle implements DrawingObject {
      * Instantiate a rectangle object. Order of the coordinate goes: TOP-LEFT, TOP-RIGHT, BOTTOM-RIGHT, BOTTOM-LEFT.
      * 
      * @param x1 first x coordinate of the rectangle 
-     * @param x2 second x coordinate of the rectangle
-     * @param x3 third x coordinate of the rectangle
-     * @param x4 fourth x coordinate of the rectangle
      * @param y1 first y coordinate of the rectangle
+     * @param x2 second x coordinate of the rectangle
      * @param y2 second y coordinate of the rectangle
+     * @param x3 third x coordinate of the rectangle
      * @param y3 third y coordinate of the rectangle
+     * @param x4 fourth x coordinate of the rectangle
      * @param y4 fourth y coordinate of the rectangle
      * @param c color of the rectangle
      */
-    public Rectangle(int x1, int x2, int x3, int x4, int y1, int y2, int y3, int y4, Color c) {
+    public Rectangle(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, Color c) {
         color = c;
 
         rectangle = new Path2D.Double();

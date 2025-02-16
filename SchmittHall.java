@@ -31,12 +31,12 @@ public class SchmittHall implements DrawingObject {
     private Rectangle buildingBase(int x, int y, Color color) {
         return new Rectangle(
             x, 
+            y + 275,
             x + 300, 
+            y + 275, 
             x + 300, 
-            x, 
-            y + 275, 
-            y + 275, 
             y, 
+            x, 
             y, 
         color);
     }

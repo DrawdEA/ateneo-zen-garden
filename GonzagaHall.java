@@ -30,7 +30,7 @@ public class GonzagaHall implements DrawingObject {
     }
 
     private Rectangle buildingBase(int x, int y, Color color){
-        return new Rectangle(x, x+483, x+483, x, y, y+30, y+220, y+250, color);
+        return new Rectangle(x, y, x+483, y+30, x+483, y+220, x, y+250, color);
     }
 
     private ArrayList<Rectangle> window(int x, int y, Color color){
@@ -39,12 +39,12 @@ public class GonzagaHall implements DrawingObject {
         // Add Glass
         window.add(new Rectangle(
             x, 
-            x+55, 
-            x+55, 
-            x, 
             y-3, 
+            x+55, 
             y, 
+            x+55, 
             y+30+3, 
+            x, 
             y+30, 
         color));
         
@@ -54,12 +54,12 @@ public class GonzagaHall implements DrawingObject {
         for (int i = 0; i < 4; i++) {
             window.add(new Rectangle(
                 x + (i*55/3), 
-                x + frameWidth + (i*55/3), 
-                x + frameWidth + (i*55/3), 
-                x + (i*55/3), 
                 y + i-3, 
+                x + frameWidth + (i*55/3), 
                 y + i-3, 
+                x + frameWidth + (i*55/3), 
                 y+33 + i-3, 
+                x + (i*55/3), 
                 y+33 + i-3, 
             Color.WHITE));
         }
@@ -67,12 +67,12 @@ public class GonzagaHall implements DrawingObject {
         for (int i = 0; i < 3; i++) {
             window.add(new Rectangle(
                 x, 
-                x+55, 
-                x+55, 
-                x, 
                 y + (i*33/2) - 5, 
+                x+55, 
                 y + (i*33/2),  
+                x+55, 
                 y + frameWidth + (i*33/2), 
+                x, 
                 y + frameWidth + (i*33/2) - 5, 
             Color.WHITE));
         }
@@ -86,12 +86,12 @@ public class GonzagaHall implements DrawingObject {
         // Black Background 
         firstFloor.add(new Rectangle(
             x, 
-            x+483, 
-            x+483, 
-            x, 
             y+180, 
+            x+483, 
             y+180, 
+            x+483, 
             y+220, 
+            x, 
             y+250, 
         canteenBg));
 
@@ -101,45 +101,45 @@ public class GonzagaHall implements DrawingObject {
             if (i==3 || i==4){ // Center pillars are doubled due to the main Gonz entrance arch
                 firstFloor.add(new Rectangle(
                     x + i*(483/7) - pillarWidth/2 - 3,
-                    x + pillarWidth + i*(483/7) - pillarWidth/2 - 3,
-                    x + pillarWidth + i*(483/7) - pillarWidth/2 - 3,
-                    x + i*(483/7) - pillarWidth/2 - 3,
                     y + 180,
+                    x + pillarWidth + i*(483/7) - pillarWidth/2 - 3,
                     y + 180,
+                    x + pillarWidth + i*(483/7) - pillarWidth/2 - 3,
                     y + 250 - i*(30/7) - 2,
+                    x + i*(483/7) - pillarWidth/2 - 3,
                     y + 250 - i*(30/7),
                 pillars));
                 firstFloor.add(new Rectangle(
                     x + i*(483/7) + pillarWidth/2 + 3,
-                    x + pillarWidth + i*(483/7) + pillarWidth/2 + 3,
-                    x + pillarWidth + i*(483/7) + pillarWidth/2 + 3,
-                    x + i*(483/7) + pillarWidth/2 + 3,
                     y + 180,
+                    x + pillarWidth + i*(483/7) + pillarWidth/2 + 3,
                     y + 180,
+                    x + pillarWidth + i*(483/7) + pillarWidth/2 + 3,
                     y + 250 - i*(30/7) - 2,
+                    x + i*(483/7) + pillarWidth/2 + 3,
                     y + 250 - i*(30/7),
                 pillars));
             } else if (i == 7){ // The final post needs to be adjusted
                 firstFloor.add(new Rectangle(
                     x + i*(483/7) - pillarWidth,
-                    x + i*(483/7),
-                    x + i*(483/7),
-                    x + i*(483/7) - pillarWidth,
                     y + 180,
+                    x + i*(483/7),
                     y + 180,
+                    x + i*(483/7),
                     y + 250 - i*(30/7) - 2,
+                    x + i*(483/7) - pillarWidth,
                     y + 250 - i*(30/7),
                 pillars));
             }
             else {
                 firstFloor.add(new Rectangle(
                     x + i*(483/7),
-                    x + pillarWidth + i*(483/7),
-                    x + pillarWidth + i*(483/7),
-                    x + i*(483/7),
                     y + 180,
+                    x + pillarWidth + i*(483/7),
                     y + 180,
+                    x + pillarWidth + i*(483/7),
                     y + 250 - i*(30/7) - 2,
+                    x + i*(483/7),
                     y + 250 - i*(30/7),
                 pillars));
             }
@@ -154,12 +154,12 @@ public class GonzagaHall implements DrawingObject {
         // White "hat" of Gonz
         outerAccent.add(new Rectangle(
             x, 
-            x+483, 
-            x+483, 
-            x, 
             y, 
+            x+483, 
             y+30, 
+            x+483, 
             y+66, 
+            x, 
             y+30, 
         color));
 
@@ -168,12 +168,12 @@ public class GonzagaHall implements DrawingObject {
         for (int i = 0; i < 7; i++) {
             outerAccent.add(new Rectangle(
                 x+57+1+(i*(485/7)), 
-                x+57+1+(i*(485/7)) + verticalAccentWidth, 
-                x+57+1+(i*(485/7)) + verticalAccentWidth, 
-                x+57+1+(i*(485/7)), 
                 y+10+(i*25/6), 
+                x+57+1+(i*(485/7)) + verticalAccentWidth, 
                 y+10+(i*25/6), 
+                x+57+1+(i*(485/7)) + verticalAccentWidth, 
                 y+180, 
+                x+57+1+(i*(485/7)), 
                 y+180, 
             color));
         }
@@ -181,12 +181,12 @@ public class GonzagaHall implements DrawingObject {
         // Horizontal Accent
         outerAccent.add(new Rectangle(
             x,
-            x+485, 
-            x+485, 
-            x, 
             y+170+5, 
+            x+485, 
             y+180-5, 
+            x+485, 
             y+180+10-5, 
+            x, 
             y+170+10+5, 
         color));
 
@@ -197,12 +197,12 @@ public class GonzagaHall implements DrawingObject {
     private Rectangle gonzagaSignage(int x, int y, Color color){
         return new Rectangle(
             x + 200, 
+            y + 155,
             x + 300, 
+            y + 155, 
             x + 300, 
-            x + 200, 
-            y + 155, 
-            y + 155, 
             y + 175, 
+            x + 200, 
             y + 175, 
         color);
     }
