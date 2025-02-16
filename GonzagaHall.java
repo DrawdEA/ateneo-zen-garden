@@ -15,7 +15,7 @@ public class GonzagaHall implements DrawingObject {
     }
 
     private ArrayList<Rectangle> window(int x, int y, Color color){
-        ArrayList<Rectangle> window = new ArrayList();
+        ArrayList<Rectangle> window = new ArrayList<>();
         
         // Add Glass
         window.add(new Rectangle(
@@ -62,7 +62,7 @@ public class GonzagaHall implements DrawingObject {
     }
 
     private ArrayList<Rectangle> firstFloor(int x, int y, Color canteenBg, Color pillars){
-        ArrayList<Rectangle> firstFloor = new ArrayList();
+        ArrayList<Rectangle> firstFloor = new ArrayList<>();
 
         // Black Background 
         firstFloor.add(new Rectangle(
@@ -130,7 +130,7 @@ public class GonzagaHall implements DrawingObject {
     }
 
     private ArrayList<Rectangle> outerAccent(int x, int y, Color color){
-        ArrayList<Rectangle> outerAccent = new ArrayList();
+        ArrayList<Rectangle> outerAccent = new ArrayList<>();
         
         // White "hat" of Gonz
         outerAccent.add(new Rectangle(
