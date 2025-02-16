@@ -1,30 +1,25 @@
 import java.awt.*;
+import java.awt.geom.*;
 
 public class Line implements DrawingObject {
-    int xStart;
-    int yStart;
-    int xEnd;
-    int yEnd;
     float thickness;
     Color color;
+    Line2D.Double line;
 
     /**
      * Instantiates a line drawing.
      * 
-     * @param xS starting x position
+     * @param x1 starting x position
      * @param yS starting y position
-     * @param xE ending x position
-     * @param yE ending y position
+     * @param x2 ending x position
+     * @param y2 ending y position
      * @param t thickness of the line
      * @param c color of the line
      */
-    public Line(int xS, int yS, int xE, int yE, float t, Color c) {
-        xStart = xS;
-        yStart = yS;
-        xEnd = xE;
-        yEnd = yE;
+    public Line(int x1, int y1, int x2, int y2, float t, Color c) {
         thickness = t;
         color = c;
+        line = new Line2D.Double(x1, y1, x2, y2);
     }
     
     /**
@@ -34,8 +29,8 @@ public class Line implements DrawingObject {
      */
     @Override
     public void draw(Graphics2D g2d) {
-        g2d.setPaint(color);
+        g2d.setColor(color);
         g2d.setStroke(new BasicStroke(thickness));
-        g2d.drawLine(xStart, yStart, xEnd, yEnd);
+        g2d.draw(line);
     }
 }
