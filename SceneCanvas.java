@@ -38,10 +38,9 @@ public class SceneCanvas extends JComponent implements KeyListener {
 
         drawingObjects = new ArrayList<DrawingObject>();
        
-        
+        drawingObjects.add(new Laptop(300, 460, laptopOpened, command)); // Sample combination of shape
         drawingObjects.add(new GonzagaHall(0,150));
-        drawingObjects.add(new SchmittHall(575,100));
-        drawingObjects.add(new Laptop(250, 400, laptopOpened, command));
+        drawingObjects.add(new SchmittHall(575,260));
 
         // Set up miscellaneous details.
         this.setFocusable(true);
@@ -57,6 +56,7 @@ public class SceneCanvas extends JComponent implements KeyListener {
      */
     @Override
     protected void paintComponent(Graphics g) {
+        // Remove when done
         g.drawImage(new ImageIcon("./assets/images/zen.png").getImage(),0,0,this);
 
         // Cast Graphics to Graphics2D and apply anti-aliasing key 

@@ -31,19 +31,37 @@ public class SchmittHall implements DrawingObject {
     private Rectangle buildingBase(int x, int y, Color color) {
         return new Rectangle(
             x, 
-            y + 275,
+            y,
             x + 300, 
-            y + 275, 
+            y - 25, 
             x + 300, 
-            y, 
+            y + 115, 
             x, 
-            y, 
+            y + 115, 
         color);
+    }
+
+    private Rectangle roof(int x, int y, Color color) {
+        return new Rectangle(
+            x,
+            y,
+            x + 85,
+            y - 20,
+            x + 130,
+            y - 30,
+            x + 300,
+            y - 25,
+        color);
+    }
+
+    private Rectangle window(int x, int y, Color color){
+        
     }
 
     @Override
     public void draw(Graphics2D g2d) {
         buildingBase(x, y, new Color(255, 254, 224, opacity)).draw(g2d);
+        roof(x, y, new Color(203, 65, 84, opacity)).draw(g2d);
     }
 
 }
