@@ -17,6 +17,7 @@
  * of our program.
  */
 
+package lib;
 import java.awt.*;
 
 public class Laptop implements DrawingObject {

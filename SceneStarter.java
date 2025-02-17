@@ -17,6 +17,8 @@
  * of our program.
  */
 
+import lib.*;
+
 public class SceneStarter {
     public static void main(String args[]) {
         SceneFrame canvas = new SceneFrame();

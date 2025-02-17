@@ -17,37 +17,38 @@
  * of our program.
  */
 
+package lib;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class Square implements DrawingObject {
+public class Circle implements DrawingObject {
     int x;
     int y;
     int size;
     Color color;
-    Rectangle2D.Double square;
+    Ellipse2D.Double circle;
 
     /**
-     * Instantiate a square object.
+     * Instantiate a circle object.
      * 
      * @param x1 the x position of the shape
      * @param y1 the y position of the shape
-     * @param s size of the square
-     * @param c color of the square
+     * @param s size of the circle
+     * @param c color of the circle
      */
-    public Square(int x1, int y1, int s, Color c) {
+    public Circle(int x1, int y1, int s, Color c) {
         color = c;
-        square = new Rectangle2D.Double(x1, y1, s, s);
+        circle = new Ellipse2D.Double(x1, y1, s, s);
     }
 
     /**
-     * Draws the square shape.
+     * Draws the circle shape.
      * 
      * @param g2d the Graphics2D of the component to place the drawing on
      */
     @Override
     public void draw(Graphics2D g2d) {
         g2d.setColor(color);
-        g2d.fill(square);
+        g2d.fill(circle);
     }
 }

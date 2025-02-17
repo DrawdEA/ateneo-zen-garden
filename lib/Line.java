@@ -17,41 +17,40 @@
  * of our program.
  */
 
+package lib;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class Triangle implements DrawingObject {
+public class Line implements DrawingObject {
+    float thickness;
     Color color;
-    Path2D.Double triangle;
+    Line2D.Double line;
 
     /**
-     * Instantiates a triangle object. Order of the coordinate goes: BOTTOM-LEFT, BOTTOM-RIGHT, TOP.
+     * Instantiates a line drawing.
      * 
-     * @param x1 first x coordinate of the triangle
-     * @param x2 second x coordinate of the triangle
-     * @param x3 third x coordinate of the triangle
-     * @param y1 first y coordinate of the triangle
-     * @param y2 second y coordinate of the triangle
-     * @param y3 third y coordinate of the triangle
-     * @param c color of the triangle
+     * @param x1 starting x position
+     * @param yS starting y position
+     * @param x2 ending x position
+     * @param y2 ending y position
+     * @param t thickness of the line
+     * @param c color of the line
      */
-    public Triangle(int x1, int y1, int x2, int y2, int x3, int y3, Color c) {
+    public Line(int x1, int y1, int x2, int y2, float t, Color c) {
+        thickness = t;
         color = c;
-        triangle = new Path2D.Double();
-        triangle.moveTo(x1, y1);
-        triangle.lineTo(x2, y2);
-        triangle.lineTo(x3, y3);
-        triangle.closePath();
+        line = new Line2D.Double(x1, y1, x2, y2);
     }
-
+    
     /**
-     * Draws the circle shape.
+     * Draws the line.
      * 
      * @param g2d the Graphics2D of the component to place the drawing on
      */
     @Override
     public void draw(Graphics2D g2d) {
         g2d.setColor(color);
-        g2d.fill(triangle);
+        g2d.setStroke(new BasicStroke(thickness));
+        g2d.draw(line);
     }
 }
