@@ -18,8 +18,7 @@
  */
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
@@ -72,6 +71,11 @@ public class SceneCanvas extends JComponent implements KeyListener {
         }
     }
 
+    /**
+     * Returns the first laptop object found in the array list.
+     * 
+     * @return the first laptop object
+     */
     public Laptop getLaptop() {
         for (DrawingObject object : drawingObjects) {
             if (object instanceof Laptop) {
