@@ -20,63 +20,77 @@
 import java.awt.*;
 
 public class Laptop implements DrawingObject {
+    private static final int LAPTOP_LENGTH = 300;
+    private static final int LAPTOP_HEIGHT = 180;
+    private static final int BORDER_LENGTH = 5;
+    private static final int NAVBAR_HEIGHT = 25;
+    private static final int KEYBOARD_ANGLE_INCREMENT = 10;
+    private static final int KEYBOARD_HEIGHT = 20;
+
     int x;
     int y;
+    boolean isOpen;
+    String command;
+
     Rectangle border;
     Rectangle screen;
     Rectangle navbar;
     Rectangle keyboard;
-    boolean isOpen;
-    String command;
+    Rectangle commandLineButton;
+    Rectangle musicButton;
     
     public Laptop(int x1, int y1, boolean iO, String t) {
         isOpen = iO;
-        x = x1; // TODO: actually implement the x and y coordinates so that the positions are not hardcoded x 300 y 460
+        x = x1; 
         y = y1;
         command = t;
+        // x 300 y 460 -> x -> 265 560
+        // 800 - 530 - 265
+        // 
+
         border = new Rectangle(
             x, 
             y, 
-            x + 200, 
+            x + LAPTOP_LENGTH, 
             y, 
-            x + 200, 
-            y + 125, 
+            x + LAPTOP_LENGTH, 
+            y + LAPTOP_HEIGHT, 
             x, 
-            y + 125, 
-        Color.BLACK);
+            y + LAPTOP_HEIGHT, 
+        new Color(51, 51, 51));
 
         screen = new Rectangle(
-            x + 5, 
-            y + 5, 
-            x + 195, 
-            y + 5, 
-            x + 195,
-            y + 111, 
-            x + 5, 
-            y + 111, 
-        Color.WHITE);
+            x + BORDER_LENGTH, 
+            y + BORDER_LENGTH, 
+            x + LAPTOP_LENGTH - BORDER_LENGTH, 
+            y + BORDER_LENGTH, 
+            x + LAPTOP_LENGTH - BORDER_LENGTH,
+            y + LAPTOP_HEIGHT - BORDER_LENGTH * 2, 
+            x + BORDER_LENGTH, 
+            y + LAPTOP_HEIGHT - BORDER_LENGTH * 2, 
+        Color.BLACK);
 
         navbar = new Rectangle(
-            x + 5, 
-            y + 5, 
-            x + 195, 
-            y + 5, 
-            x + 195,
-            y + 25, 
-            x + 5, 
-            y + 25, 
-        Color.BLUE);
+            x + BORDER_LENGTH, 
+            y + BORDER_LENGTH, 
+            x + LAPTOP_LENGTH - BORDER_LENGTH, 
+            y + BORDER_LENGTH, 
+            x + LAPTOP_LENGTH - BORDER_LENGTH,
+            y + NAVBAR_HEIGHT, 
+            x + BORDER_LENGTH, 
+            y + NAVBAR_HEIGHT, 
+        new Color(79, 134, 247));
 
         keyboard = new Rectangle(
-            x - 2, 
-            y + 125, 
-            x + 202, 
-            y + 125, 
-            x + 210, 
-            y + 140, 
-            x - 10, 
-            y + 140, 
-        isOpen ? Color.GRAY : Color.BLACK);
+            x, 
+            y + LAPTOP_HEIGHT,
+            x + LAPTOP_LENGTH, 
+            y + LAPTOP_HEIGHT, 
+            x + LAPTOP_LENGTH + KEYBOARD_ANGLE_INCREMENT, 
+            y + LAPTOP_HEIGHT + KEYBOARD_HEIGHT, 
+            x - KEYBOARD_ANGLE_INCREMENT, 
+            y + LAPTOP_HEIGHT + KEYBOARD_HEIGHT, 
+        isOpen ? new Color(107, 107, 107) : new Color(51, 51, 51));
     }
 
     @Override
@@ -89,9 +103,9 @@ public class Laptop implements DrawingObject {
             g2d.setColor(Color.WHITE);
             g2d.setFont(new Font("Serif", Font.BOLD, 15));
             g2d.drawString("ADMU Command Runner", x + 15, y + 20);
-            g2d.setColor(Color.BLACK);
-            g2d.setFont(new Font("SansSerif", Font.BOLD, 15));
-            g2d.drawString("> " + command, x + 10, y + 43);
+            g2d.setColor(Color.WHITE);
+            g2d.setFont(new Font("Dialog", Font.BOLD, 10));
+            g2d.drawString("C:\\Users\\DiestaUy\\catzenistas> " + command, x + 10, y + 43);
         }
         
         keyboard.draw(g2d);
@@ -101,14 +115,14 @@ public class Laptop implements DrawingObject {
         isOpen = !isOpen;
         keyboard = new Rectangle(
             x, 
-            y + 125, 
-            x + 200, 
-            y + 125, 
-            x + 210, 
-            y + 140, 
-            x - 10, 
-            y + 140, 
-        isOpen ? Color.GRAY : Color.BLACK);
+            y + LAPTOP_HEIGHT,
+            x + LAPTOP_LENGTH, 
+            y + LAPTOP_HEIGHT, 
+            x + LAPTOP_LENGTH + KEYBOARD_ANGLE_INCREMENT, 
+            y + LAPTOP_HEIGHT + KEYBOARD_HEIGHT, 
+            x - KEYBOARD_ANGLE_INCREMENT, 
+            y + LAPTOP_HEIGHT + KEYBOARD_HEIGHT, 
+        isOpen ? new Color(107, 107, 107) : new Color(51, 51, 51));
     }
 
     public void updateCommand(String c) {

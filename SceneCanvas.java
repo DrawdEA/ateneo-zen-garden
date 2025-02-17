@@ -23,7 +23,7 @@ import java.util.*;
 import javax.swing.*;
 
 public class SceneCanvas extends JComponent implements KeyListener {
-    private static final int MAX_LETTERS = 12;
+    private static final int MAX_LETTERS = 20;
 
     ArrayList<DrawingObject> drawingObjects;
     boolean laptopOpened;
@@ -38,9 +38,10 @@ public class SceneCanvas extends JComponent implements KeyListener {
 
         drawingObjects = new ArrayList<DrawingObject>();
        
-        drawingObjects.add(new Laptop(300, 460, laptopOpened, command)); // Sample combination of shape
+        
         drawingObjects.add(new GonzagaHall(0,150));
         drawingObjects.add(new SchmittHall(575,100));
+        drawingObjects.add(new Laptop(250, 400, laptopOpened, command));
 
         // Set up miscellaneous details.
         this.setFocusable(true);
