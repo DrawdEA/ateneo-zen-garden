@@ -58,4 +58,8 @@ public class Rectangle implements DrawingObject {
         g2d.setColor(color);
         g2d.fill(rectangle);
     }
+
+    public boolean isWithin(int x, int y) {
+        return rectangle.contains(x, y);
+    }
 }

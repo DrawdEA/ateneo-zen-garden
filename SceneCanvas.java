@@ -22,7 +22,7 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
-public class SceneCanvas extends JComponent implements KeyListener {
+public class SceneCanvas extends JComponent implements KeyListener, MouseListener {
     private static final int MAX_LETTERS = 20;
 
     ArrayList<DrawingObject> drawingObjects;
@@ -35,7 +35,7 @@ public class SceneCanvas extends JComponent implements KeyListener {
      */
     public SceneCanvas() {
         laptopOpened = false;
-        commandLineOpened = false;
+        commandLineOpened = true;
         command = "";
 
         drawingObjects = new ArrayList<DrawingObject>();
@@ -48,6 +48,7 @@ public class SceneCanvas extends JComponent implements KeyListener {
         // Set up miscellaneous details.
         this.setFocusable(true);
         this.addKeyListener(this); 
+        this.addMouseListener(this);
         this.setPreferredSize(new Dimension(800, 600));
         this.requestFocusInWindow();
     }
@@ -138,7 +139,31 @@ public class SceneCanvas extends JComponent implements KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void mouseClicked(MouseEvent e) {
+        if (laptopOpened) {
+            int mouseX = e.getX();
+            int mouseY = e.getY();
 
+            if (getLaptop().isInCommandLineButton(mouseX, mouseY)) {
+                getLaptop().goToMusic(false);
+            } else if (getLaptop().isInMusicButton(mouseX, mouseY)) {
+                getLaptop().goToMusic(true);
+            }
+
+            repaint();
+        }
+        
     }
+
+    // Unused interface methods.
+    @Override
+    public void keyReleased(KeyEvent e) {}
+    @Override
+    public void mousePressed(MouseEvent e) {}
+    @Override
+    public void mouseReleased(MouseEvent e) {}
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+    @Override
+    public void mouseExited(MouseEvent e) {}
 }

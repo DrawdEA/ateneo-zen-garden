@@ -26,7 +26,7 @@ public class Laptop implements DrawingObject {
     private static final int NAVBAR_HEIGHT = 25;
     private static final int KEYBOARD_ANGLE_INCREMENT = 10;
     private static final int KEYBOARD_HEIGHT = 20;
-    private static final int BUTTON_HEIGHT = 15;
+    private static final int NAVBAR_PADDING = 2;
 
     int x;
     int y;
@@ -71,7 +71,7 @@ public class Laptop implements DrawingObject {
             y + LAPTOP_HEIGHT - BORDER_LENGTH * 2, 
             x + BORDER_LENGTH, 
             y + LAPTOP_HEIGHT - BORDER_LENGTH * 2, 
-        new Color(30,30,30));
+        inCommandLine ? new Color(30,30,30) : new Color(30,215,96));
 
         keyboard = new Rectangle(
             x, 
@@ -90,9 +90,9 @@ public class Laptop implements DrawingObject {
             x + BORDER_LENGTH + LAPTOP_LENGTH / 2, 
             y + BORDER_LENGTH, 
             x + BORDER_LENGTH + LAPTOP_LENGTH / 2,
-            y + NAVBAR_HEIGHT, 
+            y + NAVBAR_HEIGHT + NAVBAR_PADDING, 
             x + BORDER_LENGTH, 
-            y + NAVBAR_HEIGHT, 
+            y + NAVBAR_HEIGHT + NAVBAR_PADDING, 
         new Color(30,30,30));
 
         musicButton = new Rectangle(
@@ -101,9 +101,9 @@ public class Laptop implements DrawingObject {
             x + LAPTOP_LENGTH - BORDER_LENGTH, 
             y + BORDER_LENGTH, 
             x + LAPTOP_LENGTH - BORDER_LENGTH,
-            y + NAVBAR_HEIGHT, 
+            y + NAVBAR_HEIGHT + NAVBAR_PADDING, 
             x + LAPTOP_LENGTH / 2, 
-            y + NAVBAR_HEIGHT, 
+            y + NAVBAR_HEIGHT + NAVBAR_PADDING, 
         new Color(30,215,96));
     }
 
@@ -111,9 +111,9 @@ public class Laptop implements DrawingObject {
     public void draw(Graphics2D g2d) {
         if (isOpen) {
             border.draw(g2d);
-            screen.draw(g2d);
             commandLineButton.draw(g2d);
             musicButton.draw(g2d);
+            screen.draw(g2d);
 
             g2d.setColor(Color.WHITE);
             g2d.setFont(new Font("Serif", Font.BOLD, 15));
@@ -124,17 +124,7 @@ public class Laptop implements DrawingObject {
                 g2d.setFont(new Font("Dialog", Font.BOLD, 10));
                 g2d.drawString("C:\\Users\\DiestaUy\\catzenistas> " + command, x + 10, y + 43);
             } else {
-                screen = new Rectangle(
-                    x + BORDER_LENGTH, 
-                    y + NAVBAR_HEIGHT, 
-                    x + LAPTOP_LENGTH - BORDER_LENGTH, 
-                    y +NAVBAR_HEIGHT, 
-                    x + LAPTOP_LENGTH - BORDER_LENGTH,
-                    y + LAPTOP_HEIGHT - BORDER_LENGTH * 2, 
-                    x + BORDER_LENGTH, 
-                    y + LAPTOP_HEIGHT - BORDER_LENGTH * 2, 
-                new Color(30,215,96));
-                screen.draw(g2d);
+
             }
         }
         
@@ -156,7 +146,29 @@ public class Laptop implements DrawingObject {
         isOpen ? new Color(107, 107, 107) : new Color(51, 51, 51));
     }
 
+    public void goToMusic(boolean t) {
+        inCommandLine = !t;
+        screen = new Rectangle(
+            x + BORDER_LENGTH, 
+            y + NAVBAR_HEIGHT, 
+            x + LAPTOP_LENGTH - BORDER_LENGTH, 
+            y + NAVBAR_HEIGHT, 
+            x + LAPTOP_LENGTH - BORDER_LENGTH,
+            y + LAPTOP_HEIGHT - BORDER_LENGTH * 2, 
+            x + BORDER_LENGTH, 
+            y + LAPTOP_HEIGHT - BORDER_LENGTH * 2, 
+        inCommandLine ? new Color(30,30,30) : new Color(30,215,96));
+    }
+
     public void updateCommand(String c) {
         command = c;
+    }
+
+    public boolean isInCommandLineButton(int x, int y) {
+        return commandLineButton.isWithin(x, y);
+    }
+
+    public boolean isInMusicButton(int x, int y) {
+        return musicButton.isWithin(x, y);
     }
 }
