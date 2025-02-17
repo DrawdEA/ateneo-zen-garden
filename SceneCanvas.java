@@ -18,24 +18,36 @@
  */
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.*;
 import javax.swing.*;
 
-public class SceneCanvas extends JComponent {
+public class SceneCanvas extends JComponent implements KeyListener {
+    private static final int MAX_LETTERS = 12;
+
     ArrayList<DrawingObject> drawingObjects;
     boolean laptopOpened;
+    String command;
 
     /**
      * Instantiate a SceneCanvas (an extension of JComponent).
      */
     public SceneCanvas() {
+        laptopOpened = false;
+        command = "";
+
         drawingObjects = new ArrayList<DrawingObject>();
        
-        drawingObjects.add(new Laptop(300, 460, laptopOpened)); // Sample combination of shape
+        drawingObjects.add(new Laptop(300, 460, laptopOpened, command)); // Sample combination of shape
         drawingObjects.add(new GonzagaHall(0,150));
         drawingObjects.add(new SchmittHall(575,100));
+
         // Set up miscellaneous details.
+        this.setFocusable(true);
+        this.addKeyListener(this); 
         this.setPreferredSize(new Dimension(800, 600));
+        this.requestFocusInWindow();
     }
 
     /**
@@ -60,14 +72,66 @@ public class SceneCanvas extends JComponent {
         }
     }
 
+    public Laptop getLaptop() {
+        for (DrawingObject object : drawingObjects) {
+            if (object instanceof Laptop) {
+                return (Laptop) object;
+            }
+        }
+
+        return null;
+    }
+
+    // Methods for the laptop.
     public void toggleLaptop() {
         laptopOpened = !laptopOpened;
         // Find the Laptop object and update its state
-        for (DrawingObject object : drawingObjects) {
-            if (object instanceof Laptop) {
-                ((Laptop) object).toggleOpen();
+        getLaptop().toggleOpen();
+
+        repaint();
+        this.requestFocusInWindow();
+    }
+
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        if (laptopOpened) {
+            if (e.getKeyChar() != KeyEvent.VK_BACK_SPACE && command.length() <= MAX_LETTERS) {
+                command += e.getKeyChar();
             }
         }
+        
+        getLaptop().updateCommand(command);
         repaint();
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (laptopOpened) {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_ENTER: // In case enter, clear out the command and execute it if it belongs to one of the correct ones.
+                    
+                    
+                    // TODO: add commands in case if it corresponds to a something.
+                    System.out.println(command);
+
+                    command = "";
+                    break;
+                case KeyEvent.VK_BACK_SPACE: // Removes a letter if user typed backspace.
+                    
+                    if (command.length() > 0) {
+                        command = command.substring(0, command.length() - 1); 
+                    }
+                    break;
+            }
+
+            getLaptop().updateCommand(command);
+            repaint();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }

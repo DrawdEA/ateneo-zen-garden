@@ -27,11 +27,13 @@ public class Laptop implements DrawingObject {
     Rectangle navbar;
     Rectangle keyboard;
     boolean isOpen;
+    String command;
     
-    public Laptop(int x1, int y1, boolean iO) {
+    public Laptop(int x1, int y1, boolean iO, String t) {
         isOpen = iO;
         x = x1; // TODO: actually implement the x and y coordinates so that the positions are not hardcoded x 300 y 460
         y = y1;
+        command = t;
         border = new Rectangle(
             x, 
             y, 
@@ -88,7 +90,8 @@ public class Laptop implements DrawingObject {
             g2d.setFont(new Font("Serif", Font.BOLD, 15));
             g2d.drawString("ADMU Command Runner", x + 15, y + 20);
             g2d.setColor(Color.BLACK);
-            g2d.drawString(">", x + 10, y + 43);
+            g2d.setFont(new Font("SansSerif", Font.BOLD, 15));
+            g2d.drawString("> " + command, x + 10, y + 43);
         }
         
         keyboard.draw(g2d);
@@ -106,5 +109,9 @@ public class Laptop implements DrawingObject {
             x - 10, 
             y + 140, 
         isOpen ? Color.GRAY : Color.BLACK);
+    }
+
+    public void updateCommand(String c) {
+        command = c;
     }
 }
