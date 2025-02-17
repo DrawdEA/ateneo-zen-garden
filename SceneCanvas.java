@@ -27,6 +27,7 @@ public class SceneCanvas extends JComponent implements KeyListener {
 
     ArrayList<DrawingObject> drawingObjects;
     boolean laptopOpened;
+    boolean commandLineOpened;
     String command;
 
     /**
@@ -34,6 +35,7 @@ public class SceneCanvas extends JComponent implements KeyListener {
      */
     public SceneCanvas() {
         laptopOpened = false;
+        commandLineOpened = false;
         command = "";
 
         drawingObjects = new ArrayList<DrawingObject>();
@@ -41,7 +43,7 @@ public class SceneCanvas extends JComponent implements KeyListener {
         
         drawingObjects.add(new GonzagaHall(0,150));
         drawingObjects.add(new SchmittHall(575,100));
-        drawingObjects.add(new Laptop(250, 400, laptopOpened, command));
+        drawingObjects.add(new Laptop(250, 400, laptopOpened, commandLineOpened, command));
 
         // Set up miscellaneous details.
         this.setFocusable(true);
