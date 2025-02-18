@@ -19,6 +19,8 @@
 
 package lib;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class Laptop implements DrawingObject {
     private static final int LAPTOP_LENGTH = 300;
@@ -49,6 +51,7 @@ public class Laptop implements DrawingObject {
     Rectangle commandLineButton;
     Rectangle musicButton;
 
+    RoundedLine songTimeLine;
     Circle playButton;
     Circle leftButton;
     Circle rightButton;
@@ -57,9 +60,14 @@ public class Laptop implements DrawingObject {
     Triangle stop;
     Line upperLeftArrow;
     Line lowerLeftArrow;
+    RoundedLine barLeftArrow;
     Line upperRightArrow;
     Line lowerRightArrow;
-    
+    RoundedLine barRightArrow;
+
+    File avenirFile, plexFile;
+    Font avenir, plex;
+
     public Laptop(int x1, int y1, boolean iO, boolean iCL, String t) {
         isOpen = iO;
         inCommandLine = iCL;
@@ -68,6 +76,18 @@ public class Laptop implements DrawingObject {
         y = y1;
         command = t;
 
+        try {
+            avenirFile = new File("assets/fonts/Avenir/AvenirLTStd-Black.otf");
+            plexFile = new File("assets/fonts/Plex/IBMPlexMono-Regular.ttf");
+
+            avenir = Font.createFont(Font.TRUETYPE_FONT, avenirFile);
+            plex = Font.createFont(Font.TRUETYPE_FONT, plexFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (FontFormatException ex) {
+            ex.printStackTrace();
+        }
+    
         border = new Rectangle(
             x, 
             y, 
@@ -123,6 +143,14 @@ public class Laptop implements DrawingObject {
             y + NAVBAR_HEIGHT + NAVBAR_PADDING, 
         new Color(30,215,96));
 
+        songTimeLine = new RoundedLine(
+            x + LAPTOP_LENGTH / 8, 
+            y + BORDER_LENGTH + BUTTON_Y - 20, 
+            x + LAPTOP_LENGTH * 7 / 8, 
+            y + BORDER_LENGTH + BUTTON_Y - 20, 
+            5, 
+        new Color(30,30,30));
+
         playButton = new Circle(
             x + LAPTOP_LENGTH / 2 - BUTTON_SIZE / 2, 
             y + BORDER_LENGTH + BUTTON_Y, 
@@ -133,13 +161,13 @@ public class Laptop implements DrawingObject {
             x + LAPTOP_LENGTH / 2 - BUTTON_SIZE / 2 - BUTTON_GAP, 
             y + BORDER_LENGTH + BUTTON_Y, 
             BUTTON_SIZE, 
-        new Color(30,30,30));
+        new Color(30,215,96));
 
         rightButton = new Circle(
             x + LAPTOP_LENGTH / 2 - BUTTON_SIZE / 2 + BUTTON_GAP, 
             y + BORDER_LENGTH + BUTTON_Y, 
             BUTTON_SIZE, 
-        new Color(30,30,30));
+        new Color(30,215,96));
 
         leftPause = new Rectangle(
             x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP, 
@@ -178,7 +206,7 @@ public class Laptop implements DrawingObject {
             x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP - 39, 
             y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
             5, 
-        Color.WHITE);
+        new Color(30,30,30));
 
         upperLeftArrow = new Line(
             x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP - 49, 
@@ -186,15 +214,31 @@ public class Laptop implements DrawingObject {
             x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP - 39, 
             y + BORDER_LENGTH + BUTTON_Y - PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
             5, 
-        Color.WHITE);
+        new Color(30,30,30));
+
+        barLeftArrow = new RoundedLine(
+            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP - 49 - 8, 
+            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE + BUTTON_SIZE / 4, 
+            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP - 49 - 8, 
+            y + BORDER_LENGTH + BUTTON_Y - PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+            5,
+        new Color(30,30,30));
 
         lowerRightArrow = new Line(
             x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 + PAUSE_GAP + 49, 
             y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 4, 
             x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 + PAUSE_GAP + 39, 
             y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
-            5, 
-        Color.WHITE);
+            5,
+        new Color(30,30,30));
+
+        barRightArrow = new RoundedLine(
+            x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 + PAUSE_GAP + 49 + 4, 
+            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE + BUTTON_SIZE / 4, 
+            x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 + PAUSE_GAP + 49 + 4, 
+            y + BORDER_LENGTH + BUTTON_Y - PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+            5,
+        new Color(30,30,30));
 
         upperRightArrow = new Line(
             x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 + PAUSE_GAP + 49, 
@@ -202,7 +246,7 @@ public class Laptop implements DrawingObject {
             x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 + PAUSE_GAP + 39, 
             y + BORDER_LENGTH + BUTTON_Y - PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
             5, 
-        Color.WHITE);
+        new Color(30,30,30));
     }
 
     @Override
@@ -214,23 +258,26 @@ public class Laptop implements DrawingObject {
             screen.draw(g2d);
 
             g2d.setColor(Color.WHITE);
-            g2d.setFont(new Font("Serif", Font.BOLD, 15));
-            g2d.drawString("Command Runner", x + 15, y + 20);
-            g2d.drawString("Music Player", x + 175, y + 20);
+            g2d.setFont(avenir.deriveFont(Font.BOLD, 15f));
+            g2d.drawString("CMD", x + 15, y + 20);
+            g2d.drawString("Music", x + 175, y + 20);
             g2d.setColor(Color.WHITE);
             
             if (inCommandLine) {
-                g2d.setFont(new Font("Dialog", Font.BOLD, 10));
-                g2d.drawString("C:\\Users\\DiestaUy\\catzenistas> " + command, x + 10, y + 43);
+                g2d.setFont(plex.deriveFont(Font.PLAIN, 10f));
+                g2d.drawString("C:\\Users\\DiestaUy\\gardZen> " + command, x + 10, y + 43);
             } else {
+                songTimeLine.draw(g2d);
                 playButton.draw(g2d);
                 leftButton.draw(g2d);
                 rightButton.draw(g2d);
 
                 lowerLeftArrow.draw(g2d);
                 upperLeftArrow.draw(g2d);
+                barLeftArrow.draw(g2d);
                 lowerRightArrow.draw(g2d);
                 upperRightArrow.draw(g2d);
+                barRightArrow.draw(g2d);
                 
                 if (isMusicPlaying) {
                     leftPause.draw(g2d);

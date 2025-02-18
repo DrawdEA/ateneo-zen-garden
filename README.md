@@ -21,6 +21,8 @@ https://www.javaguides.net/2023/08/interruptedexception-in-java.html
 https://www.geeksforgeeks.org/how-to-return-an-array-in-java/
 https://medium.com/@junfeng142857/affine-transformation-why-3d-matrix-for-a-2d-transformation-8922b08bce75
 https://www.youtube.com/watch?v=BJ7fr9XwS2o&ab_channel=BroCode
+https://stackoverflow.com/questions/12998604/adding-fonts-to-swing-application-and-include-in-package
+https://www.geeksforgeeks.org/throw-throws-java/
 
 ## Fonts
 https://fonts.google.com/specimen/IBM+Plex+Mono
