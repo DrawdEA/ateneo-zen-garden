@@ -4,6 +4,11 @@ After making a change run the following command to delete all `.class` files bef
 gci -r *.class | rm
 ```
 
+Do this command to delete all class files, compile, and run.
+```ps
+gci -r *.class | rm; javac *.java; java SceneStarter
+```
+
 # REFERENCES
 ## Tutorials
 https://www.youtube.com/watch?v=KcEvHq8Pqs0&ab_channel=BroCode

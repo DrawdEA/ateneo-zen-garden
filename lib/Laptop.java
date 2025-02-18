@@ -28,11 +28,18 @@ public class Laptop implements DrawingObject {
     private static final int KEYBOARD_ANGLE_INCREMENT = 10;
     private static final int KEYBOARD_HEIGHT = 20;
     private static final int NAVBAR_PADDING = 2;
+    private static final int BUTTON_Y = 100;
+    private static final int BUTTON_SIZE = 40;
+    private static final int BUTTON_GAP = 50;
+    private static final int PAUSE_X_SIZE = 7;
+    private static final int PAUSE_Y_SIZE = 20;
+    private static final int PAUSE_GAP = 5;
 
     int x;
     int y;
     boolean isOpen;
     boolean inCommandLine;
+    boolean isMusicPlaying;
     String command;
 
     Rectangle border;
@@ -41,16 +48,25 @@ public class Laptop implements DrawingObject {
     Rectangle keyboard;
     Rectangle commandLineButton;
     Rectangle musicButton;
+
+    Circle playButton;
+    Circle leftButton;
+    Circle rightButton;
+    Rectangle leftPause;
+    Rectangle rightPause;
+    Triangle stop;
+    Line upperLeftArrow;
+    Line lowerLeftArrow;
+    Line upperRightArrow;
+    Line lowerRightArrow;
     
     public Laptop(int x1, int y1, boolean iO, boolean iCL, String t) {
         isOpen = iO;
         inCommandLine = iCL;
+        isMusicPlaying = false;
         x = x1; 
         y = y1;
         command = t;
-        // x 300 y 460 -> x -> 265 560
-        // 800 - 530 - 265
-        // 
 
         border = new Rectangle(
             x, 
@@ -106,6 +122,87 @@ public class Laptop implements DrawingObject {
             x + LAPTOP_LENGTH / 2, 
             y + NAVBAR_HEIGHT + NAVBAR_PADDING, 
         new Color(30,215,96));
+
+        playButton = new Circle(
+            x + LAPTOP_LENGTH / 2 - BUTTON_SIZE / 2, 
+            y + BORDER_LENGTH + BUTTON_Y, 
+            BUTTON_SIZE, 
+        new Color(30,30,30));
+
+        leftButton = new Circle(
+            x + LAPTOP_LENGTH / 2 - BUTTON_SIZE / 2 - BUTTON_GAP, 
+            y + BORDER_LENGTH + BUTTON_Y, 
+            BUTTON_SIZE, 
+        new Color(30,30,30));
+
+        rightButton = new Circle(
+            x + LAPTOP_LENGTH / 2 - BUTTON_SIZE / 2 + BUTTON_GAP, 
+            y + BORDER_LENGTH + BUTTON_Y, 
+            BUTTON_SIZE, 
+        new Color(30,30,30));
+
+        leftPause = new Rectangle(
+            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP, 
+            y + BORDER_LENGTH + BUTTON_Y - PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+            x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 - PAUSE_GAP, 
+            y + BORDER_LENGTH + BUTTON_Y - PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+            x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 - PAUSE_GAP, 
+            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP, 
+            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+        Color.WHITE);
+
+        rightPause = new Rectangle(
+            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 + PAUSE_GAP, 
+            y + BORDER_LENGTH + BUTTON_Y - PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+            x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 + PAUSE_GAP, 
+            y + BORDER_LENGTH + BUTTON_Y - PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+            x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 + PAUSE_GAP, 
+            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 + PAUSE_GAP, 
+            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+        Color.WHITE);
+
+        stop = new Triangle(
+            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP, 
+            y + BORDER_LENGTH + BUTTON_Y - PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP, 
+            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+            x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 + PAUSE_GAP + 4, 
+            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 4, 
+        Color.WHITE);
+
+        lowerLeftArrow = new Line(
+            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP - 49, 
+            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 4, 
+            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP - 39, 
+            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+            5, 
+        Color.WHITE);
+
+        upperLeftArrow = new Line(
+            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP - 49, 
+            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 4, 
+            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP - 39, 
+            y + BORDER_LENGTH + BUTTON_Y - PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+            5, 
+        Color.WHITE);
+
+        lowerRightArrow = new Line(
+            x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 + PAUSE_GAP + 49, 
+            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 4, 
+            x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 + PAUSE_GAP + 39, 
+            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+            5, 
+        Color.WHITE);
+
+        upperRightArrow = new Line(
+            x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 + PAUSE_GAP + 49, 
+            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 4, 
+            x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 + PAUSE_GAP + 39, 
+            y + BORDER_LENGTH + BUTTON_Y - PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+            5, 
+        Color.WHITE);
     }
 
     @Override
@@ -121,14 +218,28 @@ public class Laptop implements DrawingObject {
             g2d.drawString("Command Runner", x + 15, y + 20);
             g2d.drawString("Music Player", x + 175, y + 20);
             g2d.setColor(Color.WHITE);
+            
             if (inCommandLine) {
                 g2d.setFont(new Font("Dialog", Font.BOLD, 10));
                 g2d.drawString("C:\\Users\\DiestaUy\\catzenistas> " + command, x + 10, y + 43);
             } else {
+                playButton.draw(g2d);
+                leftButton.draw(g2d);
+                rightButton.draw(g2d);
 
+                lowerLeftArrow.draw(g2d);
+                upperLeftArrow.draw(g2d);
+                lowerRightArrow.draw(g2d);
+                upperRightArrow.draw(g2d);
+                
+                if (isMusicPlaying) {
+                    leftPause.draw(g2d);
+                    rightPause.draw(g2d);
+                } else {
+                    stop.draw(g2d);
+                }
             }
         }
-        
         
         keyboard.draw(g2d);
     }
@@ -161,6 +272,18 @@ public class Laptop implements DrawingObject {
         inCommandLine ? new Color(30,30,30) : new Color(30,215,96));
     }
 
+    public void toggleMusic() {
+        isMusicPlaying = !isMusicPlaying; // TODO: ADD STOP HERE AND PLAY, IT"S THE TOGGLE
+    }
+
+    public void playPreviousMusic() {
+        System.out.println("PLAY PREVIOUS MUSIC.."); // TODO: ADD STUFF HERE FOR PRESSING PREVIOUS
+    }
+
+    public void playNextMusic() {
+        System.out.println("PLAY NEXT MUSIC.."); // TODO: ADD STUFF HERE FOR PRESSING NEXT
+    }
+
     public void updateCommand(String c) {
         command = c;
     }
@@ -171,5 +294,17 @@ public class Laptop implements DrawingObject {
 
     public boolean isInMusicButton(int x, int y) {
         return musicButton.isWithin(x, y);
+    }
+
+    public boolean isInPlayButton(int x, int y) {
+        return playButton.isWithin(x, y);
+    }
+
+    public boolean isInLeftButton(int x, int y) {
+        return leftButton.isWithin(x, y);
+    }
+
+    public boolean isInRightButton(int x, int y) {
+        return rightButton.isWithin(x, y);
     }
 }

@@ -21,7 +21,7 @@ package lib;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class Circle implements DrawingObject {
+public class Circle implements DrawingObject, DetectableObject {
     int x;
     int y;
     int size;
@@ -50,5 +50,10 @@ public class Circle implements DrawingObject {
     public void draw(Graphics2D g2d) {
         g2d.setColor(color);
         g2d.fill(circle);
+    }
+
+    @Override
+    public boolean isWithin(int x, int y) {
+        return circle.contains(x, y);
     }
 }

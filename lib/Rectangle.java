@@ -21,7 +21,7 @@ package lib;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class Rectangle implements DrawingObject {
+public class Rectangle implements DrawingObject, DetectableObject {
     Color color;
     Path2D.Double rectangle;
 

@@ -149,11 +149,16 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                 getLaptop().goToMusic(false);
             } else if (getLaptop().isInMusicButton(mouseX, mouseY)) {
                 getLaptop().goToMusic(true);
+            } else if (getLaptop().isInPlayButton(mouseX, mouseY)) {
+                getLaptop().toggleMusic();
+            } else if (getLaptop().isInLeftButton(mouseX, mouseY)) {
+                getLaptop().playPreviousMusic();
+            } else if (getLaptop().isInRightButton(mouseX, mouseY)) {
+                getLaptop().playNextMusic();
             }
 
             repaint();
         }
-        
     }
 
     // Unused interface methods.
