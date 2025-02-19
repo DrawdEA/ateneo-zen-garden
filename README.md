@@ -24,6 +24,8 @@ https://www.youtube.com/watch?v=BJ7fr9XwS2o&ab_channel=BroCode
 https://stackoverflow.com/questions/12998604/adding-fonts-to-swing-application-and-include-in-package
 https://www.geeksforgeeks.org/play-audio-file-using-java/
 https://www.geeksforgeeks.org/how-to-list-all-files-in-a-directory-in-java/
+https://stackoverflow.com/questions/388461/how-can-i-pad-a-string-in-java/391978#391978
+https://stackoverflow.com/questions/4931892/why-does-the-division-of-two-integers-return-0-0-in-java
 
 ## Fonts
 https://fonts.google.com/specimen/IBM+Plex+Mono
