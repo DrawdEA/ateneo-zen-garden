@@ -65,6 +65,7 @@ public class Laptop implements DrawingObject {
     Line lowerRightArrow;
     RoundedLine barRightArrow;
 
+    // Font Fields
     File avenirFile, plexFile;
     Font avenir, plex;
 
