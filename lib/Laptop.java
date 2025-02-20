@@ -69,10 +69,12 @@ public class Laptop implements DrawingObject {
     File avenirFile, plexFile;
     Font avenir, plex;
 
+    AudioPlayer musicPlayer;
+
     public Laptop(int x1, int y1, boolean iO, boolean iCL, String t) {
         isOpen = iO;
         inCommandLine = iCL;
-        isMusicPlaying = false;
+        isMusicPlaying = true;
         x = x1; 
         y = y1;
         command = t;
@@ -87,6 +89,14 @@ public class Laptop implements DrawingObject {
             e.printStackTrace();
         } catch (FontFormatException ex) {
             ex.printStackTrace();
+        }
+
+        try {
+            musicPlayer = new AudioPlayer("assets/music");
+            musicPlayer.play();
+        } catch (Exception e){
+            System.out.println("Error with playing music."); 
+            e.printStackTrace(); 
         }
     
         border = new Rectangle(
@@ -321,15 +331,36 @@ public class Laptop implements DrawingObject {
     }
 
     public void toggleMusic() {
-        isMusicPlaying = !isMusicPlaying; // TODO: ADD STOP HERE AND PLAY, IT"S THE TOGGLE
+        if (isMusicPlaying){
+            musicPlayer.pause();
+        } else {
+            musicPlayer.play();
+        }
+        
+        isMusicPlaying = !isMusicPlaying;
+        System.out.println("TOGGLED MUSIC");
     }
 
     public void playPreviousMusic() {
-        System.out.println("PLAY PREVIOUS MUSIC.."); // TODO: ADD STUFF HERE FOR PRESSING PREVIOUS
+        try {
+            musicPlayer.previous();
+        } catch (Exception e){
+            System.out.println("Error with playing music."); 
+            e.printStackTrace(); 
+        }
+
+        System.out.println("PLAY PREVIOUS MUSIC..");
     }
 
     public void playNextMusic() {
-        System.out.println("PLAY NEXT MUSIC.."); // TODO: ADD STUFF HERE FOR PRESSING NEXT
+        try {
+            musicPlayer.skip();
+        } catch (Exception e){
+            System.out.println("Error with playing music."); 
+            e.printStackTrace(); 
+        }
+        
+        System.out.println("PLAY NEXT MUSIC..");
     }
 
     public void updateCommand(String c) {

@@ -1,3 +1,5 @@
+package lib;
+
 import java.io.File; 
 import java.io.IOException;
 import java.util.*;
@@ -10,7 +12,8 @@ public class AudioPlayer
       
     // current status of clip 
     private String status;
-    private int trackNum; 
+    private int trackNum;
+    private int numOfTracks;
     
     private AudioInputStream audioInputStream;
     private File[] allMusicFiles;
@@ -20,9 +23,11 @@ public class AudioPlayer
     public AudioPlayer(String folderPath) throws UnsupportedAudioFileException, IOException, LineUnavailableException  { 
         trackNum = 0;
         allMusicFiles = new File(folderPath).listFiles();
+        numOfTracks = allMusicFiles.length;
 
-        // Shuffle
+        // Shuffle the array with all music
         Collections.shuffle(Arrays.asList(allMusicFiles));
+        // Add the first on the shuffled list to the audio steam
         audioInputStream = AudioSystem.getAudioInputStream(allMusicFiles[0].getAbsoluteFile());
           
         clip = AudioSystem.getClip(); 
@@ -138,8 +143,9 @@ public class AudioPlayer
         clip.open(audioInputStream);
     } 
 
+    // Method to skip to the next song
     public void skip() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        if (trackNum + 1 == allMusicFiles.length){
+        if (trackNum + 1 == numOfTracks){
             trackNum = 0;
         } else {
             trackNum++;
@@ -148,15 +154,37 @@ public class AudioPlayer
         play();
     }
 
+    // Method to got back to the previous song
     public void previous() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         clip.stop();
         if (trackNum == 0){
-            trackNum = allMusicFiles.length - 1;
+            trackNum = numOfTracks - 1;
         } else {
             trackNum--;
         }
         resetAudioStream();
         play();
+    }
+
+    // Shuffle all the songs on front of current song
+    public void shuffle(){
+        // If we are not on the last track then we shuffle
+        if (trackNum != numOfTracks - 1){
+            File[] tracksAhead = new File[numOfTracks - trackNum - 1];
+
+            // Place all the tracks ahead of the current track in our new array
+            for (int i = 0; i < tracksAhead.length; i++) {
+                tracksAhead[i] = allMusicFiles[trackNum + i + 1];
+            }
+
+            // Shuffle the array with all the tracks we need to shuffle
+            Collections.shuffle(Arrays.asList(tracksAhead));
+            
+            // Place the shuffled list back into the playlist
+            for (int i = 0; i < tracksAhead.length; i++) {
+                allMusicFiles[trackNum + i + 1] = tracksAhead[i];
+            }
+        }
     }
 
     public String getTrackLength(){
@@ -176,8 +204,16 @@ public class AudioPlayer
         return fileName.substring(0, fileName.length()-4);
     }
 
-    public void shufflePlaylist(){
-        Collections.shuffle(Arrays.asList(allMusicFiles));
+    public String[] getPlaylist() {
+        String[] playlist = new String[allMusicFiles.length];
+
+        for (int i = 0; i < allMusicFiles.length; i++) {
+            String fileName = allMusicFiles[i].getName();
+            String name = fileName.substring(0, fileName.length()-4);
+            playlist[i] = name;
+        }
+
+        return playlist;
     }
 
     private void gotoChoice(int c) throws IOException, LineUnavailableException, UnsupportedAudioFileException { 
@@ -212,9 +248,17 @@ public class AudioPlayer
                 System.out.println(getCurrentTrackTime() + " -> " + getTrackLength());
                 System.out.printf("%.4f\n", getCompletionRate());
                 break;
+            case 9:
+                for (String song : getPlaylist()) {
+                    System.out.println(song);
+                }
+                break;
+            case 10:
+                shuffle();
         } 
     }
 
+    // Main method for testing out the class
     public static void main(String[] args)  
     {   
         try
@@ -233,8 +277,10 @@ public class AudioPlayer
                 System.out.println("4. stop"); 
                 System.out.println("5. skip"); 
                 System.out.println("6. previous"); 
-                System.out.println("7. Jump to specific time");
-                System.out.println("8. Time Stamp"); 
+                System.out.println("7. jump");
+                System.out.println("8. time stamp"); 
+                System.out.println("9. playlist"); 
+                System.out.println("10. shuffle");
                 int c = sc.nextInt(); 
                 audioPlayer.gotoChoice(c); 
                 if (c == 4) 
