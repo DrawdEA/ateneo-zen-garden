@@ -36,9 +36,12 @@ public class Circle implements DrawingObject, DetectableObject {
      * @param s size of the circle
      * @param c color of the circle
      */
-    public Circle(int x1, int y1, int s, Color c) {
+    public Circle(int x, int y, int size, Color c) {
         color = c;
-        circle = new Ellipse2D.Double(x1, y1, s, s);
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        circle = new Ellipse2D.Double(x, y, size, size);
     }
 
     /**
@@ -50,6 +53,22 @@ public class Circle implements DrawingObject, DetectableObject {
     public void draw(Graphics2D g2d) {
         g2d.setColor(color);
         g2d.fill(circle);
+    }
+
+    public void setXY(int x, int y) {
+        this.x = x;
+        this.y = y;
+        circle = new Ellipse2D.Double(x, y, size, size);
+    }
+
+    public void setX(int x) {
+        this.x = x;
+        circle = new Ellipse2D.Double(x, y, size, size);
+    }
+
+    public void setY(int y) {
+        this.y = y;
+        circle = new Ellipse2D.Double(x, y, size, size);
     }
 
     @Override

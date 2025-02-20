@@ -21,6 +21,7 @@ package lib;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.Timer;
 
 public class Laptop implements DrawingObject {
     private static final int LAPTOP_LENGTH = 300;
@@ -52,6 +53,8 @@ public class Laptop implements DrawingObject {
     Rectangle musicButton;
 
     RoundedLine songTimeLine;
+    Circle outerMarker;
+    Circle innerMarker;
     Circle playButton;
     Circle leftButton;
     Circle rightButton;
@@ -69,10 +72,15 @@ public class Laptop implements DrawingObject {
     File avenirFile, plexFile;
     Font avenir, plex;
 
+    // Music Fields
+    AudioPlayer musicPlayer;
+    // Add timer for continuous updates
+    Timer timer;
+
     public Laptop(int x1, int y1, boolean iO, boolean iCL, String t) {
         isOpen = iO;
         inCommandLine = iCL;
-        isMusicPlaying = false;
+        isMusicPlaying = true;
         x = x1; 
         y = y1;
         command = t;
@@ -87,6 +95,14 @@ public class Laptop implements DrawingObject {
             e.printStackTrace();
         } catch (FontFormatException ex) {
             ex.printStackTrace();
+        }
+
+        try {
+            musicPlayer = new AudioPlayer("assets/music");
+            musicPlayer.play();
+        } catch (Exception e){
+            System.out.println("Error with playing music."); 
+            e.printStackTrace(); 
         }
     
         border = new Rectangle(
@@ -143,6 +159,16 @@ public class Laptop implements DrawingObject {
             x + LAPTOP_LENGTH / 2, 
             y + NAVBAR_HEIGHT + NAVBAR_PADDING, 
         new Color(30,215,96));
+
+        // Marker on the song timeline
+        outerMarker = new Circle(
+            0, 
+            y + BORDER_LENGTH + BUTTON_Y - 20 - 4, 
+        12, new Color(30,30,30));
+        innerMarker = new Circle(
+            0, 
+            y + BORDER_LENGTH + BUTTON_Y - 20 - 2, 
+        8, Color.WHITE);
 
         songTimeLine = new RoundedLine(
             x + LAPTOP_LENGTH / 8, 
@@ -261,6 +287,7 @@ public class Laptop implements DrawingObject {
             g2d.setColor(Color.WHITE);
             g2d.setFont(avenir.deriveFont(Font.BOLD, 15f));
             g2d.drawString("CMD", x + 15, y + 20);
+            g2d.setColor(new Color(30,30,30));
             g2d.drawString("Music", x + 175, y + 20);
             g2d.setColor(Color.WHITE);
             
@@ -268,7 +295,20 @@ public class Laptop implements DrawingObject {
                 g2d.setFont(plex.deriveFont(Font.PLAIN, 10f));
                 g2d.drawString("C:\\Users\\DiestaUy\\gardZen> " + command, x + 10, y + 43);
             } else {
+                g2d.setColor(new Color(30,30,30));
+                g2d.setFont(avenir.deriveFont(Font.BOLD, 35f));
+                g2d.setFont(avenir.deriveFont(Font.BOLD, 15f));
+                g2d.drawString(musicPlayer.getName(), x + LAPTOP_LENGTH / 9, y + BORDER_LENGTH + BUTTON_Y - 45);
+                g2d.drawString(musicPlayer.getCurrentTrackTime(), x + LAPTOP_LENGTH / 9, y + BORDER_LENGTH + BUTTON_Y + 25);
+                g2d.drawString(musicPlayer.getTrackLength(),  x + LAPTOP_LENGTH * 7 / 9, y + BORDER_LENGTH + BUTTON_Y + 25);
+
                 songTimeLine.draw(g2d);
+                
+                outerMarker.setX(x + LAPTOP_LENGTH / 8 + (int) (LAPTOP_LENGTH * 6/8 * musicPlayer.getCompletionRate()) - 6);
+                innerMarker.setX(x + LAPTOP_LENGTH / 8 + (int) (LAPTOP_LENGTH * 6/8 * musicPlayer.getCompletionRate()) - 4);
+                outerMarker.draw(g2d);
+                innerMarker.draw(g2d);
+                
                 playButton.draw(g2d);
                 leftButton.draw(g2d);
                 rightButton.draw(g2d);
@@ -321,15 +361,31 @@ public class Laptop implements DrawingObject {
     }
 
     public void toggleMusic() {
-        isMusicPlaying = !isMusicPlaying; // TODO: ADD STOP HERE AND PLAY, IT"S THE TOGGLE
+        if (isMusicPlaying){
+            musicPlayer.pause();
+        } else {
+            musicPlayer.play();
+        }
+        
+        isMusicPlaying = !isMusicPlaying;
     }
 
     public void playPreviousMusic() {
-        System.out.println("PLAY PREVIOUS MUSIC.."); // TODO: ADD STUFF HERE FOR PRESSING PREVIOUS
+        try {
+            musicPlayer.previous();
+        } catch (Exception e){
+            System.out.println("Error with playing music."); 
+            e.printStackTrace(); 
+        }
     }
 
     public void playNextMusic() {
-        System.out.println("PLAY NEXT MUSIC.."); // TODO: ADD STUFF HERE FOR PRESSING NEXT
+        try {
+            musicPlayer.skip();
+        } catch (Exception e){
+            System.out.println("Error with playing music."); 
+            e.printStackTrace(); 
+        }
     }
 
     public void updateCommand(String c) {
