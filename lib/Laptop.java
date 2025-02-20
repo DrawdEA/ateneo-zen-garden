@@ -53,6 +53,8 @@ public class Laptop implements DrawingObject {
     Rectangle musicButton;
 
     RoundedLine songTimeLine;
+    Circle outerMarker;
+    Circle innerMarker;
     Circle playButton;
     Circle leftButton;
     Circle rightButton;
@@ -159,6 +161,14 @@ public class Laptop implements DrawingObject {
         new Color(30,215,96));
 
         // Marker on the song timeline
+        outerMarker = new Circle(
+            0, 
+            y + BORDER_LENGTH + BUTTON_Y - 20 - 4, 
+        12, new Color(30,30,30));
+        innerMarker = new Circle(
+            0, 
+            y + BORDER_LENGTH + BUTTON_Y - 20 - 2, 
+        8, Color.WHITE);
 
         songTimeLine = new RoundedLine(
             x + LAPTOP_LENGTH / 8, 
@@ -291,8 +301,14 @@ public class Laptop implements DrawingObject {
                 g2d.drawString(musicPlayer.getName(), x + LAPTOP_LENGTH / 9, y + BORDER_LENGTH + BUTTON_Y - 45);
                 g2d.drawString(musicPlayer.getCurrentTrackTime(), x + LAPTOP_LENGTH / 9, y + BORDER_LENGTH + BUTTON_Y + 25);
                 g2d.drawString(musicPlayer.getTrackLength(),  x + LAPTOP_LENGTH * 7 / 9, y + BORDER_LENGTH + BUTTON_Y + 25);
-    
+
                 songTimeLine.draw(g2d);
+                
+                outerMarker.setX(x + LAPTOP_LENGTH / 8 + (int) (LAPTOP_LENGTH * 6/8 * musicPlayer.getCompletionRate()) - 6);
+                innerMarker.setX(x + LAPTOP_LENGTH / 8 + (int) (LAPTOP_LENGTH * 6/8 * musicPlayer.getCompletionRate()) - 4);
+                outerMarker.draw(g2d);
+                innerMarker.draw(g2d);
+                
                 playButton.draw(g2d);
                 leftButton.draw(g2d);
                 rightButton.draw(g2d);
@@ -352,7 +368,6 @@ public class Laptop implements DrawingObject {
         }
         
         isMusicPlaying = !isMusicPlaying;
-        System.out.println("TOGGLED MUSIC");
     }
 
     public void playPreviousMusic() {
@@ -362,8 +377,6 @@ public class Laptop implements DrawingObject {
             System.out.println("Error with playing music."); 
             e.printStackTrace(); 
         }
-
-        System.out.println("PLAY PREVIOUS MUSIC..");
     }
 
     public void playNextMusic() {
@@ -373,8 +386,6 @@ public class Laptop implements DrawingObject {
             System.out.println("Error with playing music."); 
             e.printStackTrace(); 
         }
-        
-        System.out.println("PLAY NEXT MUSIC..");
     }
 
     public void updateCommand(String c) {

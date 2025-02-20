@@ -41,7 +41,6 @@ public class AudioPlayer
                     try {
                         // Check if we're at end of track (within 50ms margin)
                         if (status.equals("play") && clip.getMicrosecondPosition() >= clip.getMicrosecondLength() - 50000) {
-                            System.out.printf("Track ended: %d / %d%n", clip.getMicrosecondPosition(), clip.getMicrosecondLength());
                             skip();
                             play();
                         }
