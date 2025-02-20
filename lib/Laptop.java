@@ -277,6 +277,7 @@ public class Laptop implements DrawingObject {
             g2d.setColor(Color.WHITE);
             g2d.setFont(avenir.deriveFont(Font.BOLD, 15f));
             g2d.drawString("CMD", x + 15, y + 20);
+            g2d.setColor(new Color(30,30,30));
             g2d.drawString("Music", x + 175, y + 20);
             g2d.setColor(Color.WHITE);
             
