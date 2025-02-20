@@ -21,6 +21,7 @@ package lib;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.Timer;
 
 public class Laptop implements DrawingObject {
     private static final int LAPTOP_LENGTH = 300;
@@ -69,7 +70,10 @@ public class Laptop implements DrawingObject {
     File avenirFile, plexFile;
     Font avenir, plex;
 
+    // Music Fields
     AudioPlayer musicPlayer;
+    // Add timer for continuous updates
+    Timer timer;
 
     public Laptop(int x1, int y1, boolean iO, boolean iCL, String t) {
         isOpen = iO;
@@ -153,6 +157,8 @@ public class Laptop implements DrawingObject {
             x + LAPTOP_LENGTH / 2, 
             y + NAVBAR_HEIGHT + NAVBAR_PADDING, 
         new Color(30,215,96));
+
+        // Marker on the song timeline
 
         songTimeLine = new RoundedLine(
             x + LAPTOP_LENGTH / 8, 
@@ -278,6 +284,13 @@ public class Laptop implements DrawingObject {
                 g2d.setFont(plex.deriveFont(Font.PLAIN, 10f));
                 g2d.drawString("C:\\Users\\DiestaUy\\gardZen> " + command, x + 10, y + 43);
             } else {
+                g2d.setColor(new Color(30,30,30));
+                g2d.setFont(avenir.deriveFont(Font.BOLD, 35f));
+                g2d.setFont(avenir.deriveFont(Font.BOLD, 15f));
+                g2d.drawString(musicPlayer.getName(), x + LAPTOP_LENGTH / 9, y + BORDER_LENGTH + BUTTON_Y - 45);
+                g2d.drawString(musicPlayer.getCurrentTrackTime(), x + LAPTOP_LENGTH / 9, y + BORDER_LENGTH + BUTTON_Y + 25);
+                g2d.drawString(musicPlayer.getTrackLength(),  x + LAPTOP_LENGTH * 7 / 9, y + BORDER_LENGTH + BUTTON_Y + 25);
+    
                 songTimeLine.draw(g2d);
                 playButton.draw(g2d);
                 leftButton.draw(g2d);

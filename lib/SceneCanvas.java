@@ -22,6 +22,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.Timer;
 
 public class SceneCanvas extends JComponent implements KeyListener, MouseListener {
     private static final int MAX_LETTERS = 20;
@@ -31,6 +32,8 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
     boolean commandLineOpened;
     String command;
 
+    Timer timer;
+
     /**
      * Instantiate a SceneCanvas (an extension of JComponent).
      */
@@ -38,6 +41,10 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         laptopOpened = false;
         commandLineOpened = true;
         command = "";
+
+        // Timer object to continuously update the drawings
+        timer = new Timer(100, e -> repaint());
+        timer.start();
 
         drawingObjects = new ArrayList<DrawingObject>();
        
