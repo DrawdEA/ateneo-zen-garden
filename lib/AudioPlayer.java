@@ -5,27 +5,50 @@ import javax.sound.sampled.*;
   
 public class AudioPlayer  
 { 
-    Long currentTimestamp; 
-    Clip clip; 
+    private Long currentTimestamp; 
+    private Clip clip; 
       
     // current status of clip 
-    String status;
-    int trackNum; 
+    private String status;
+    private int trackNum; 
     
-    AudioInputStream audioInputStream;
-    File[] allMusicFiles;
+    private AudioInputStream audioInputStream;
+    private File[] allMusicFiles;
+    private LineListener endOfTrackListener;
   
     // constructor to initialize streams and clip 
     public AudioPlayer(String folderPath) throws UnsupportedAudioFileException, IOException, LineUnavailableException  { 
-        
         trackNum = 0;
         allMusicFiles = new File(folderPath).listFiles();
-        audioInputStream = AudioSystem.getAudioInputStream(allMusicFiles[0].getAbsoluteFile());
 
+        // Shuffle
         Collections.shuffle(Arrays.asList(allMusicFiles));
+        audioInputStream = AudioSystem.getAudioInputStream(allMusicFiles[0].getAbsoluteFile());
           
         clip = AudioSystem.getClip(); 
         clip.open(audioInputStream);
+
+        // Initialize the listener once
+        endOfTrackListener = new LineListener() {
+            @Override
+            public void update(LineEvent evt) {
+                if (evt.getType() == LineEvent.Type.STOP) {
+                    try {
+                        // Check if we're at end of track (within 50ms margin)
+                        if (status.equals("play") && clip.getMicrosecondPosition() >= clip.getMicrosecondLength() - 50000) {
+                            System.out.printf("Track ended: %d / %d%n", clip.getMicrosecondPosition(), clip.getMicrosecondLength());
+                            skip();
+                            play();
+                        }
+                    } catch (Exception ex) { 
+                        System.out.println("Error with auto-skip functionality."); 
+                        ex.printStackTrace(); 
+                    } 
+                }
+            }
+        };
+
+        clip.addLineListener(endOfTrackListener);
     } 
   
     public String convertToTimestamp(long microsecond){
@@ -33,10 +56,27 @@ public class AudioPlayer
         return String.format("%d:%2d", seconds/60, seconds%60).replace(" ", "0");
     }
       
-    public void play()  
-    {  
-        clip.start(); 
+    public void play() {
         status = "play";
+        clip.start();
+
+        clip.addLineListener(new LineListener() {
+            @Override
+            public void update(LineEvent evt) {
+                if (evt.getType() == LineEvent.Type.STOP){
+                    try {
+                        if (clip.getMicrosecondPosition() >= clip.getMicrosecondLength()) {
+                            System.out.printf("%d / %d", clip.getMicrosecondPosition(), clip.getMicrosecondLength());
+                            skip();
+                            play();
+                        }
+                    } catch (Exception ex) { 
+                        System.out.println("Error with playing sound."); 
+                        ex.printStackTrace(); 
+                    } 
+                }
+            }
+        });
     } 
       
     public void pause()  
@@ -52,20 +92,18 @@ public class AudioPlayer
     } 
       
     public void resume() throws UnsupportedAudioFileException, IOException, LineUnavailableException  { 
-        if (status.equals("play"))  
-        { 
+        if (status.equals("play")) { 
             return; 
         } 
         clip.close(); 
         resetAudioStream(); 
         clip.setMicrosecondPosition(currentTimestamp); 
-        this.play(); 
+        this.play();
+        status = "play";
     } 
       
     // Method to restart the audio 
-    public void restart() throws IOException, LineUnavailableException, 
-                                            UnsupportedAudioFileException  
-    { 
+    public void restart() throws IOException, LineUnavailableException, UnsupportedAudioFileException { 
         clip.stop(); 
         clip.close(); 
         resetAudioStream(); 
@@ -75,9 +113,7 @@ public class AudioPlayer
     } 
       
     // Method to stop the audio 
-    public void stop() throws UnsupportedAudioFileException, 
-    IOException, LineUnavailableException  
-    { 
+    public void stop() throws UnsupportedAudioFileException, IOException, LineUnavailableException { 
         currentTimestamp = 0L; 
         clip.stop(); 
         clip.close(); 
@@ -85,10 +121,8 @@ public class AudioPlayer
       
     // Method to jump over a specific part 
     public void jump(long c) throws UnsupportedAudioFileException, IOException, LineUnavailableException { 
-        if (c > 0 && c < clip.getMicrosecondLength())  
-        { 
-            clip.stop(); 
-            clip.close(); 
+        if (c > 0 && c < clip.getMicrosecondLength()) { 
+            clip.stop();
             resetAudioStream(); 
             currentTimestamp = c; 
             clip.setMicrosecondPosition(c); 
@@ -97,31 +131,32 @@ public class AudioPlayer
     } 
       
     // Method to reset audio stream 
-    public void resetAudioStream() throws UnsupportedAudioFileException, IOException, LineUnavailableException  {
+    public void resetAudioStream() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         clip.stop(); 
         clip.close();
-        audioInputStream = AudioSystem.getAudioInputStream( 
-        allMusicFiles[trackNum].getAbsoluteFile()); 
-        clip.open(audioInputStream); 
-        clip.loop(Clip.LOOP_CONTINUOUSLY); 
+        audioInputStream = AudioSystem.getAudioInputStream(allMusicFiles[trackNum].getAbsoluteFile()); 
+        clip.open(audioInputStream);
     } 
 
-    public void skip() throws UnsupportedAudioFileException, IOException, LineUnavailableException{
+    public void skip() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         if (trackNum + 1 == allMusicFiles.length){
             trackNum = 0;
         } else {
             trackNum++;
         }
         resetAudioStream();
+        play();
     }
 
-    public void previous() throws UnsupportedAudioFileException, IOException, LineUnavailableException{
+    public void previous() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        clip.stop();
         if (trackNum == 0){
             trackNum = allMusicFiles.length - 1;
         } else {
             trackNum--;
         }
         resetAudioStream();
+        play();
     }
 
     public String getTrackLength(){
@@ -134,6 +169,11 @@ public class AudioPlayer
 
     public float getCompletionRate() {
         return (float) (clip.getMicrosecondPosition()) / clip.getMicrosecondLength();
+    }
+
+    public String getName() {
+        String fileName = allMusicFiles[trackNum].getName(); 
+        return fileName.substring(0, fileName.length()-4);
     }
 
     public void shufflePlaylist(){
@@ -185,7 +225,8 @@ public class AudioPlayer
             Scanner sc = new Scanner(System.in); 
               
             while (true) 
-            { 
+            {
+                System.out.println(audioPlayer.getName());
                 System.out.println("1. pause"); 
                 System.out.println("2. resume"); 
                 System.out.println("3. restart"); 
@@ -202,12 +243,10 @@ public class AudioPlayer
             sc.close(); 
         }  
           
-        catch (Exception ex)  
-        { 
+        catch (Exception ex) { 
             System.out.println("Error with playing sound."); 
             ex.printStackTrace(); 
-          
-          } 
+        } 
     } 
   
 } 
