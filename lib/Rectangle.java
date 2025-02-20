@@ -26,7 +26,27 @@ public class Rectangle implements DrawingObject, DetectableObject {
     Path2D.Double rectangle;
 
     /**
-     * Instantiate a rectangle object. Order of the coordinate goes: TOP-LEFT, TOP-RIGHT, BOTTOM-RIGHT, BOTTOM-LEFT.
+     * Instantiate a rectangle object.
+     * 
+     * @param x x coordinate of the TOP-LEFT corner
+     * @param y y coordinate of the TOP-LEFT corner
+     * @param l length (x-value) of the rectangle
+     * @param w height (y-value) of the rectangle
+     * @param c color of the rectangle
+     */
+    public Rectangle(double x, double y, double l, double w, Color c) {
+        color = c;
+        rectangle = new Path2D.Double();
+        rectangle.moveTo(x, y);
+        rectangle.lineTo(x + l, y);
+        rectangle.lineTo(x + l, y + w);
+        rectangle.lineTo(x, y + w);
+        rectangle.closePath();
+    }
+
+    /**
+     * Instantiate a rectangle object in a more flexible way, specifying the coordinates of each corner. 
+     * Order of the coordinate goes: TOP-LEFT, TOP-RIGHT, BOTTOM-RIGHT, BOTTOM-LEFT.
      * 
      * @param x1 first x coordinate of the rectangle 
      * @param y1 first y coordinate of the rectangle
@@ -38,7 +58,7 @@ public class Rectangle implements DrawingObject, DetectableObject {
      * @param y4 fourth y coordinate of the rectangle
      * @param c color of the rectangle
      */
-    public Rectangle(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4, Color c) {
+    public Rectangle(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4, Color c) {
         color = c;
 
         rectangle = new Path2D.Double();

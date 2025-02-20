@@ -1,243 +1,56 @@
-/**
- * TODO: Description
- * 
- * @author Edward Joshua M. Diesta (241571), Charles Joshua T. Uy (244644)
- * @version March 3, 2025
- * 
- * We have not discussed the Java language code in our program 
- * with anyone other than our instructor or the teaching assistants 
- * assigned to this course.
- * 
- * We have not used Java language code obtained from another student, 
- * or any other unauthorized source, either modified or unmodified.
- * 
- * If any Java language code or documentation used in our program 
- * was obtained from another source, such as a textbook or website, 
- * that has been clearly noted with a proper citation in the comments 
- * of our program.
- */
-
 package lib;
 import java.awt.*;
-import java.util.ArrayList;
+import java.awt.geom.*;
+import java.util.*;
 
 public class GonzagaHall implements DrawingObject {
-    int x, y;
-    int opacity = 255;
-    
-    public GonzagaHall(int xPosition, int yPosition){
+    double x;
+    double y;
+
+    Rectangle buildingTop;
+    Rectangle building;
+
+    Rectangle shedTop;
+    Rectangle shed;
+
+    Rectangle signTop;
+
+    Rectangle curb;
+
+    Rectangle background;
+    Rectangle mainPath;
+
+    Rectangle shedShadow;
+    Rectangle mainShadow;
+
+    ArrayList<Rectangle> windows;
+
+    public GonzagaHall(double xPosition, double yPosition) {
         x = xPosition;
         y = yPosition;
+
+        buildingTop = new Rectangle(x + 4.5, y, 587.2, 5, new Color(181, 133, 68));
+        building = new Rectangle(x + 4.5, y + 5, 587.2, 181.2, new Color(238, 202, 138));
+
+        shedTop = new Rectangle(x, y + 166, 596.2, 5, new Color(181, 133, 68));
+        shed = new Rectangle(x, y + 166, 596.2, 21.2, new Color(238, 202, 138));
+
+        curb = new Rectangle(x, y + 240.1, 596.2, 8.1, new Color(211, 203, 182));
+        mainPath = new Rectangle(x + 279.3, y + 240, 57.9, 8.9, new Color(48, 48, 48));
+        background = new Rectangle(x, y + 187.2, 596.2, 59.5, new Color(48, 48, 48));
+
+        signTop = new Rectangle(x + 251.2, y + 150, 123.6, 5, new Color(181, 133, 68));
     }
 
-    private Rectangle buildingBase(int x, int y, Color color){
-        return new Rectangle(x, y, x+483, y+30, x+483, y+220, x, y+250, color);
-    }
-
-    private ArrayList<Rectangle> window(int x, int y, Color color){
-        ArrayList<Rectangle> window = new ArrayList<>();
-        
-        // Add Glass
-        window.add(new Rectangle(
-            x, 
-            y-3, 
-            x+55, 
-            y, 
-            x+55, 
-            y+30+3, 
-            x, 
-            y+30, 
-        color));
-        
-        // Add Frame
-        // Vertical Frames
-        int frameWidth = 1;
-        for (int i = 0; i < 4; i++) {
-            window.add(new Rectangle(
-                x + (i*55/3), 
-                y + i-3, 
-                x + frameWidth + (i*55/3), 
-                y + i-3, 
-                x + frameWidth + (i*55/3), 
-                y+33 + i-3, 
-                x + (i*55/3), 
-                y+33 + i-3, 
-            Color.WHITE));
-        }
-        // Horizontal Frames
-        for (int i = 0; i < 3; i++) {
-            window.add(new Rectangle(
-                x, 
-                y + (i*33/2) - 5, 
-                x+55, 
-                y + (i*33/2),  
-                x+55, 
-                y + frameWidth + (i*33/2), 
-                x, 
-                y + frameWidth + (i*33/2) - 5, 
-            Color.WHITE));
-        }
-
-        return window;
-    }
-
-    private ArrayList<Rectangle> firstFloor(int x, int y, Color canteenBg, Color pillars){
-        ArrayList<Rectangle> firstFloor = new ArrayList<>();
-
-        // Black Background 
-        firstFloor.add(new Rectangle(
-            x, 
-            y+180, 
-            x+483, 
-            y+180, 
-            x+483, 
-            y+220, 
-            x, 
-            y+250, 
-        canteenBg));
-
-        // Pillars
-        int pillarWidth = 15;
-        for (int i = 0; i < 8; i++){
-            if (i==3 || i==4){ // Center pillars are doubled due to the main Gonz entrance arch
-                firstFloor.add(new Rectangle(
-                    x + i*(483/7) - pillarWidth/2 - 3,
-                    y + 180,
-                    x + pillarWidth + i*(483/7) - pillarWidth/2 - 3,
-                    y + 180,
-                    x + pillarWidth + i*(483/7) - pillarWidth/2 - 3,
-                    y + 250 - i*(30/7) - 2,
-                    x + i*(483/7) - pillarWidth/2 - 3,
-                    y + 250 - i*(30/7),
-                pillars));
-                firstFloor.add(new Rectangle(
-                    x + i*(483/7) + pillarWidth/2 + 3,
-                    y + 180,
-                    x + pillarWidth + i*(483/7) + pillarWidth/2 + 3,
-                    y + 180,
-                    x + pillarWidth + i*(483/7) + pillarWidth/2 + 3,
-                    y + 250 - i*(30/7) - 2,
-                    x + i*(483/7) + pillarWidth/2 + 3,
-                    y + 250 - i*(30/7),
-                pillars));
-            } else if (i == 7){ // The final post needs to be adjusted
-                firstFloor.add(new Rectangle(
-                    x + i*(483/7) - pillarWidth,
-                    y + 180,
-                    x + i*(483/7),
-                    y + 180,
-                    x + i*(483/7),
-                    y + 250 - i*(30/7) - 2,
-                    x + i*(483/7) - pillarWidth,
-                    y + 250 - i*(30/7),
-                pillars));
-            }
-            else {
-                firstFloor.add(new Rectangle(
-                    x + i*(483/7),
-                    y + 180,
-                    x + pillarWidth + i*(483/7),
-                    y + 180,
-                    x + pillarWidth + i*(483/7),
-                    y + 250 - i*(30/7) - 2,
-                    x + i*(483/7),
-                    y + 250 - i*(30/7),
-                pillars));
-            }
-        }
-
-        return firstFloor;
-    }
-
-    private ArrayList<Rectangle> outerAccent(int x, int y, Color color){
-        ArrayList<Rectangle> outerAccent = new ArrayList<>();
-        
-        // White "hat" of Gonz
-        outerAccent.add(new Rectangle(
-            x, 
-            y, 
-            x+483, 
-            y+30, 
-            x+483, 
-            y+66, 
-            x, 
-            y+30, 
-        color));
-
-        // Vertical accents
-        int verticalAccentWidth = 11;
-        for (int i = 0; i < 7; i++) {
-            outerAccent.add(new Rectangle(
-                x+57+1+(i*(485/7)), 
-                y+10+(i*25/6), 
-                x+57+1+(i*(485/7)) + verticalAccentWidth, 
-                y+10+(i*25/6), 
-                x+57+1+(i*(485/7)) + verticalAccentWidth, 
-                y+180, 
-                x+57+1+(i*(485/7)), 
-                y+180, 
-            color));
-        }
-
-        // Horizontal Accent
-        outerAccent.add(new Rectangle(
-            x,
-            y+170+5, 
-            x+485, 
-            y+180-5, 
-            x+485, 
-            y+180+10-5, 
-            x, 
-            y+170+10+5, 
-        color));
-
-        return outerAccent;
-    }
-
-    // Gonzaga Signage
-    private Rectangle gonzagaSignage(int x, int y, Color color){
-        return new Rectangle(
-            x + 200, 
-            y + 155,
-            x + 300, 
-            y + 155, 
-            x + 300, 
-            y + 175, 
-            x + 200, 
-            y + 175, 
-        color);
-    }
-
-    @Override
     public void draw(Graphics2D g2d) {
-        // Building wall everything is on
-        buildingBase(x, y, new Color(201,115,100,opacity)).draw(g2d);
-
-        // First row of windows
-        for (int i = 0; i < 7; i++) {
-            for (Rectangle windowObject : window(x+1 + (i*(12+57)),y+36 + (i*5), new Color(149,143,144,opacity))) {
-                windowObject.draw(g2d);
-            }
-        }
-
-        // Second row of windows
-        for (int i = 0; i < 7; i++) {
-            for (Rectangle windowObject : window(x+1 + (i*(12+57)),y+100 + (i*5), new Color(149,143,144,opacity))) {
-                windowObject.draw(g2d);
-            }
-        }
-
-        // First Floor
-        for (Rectangle floorElement : firstFloor(x, y, new Color(30,30,30,opacity), new Color(201,115,100,opacity))){
-            floorElement.draw(g2d);
-        }
-
-        // White accents
-        for (Rectangle accent : outerAccent(x, y, new Color(198,187,195,opacity))){
-            accent.draw(g2d);
-        }
-
-        // Gonzaga Signage
-        gonzagaSignage(x, y, new Color(248,201,133,opacity)).draw(g2d);
+        building.draw(g2d);
+        buildingTop.draw(g2d);
+        shed.draw(g2d);
+        shedTop.draw(g2d);
+        background.draw(g2d);
+        curb.draw(g2d);
+        mainPath.draw(g2d);
+        
+        signTop.draw(g2d);
     }
 }
