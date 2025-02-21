@@ -48,10 +48,9 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
 
         drawingObjects = new ArrayList<DrawingObject>();
        
-        
         //drawingObjects.add(new SchmittHall(0,0));
         drawingObjects.add(new Background(0, 0));
-        drawingObjects.add(new GonzagaHall(-91.6,97.3)); // ACTUAL POSITION: -91.6, 97.3
+        drawingObjects.add(new GonzagaHall(-91.6, 97.3)); // ACTUAL POSITION: -91.6, 97.3
         drawingObjects.add(new Bush(-50, 520, 350, 150));
         
         drawingObjects.add(new Laptop(250, 400, laptopOpened, commandLineOpened, command));
