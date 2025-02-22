@@ -25,7 +25,7 @@ import javax.swing.*;
 import javax.swing.Timer;
 
 public class SceneCanvas extends JComponent implements KeyListener, MouseListener {
-    private static final int MAX_LETTERS = 20;
+    private static final int MAX_LETTERS = 14;
 
     ArrayList<DrawingObject> drawingObjects;
     boolean laptopOpened;

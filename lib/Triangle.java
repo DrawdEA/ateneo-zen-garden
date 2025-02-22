@@ -36,7 +36,7 @@ public class Triangle implements DrawingObject {
      * @param y3 third y coordinate of the triangle
      * @param c color of the triangle
      */
-    public Triangle(int x1, int y1, int x2, int y2, int x3, int y3, Color c) {
+    public Triangle(double x1, double y1, double x2, double y2, double x3, double y3, Color c) {
         color = c;
         triangle = new Path2D.Double();
         triangle.moveTo(x1, y1);
