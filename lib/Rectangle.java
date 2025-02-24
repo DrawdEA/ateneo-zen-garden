@@ -60,7 +60,6 @@ public class Rectangle implements DrawingObject, DetectableObject {
      */
     public Rectangle(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4, Color c) {
         color = c;
-
         rectangle = new Path2D.Double();
         rectangle.moveTo(x1, y1);
         rectangle.lineTo(x2, y2);
