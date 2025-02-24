@@ -20,27 +20,71 @@
  package lib;
  import java.awt.*;
  import java.awt.geom.*;
+ import java.util.*;
  
  public class Tree implements DrawingObject {
     Double x;
     Double y;
     int iterations;
 
-    String xRules;
-    String fRules;
+    Map<String, String> rules;
+    Map<String, Runnable> instructions;
+
+    String word;
+
 
     public Tree(Double xPosition, Double yPosition, int i) {
         x = xPosition;
         y = yPosition;
         iterations = i;
-        xRules = "F+[[X]-X]-F[-FX]+X";
-        fRules = "FF";
 
+        word = "-X";
 
+        rules = new HashMap<>();
+        rules.put("X", "F+[[X]-X]-F[-FX]+X");
+        rules.put("F", "FF");
+
+        instructions = new HashMap<>();
+        instructions.put("K", () -> {
+
+        });
+        instructions.put("X", () -> {
+
+        });
+        instructions.put("+", () -> {
+
+        });
+        instructions.put("-", () -> {
+
+        });
+        instructions.put("[", () -> {
+
+        });
+        instructions.put("]", () -> {
+
+        });
     }
      
     @Override
     public void draw(Graphics2D g2d) {
+        for (int i = 0; i < iterations; i++) {
+            StringBuilder nextGen = new StringBuilder();
+
+            for (int j = 0; j < word.length(); j++) {
+                String letter = String.valueOf(word.charAt(j));
+                if (rules.containsKey(letter)) {
+                    nextGen.append(rules.get(letter));
+                } else {
+                    nextGen.append(letter);
+                }
+            }
+            
+            word = nextGen.toString(); 
+            System.out.printf("GENERATION %d: %s\n", i + 1, word);
+        }   
+
+        word = "-X";
+        System.out.println("DONE");      
     }
  }
  

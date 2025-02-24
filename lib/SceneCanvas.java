@@ -54,6 +54,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         drawingObjects.add(new SchmittHall(574.4,23)); // ACTUAL POSITION: 574.4, 23
         drawingObjects.add(new Bush(-50, 520, 350, 150));
         drawingObjects.add(new Laptop(250, 400, laptopOpened, commandLineOpened, command));
+        drawingObjects.add(new Tree(0.1, 0.1, 5));
 
         // Set up miscellaneous details.
         this.setFocusable(true);
