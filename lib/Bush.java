@@ -29,9 +29,16 @@ public class Bush implements DrawingObject {
     ArrayList<ArrayList<Integer>> bushClusters;
 
     int opacity = 255;
-    Color base = new Color(8,88,4,opacity);
-    Color midtone = new Color(63,160,60, opacity); 
-    Color highlight = new Color(81,215,53,opacity);
+    Color base = new Color(15, 58, 42);
+    Color midtone = new Color(13, 48, 44); 
+    Color highlight = new Color(23, 112, 73);
+
+
+
+
+
+
+    ;
 
     public Bush(int xPosition, int yPosition, int width, int height) {
         x = xPosition;

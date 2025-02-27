@@ -30,6 +30,9 @@ https://www.programcreek.com/java-api-examples/index.php?api=javax.sound.sampled
 https://www.youtube.com/watch?v=3Mu0--aGfqg&ab_channel=BarneyCodes
 https://stackoverflow.com/questions/13543457/how-do-you-create-a-dictionary-in-java
 https://docs.oracle.com/javase/8/docs/api/java/util/HashMap.html
+https://www.geeksforgeeks.org/stringbuilder-class-in-java-with-examples/
+https://www.w3schools.com/java/ref_string_replaceall.asp
+https://www.w3schools.com/java/java_regex.asp
 
 ## Fonts
 https://fonts.google.com/specimen/IBM+Plex+Mono

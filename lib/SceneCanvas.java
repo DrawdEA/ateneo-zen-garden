@@ -34,27 +34,36 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
 
     Timer timer;
 
+    int growth;
+
     /**
      * Instantiate a SceneCanvas (an extension of JComponent).
      */
     public SceneCanvas() {
         laptopOpened = false;
         commandLineOpened = true;
+        growth = 2;
         command = "";
 
         // Timer object to continuously update the drawings
-        timer = new Timer(100, e -> repaint());
+        timer = new Timer(500, e -> {
+            repaint();
+        });
         timer.start();
 
         drawingObjects = new ArrayList<DrawingObject>();
-       
         
         drawingObjects.add(new Background(0, 0));
         drawingObjects.add(new GonzagaHall(-91.6, 97.3)); // ACTUAL POSITION: -91.6, 97.3
         drawingObjects.add(new SchmittHall(574.4,23)); // ACTUAL POSITION: 574.4, 23
+        drawingObjects.add(new Tree(680.1, 450.1, 7.1, 0, 5, 2));
+        drawingObjects.add(new Tree(700.1, 600.1, 8.1, 0, 7, 3));
+        drawingObjects.add(new Tree(-20.1, 600.1, 8.1, 0, 7, 1));
+        drawingObjects.add(new Tree(500.1, 380.1, 6.1, 0, 6, 2));
+        
+        
         drawingObjects.add(new Bush(-50, 520, 350, 150));
         drawingObjects.add(new Laptop(250, 400, laptopOpened, commandLineOpened, command));
-        drawingObjects.add(new Tree(0.1, 0.1, 5));
 
         // Set up miscellaneous details.
         this.setFocusable(true);

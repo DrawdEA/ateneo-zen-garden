@@ -36,6 +36,22 @@ public class Line implements DrawingObject {
      * @param t thickness of the line
      * @param c color of the line
      */
+    public Line(Double x1, Double y1, Double x2, Double y2, float t, Color c) {
+        thickness = t;
+        color = c;
+        line = new Line2D.Double(x1, y1, x2, y2);
+    }
+
+    /**
+     * Instantiates a line drawing.
+     * 
+     * @param x1 starting x position
+     * @param yS starting y position
+     * @param x2 ending x position
+     * @param y2 ending y position
+     * @param t thickness of the line
+     * @param c color of the line
+     */
     public Line(int x1, int y1, int x2, int y2, float t, Color c) {
         thickness = t;
         color = c;
