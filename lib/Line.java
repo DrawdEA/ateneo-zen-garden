@@ -1,5 +1,6 @@
 /**
- * TODO: Description
+ * The Line class creates a line using 2 points, a set thickness, and a color.
+ * The class can be created with either Double or int values.
  * 
  * @author Edward Joshua M. Diesta (241571), Charles Joshua T. Uy (244644)
  * @version March 3, 2025
@@ -27,7 +28,7 @@ public class Line implements DrawingObject {
     Line2D.Double line;
 
     /**
-     * Instantiates a line drawing.
+     * Instantiates a line drawing with int values.
      * 
      * @param x1 starting x position
      * @param yS starting y position
@@ -36,14 +37,14 @@ public class Line implements DrawingObject {
      * @param t thickness of the line
      * @param c color of the line
      */
-    public Line(Double x1, Double y1, Double x2, Double y2, float t, Color c) {
+    public Line(int x1, int y1, int x2, int y2, float t, Color c) {
         thickness = t;
         color = c;
         line = new Line2D.Double(x1, y1, x2, y2);
     }
 
     /**
-     * Instantiates a line drawing.
+     * Instantiates a line drawing with double values.
      * 
      * @param x1 starting x position
      * @param yS starting y position
@@ -52,7 +53,7 @@ public class Line implements DrawingObject {
      * @param t thickness of the line
      * @param c color of the line
      */
-    public Line(double x1, double y1, double x2, double y2, float t, Color c) { 
+    public Line(double x1, double y1, double x2, double y2, float t, Color c) {
         thickness = t;
         color = c;
         line = new Line2D.Double(x1, y1, x2, y2);
@@ -61,7 +62,7 @@ public class Line implements DrawingObject {
     /**
      * Draws the line.
      * 
-     * @param g2d the Graphics2D of the component to place the drawing on
+     * @param g2d the Graphics2D of SceneCanvas
      */
     @Override
     public void draw(Graphics2D g2d) {

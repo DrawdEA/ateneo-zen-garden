@@ -1,5 +1,6 @@
 /**
- * TODO: Description
+ * The Laptop class is responsible for the main control area of the canvas. 
+ * It is able to play music and set commands.
  * 
  * @author Edward Joshua M. Diesta (241571), Charles Joshua T. Uy (244644)
  * @version March 3, 2025
@@ -21,7 +22,6 @@ package lib;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import javax.swing.Timer;
 
 public class Laptop implements DrawingObject {
     private static final int LAPTOP_LENGTH = 300;
@@ -40,6 +40,7 @@ public class Laptop implements DrawingObject {
 
     int x;
     int y;
+
     boolean isOpen;
     boolean inCommandLine;
     boolean isMusicPlaying;
@@ -68,15 +69,12 @@ public class Laptop implements DrawingObject {
     Line lowerRightArrow;
     RoundedLine barRightArrow;
 
-    // Font Fields
     File avenirFile, plexFile;
     Font avenir, plex;
 
-    // Music Fields
     AudioPlayer musicPlayer;
-    // Add timer for continuous updates
-    Timer timer;
 
+    // Instantiates a laptop object.
     public Laptop(int x1, int y1, boolean iO, boolean iCL, String t) {
         isOpen = iO;
         inCommandLine = iCL;
@@ -85,6 +83,7 @@ public class Laptop implements DrawingObject {
         y = y1;
         command = t;
 
+        // Load the fonts.
         try {
             avenirFile = new File("assets/fonts/Avenir/AvenirLTStd-Black.otf");
             plexFile = new File("assets/fonts/Plex/IBMPlexMono-Regular.ttf");
@@ -97,6 +96,7 @@ public class Laptop implements DrawingObject {
             ex.printStackTrace();
         }
 
+        // Load the music player.
         try {
             musicPlayer = new AudioPlayer("assets/music");
             musicPlayer.play();
@@ -104,7 +104,8 @@ public class Laptop implements DrawingObject {
             System.out.println("Error with playing music."); 
             e.printStackTrace(); 
         }
-    
+        
+        // Create the framework of the laptop.
         border = new Rectangle(
             x, 
             y, 
@@ -160,7 +161,7 @@ public class Laptop implements DrawingObject {
             y + NAVBAR_HEIGHT + NAVBAR_PADDING, 
         new Color(30,215,96));
 
-        // Marker on the song timeline
+        // Marker on the song timeline.
         outerMarker = new Circle(
             0, 
             y + BORDER_LENGTH + BUTTON_Y - 20 - 4, 
@@ -276,6 +277,7 @@ public class Laptop implements DrawingObject {
         new Color(30,30,30));
     }
 
+    // Draws the laptop object in the correct order. The way it is drawn depends on its activated states.
     @Override
     public void draw(Graphics2D g2d) {
         if (isOpen) {
@@ -332,6 +334,7 @@ public class Laptop implements DrawingObject {
         keyboard.draw(g2d);
     }
 
+    // Toggles the open and close state of the laptop.
     public void toggleOpen() {
         isOpen = !isOpen;
         keyboard = new Rectangle(
@@ -346,6 +349,7 @@ public class Laptop implements DrawingObject {
         isOpen ? new Color(107, 107, 107) : new Color(51, 51, 51));
     }
 
+    // Toggles the tab between music and command line.
     public void goToMusic(boolean t) {
         inCommandLine = !t;
         screen = new Rectangle(
@@ -360,16 +364,18 @@ public class Laptop implements DrawingObject {
         inCommandLine ? new Color(30,30,30) : new Color(30,215,96));
     }
 
+    // Handles the pause and play of the music.
     public void toggleMusic() {
         if (isMusicPlaying){
             musicPlayer.pause();
         } else {
-            musicPlayer.play(); 
+            musicPlayer.play();
         }
         
         isMusicPlaying = !isMusicPlaying;
     }
 
+    // Goes to the previous music in the playlist.
     public void playPreviousMusic() {
         try {
             musicPlayer.previous();
@@ -379,6 +385,7 @@ public class Laptop implements DrawingObject {
         }
     }
 
+    // Goes to the next music in the playlist.
     public void playNextMusic() {
         try {
             musicPlayer.skip();
@@ -388,26 +395,32 @@ public class Laptop implements DrawingObject {
         }
     }
 
+    // Updates the current command present in the command line.
     public void updateCommand(String c) {
         command = c;
     }
 
+    // Checks if the point is in the command line button.
     public boolean isInCommandLineButton(int x, int y) {
         return commandLineButton.isWithin(x, y);
     }
 
+    // Checks if the point is in the music button.
     public boolean isInMusicButton(int x, int y) {
         return musicButton.isWithin(x, y);
     }
 
+    // Checks if the point is in the play button.
     public boolean isInPlayButton(int x, int y) {
         return playButton.isWithin(x, y);
     }
 
+    // Checks if the point is in the left button.
     public boolean isInLeftButton(int x, int y) {
         return leftButton.isWithin(x, y);
     }
 
+    // Checks if the point is in the right button.
     public boolean isInRightButton(int x, int y) {
         return rightButton.isWithin(x, y);
     }

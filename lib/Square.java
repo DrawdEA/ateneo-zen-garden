@@ -1,5 +1,6 @@
 /**
- * TODO: Description
+ * The Square class creates a square by setting its anchor point to the upper-left, along with its size and color.
+ * The class can be created with either Double or int values.
  * 
  * @author Edward Joshua M. Diesta (241571), Charles Joshua T. Uy (244644)
  * @version March 3, 2025
@@ -10,7 +11,7 @@
  * 
  * We have not used Java language code obtained from another student, 
  * or any other unauthorized source, either modified or unmodified.
- *  
+ * 
  * If any Java language code or documentation used in our program 
  * was obtained from another source, such as a textbook or website, 
  * that has been clearly noted with a proper citation in the comments 
@@ -22,14 +23,12 @@ import java.awt.*;
 import java.awt.geom.*;
 
 public class Square implements DrawingObject {
-    int x;
-    int y;
     int size;
     Color color;
     Rectangle2D.Double square;
 
     /**
-     * Instantiate a square object.
+     * Instantiate a square object using int.
      * 
      * @param x1 the x position of the shape
      * @param y1 the y position of the shape
@@ -42,9 +41,22 @@ public class Square implements DrawingObject {
     }
 
     /**
+     * Instantiate a square object using double.
+     * 
+     * @param x1 the x position of the shape
+     * @param y1 the y position of the shape
+     * @param s size of the square
+     * @param c color of the square
+     */
+    public Square(double x1, double y1, double s, Color c) {
+        color = c;
+        square = new Rectangle2D.Double(x1, y1, s, s);
+    }
+
+    /**
      * Draws the square shape.
      * 
-     * @param g2d the Graphics2D of the component to place the drawing on
+     * @param g2d the Graphics2D of the SceneCanvas
      */
     @Override
     public void draw(Graphics2D g2d) {

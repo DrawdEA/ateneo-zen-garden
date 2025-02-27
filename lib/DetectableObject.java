@@ -1,12 +1,12 @@
 /**
  * The DetectableObject interface is responsible for making an object detectable.
  * This means that it can check whether or not a certain point is inside the shape.
- * It requires a class to create an isWithin method. 
+ * It requires a class to create an isWithin method.
  * 
  * @author Edward Joshua M. Diesta (241571), Charles Joshua T. Uy (244644)
  * @version March 3, 2025
  * 
- * We have not discussed the Java language code in our program  
+ * We have not discussed the Java language code in our program 
  * with anyone other than our instructor or the teaching assistants 
  * assigned to this course.
  * 

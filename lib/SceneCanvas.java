@@ -1,5 +1,6 @@
 /**
- * TODO: Description
+ * The SceneCanvas class is an extension of JComponent that acts as the canvas for all of the drawings.
+ * It also handles the input within it, such as the music player and the command line interface.
  * 
  * @author Edward Joshua M. Diesta (241571), Charles Joshua T. Uy (244644)
  * @version March 3, 2025
@@ -11,7 +12,7 @@
  * We have not used Java language code obtained from another student, 
  * or any other unauthorized source, either modified or unmodified.
  * 
- * If any Java language code or documentation used in our program  
+ * If any Java language code or documentation used in our program 
  * was obtained from another source, such as a textbook or website, 
  * that has been clearly noted with a proper citation in the comments 
  * of our program.
@@ -31,10 +32,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
     boolean laptopOpened;
     boolean commandLineOpened;
     String command;
-
     Timer timer;
-
-    int growth;
 
     /**
      * Instantiate a SceneCanvas (an extension of JComponent).
@@ -42,10 +40,9 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
     public SceneCanvas() {
         laptopOpened = false;
         commandLineOpened = true;
-        growth = 2;
         command = "";
 
-        // Timer object to continuously update the drawings
+        // Add timer object to continuously update the drawings.
         timer = new Timer(500, e -> {
             repaint();
         });
@@ -53,6 +50,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
 
         drawingObjects = new ArrayList<DrawingObject>();
         
+        // Add the individual drawing objects.
         drawingObjects.add(new Background(0, 0));
         drawingObjects.add(new GonzagaHall(-91.6, 97.3)); // ACTUAL POSITION: -91.6, 97.3
         drawingObjects.add(new SchmittHall(574.4,23)); // ACTUAL POSITION: 574.4, 23
@@ -67,7 +65,6 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         drawingObjects.add(new Bush(-50, 520, 350, 150));
         drawingObjects.add(new Laptop(250, 400, laptopOpened, commandLineOpened, command));
         
-
         // Set up miscellaneous details.
         this.setFocusable(true);
         this.addKeyListener(this); 
@@ -83,10 +80,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
      */
     @Override
     protected void paintComponent(Graphics g) {
-        // Remove when done
-        g.drawImage(new ImageIcon("./assets/images/zen.png").getImage(),0,0,this);
-
-        // Cast Graphics to Graphics2D and apply anti-aliasing key 
+        // Cast Graphics to Graphics2D and apply anti-aliasing key.
         Graphics2D g2d = (Graphics2D) g;
         RenderingHints rh = new RenderingHints(
             RenderingHints.KEY_ANTIALIASING,
@@ -94,6 +88,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         );
         g2d.setRenderingHints(rh);
 
+        // Draw every object.
         for (DrawingObject object : drawingObjects) {
             object.draw(g2d);
         }
@@ -124,7 +119,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         this.requestFocusInWindow();
     }
 
-
+    // Checks for backspace input. Used for the laptop command line interface.
     @Override
     public void keyTyped(KeyEvent e) {
         if (laptopOpened) {
@@ -137,24 +132,25 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         repaint();
     }
 
+    // Checks for enter and letter input. Used for the laptop command line interface.
     @Override
     public void keyPressed(KeyEvent e) {
         if (laptopOpened) {
-            switch (e.getKeyCode()) {
-                case KeyEvent.VK_ENTER: // In case enter, clear out the command and execute it if it belongs to one of the correct ones.
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) { // In case enter, clear out the command and execute it if it belongs to one of the correct ones.
+                // TODO: add commands in case if it corresponds to a something.
                     
-                    
-                    // TODO: add commands in case if it corresponds to a something.
-                    System.out.println(command);
+                switch (command) {
+                    case ("spawn --cats"):
+                        // TODO: add command
+                    default:
+                        System.out.println(command);
+                }
 
-                    command = "";
-                    break;
-                case KeyEvent.VK_BACK_SPACE: // Removes a letter if user typed backspace.
-                    
-                    if (command.length() > 0) {
-                        command = command.substring(0, command.length() - 1); 
-                    }
-                    break;
+                command = "";
+            } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) { // Removes a letter if user typed backspace.
+                if (command.length() > 0) {
+                    command = command.substring(0, command.length() - 1); 
+                }
             }
 
             getLaptop().updateCommand(command);
@@ -162,6 +158,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         }
     }
 
+    // Checks for clicks in the music player.
     @Override
     public void mouseClicked(MouseEvent e) {
         if (laptopOpened) {

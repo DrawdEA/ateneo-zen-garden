@@ -1,10 +1,30 @@
-package lib;
+/**
+ * The Background class is responsible for setting the background of the scene.
+ * This includes the sky, grass, and the roads in the ground.
+ * 
+ * @author Edward Joshua M. Diesta (241571), Charles Joshua T. Uy (244644)
+ * @version March 3, 2025
+ * 
+ * We have not discussed the Java language code in our program 
+ * with anyone other than our instructor or the teaching assistants 
+ * assigned to this course.
+ * 
+ * We have not used Java language code obtained from another student, 
+ * or any other unauthorized source, either modified or unmodified.
+ * 
+ * If any Java language code or documentation used in our program 
+ * was obtained from another source, such as a textbook or website, 
+ * that has been clearly noted with a proper citation in the comments 
+ * of our program.
+ */
+
+ package lib;
 import java.awt.*;
-import java.awt.geom.*;
 
 public class Background implements DrawingObject {
     int x;
     int y;
+
     Rectangle sky;
     Rectangle grass;
     Triangle road1;
@@ -12,23 +32,28 @@ public class Background implements DrawingObject {
     Triangle road3;
     Rectangle road4;
 
+    /**
+     * Instantiates the background along with their respective locations and sizes.
+     * 
+     * @param xPosition x value of the object's anchor point
+     * @param yPosition y value of the object's anchor point
+     */
     public Background(int xPosition, int yPosition) {
         x = xPosition;
-        y = yPosition; 
+        y = yPosition;
 
->>>>>>> Stashed changes
         sky = new Rectangle(x, y, 800, 337.4, new Color(31, 148, 254));
         grass = new Rectangle(x, y + 337.3, 800, 262.6, new Color(86, 161, 64));
-
         road1 = new Triangle(x + 254.1, y + 16.2, x + 650, y + 498.9, x + 682.4, y + 469.2, new Color(84, 84, 84));
         road2 = new Triangle(x + 866.5, y + 517.1, x + 860, y + 566.1, x - 245.3, y + 203.5, new Color(84, 84, 84));
         road3 = new Triangle(x - 139.3, y + 427.8, x - 129.1, y + 454.4, x + 931.6, y + 152.4, new Color(84, 84, 84));
         road4 = new Rectangle(x - 66.1, y + 472.2, 755.2, 26.7, new Color(84, 84, 84));
     }
 
+    /**
+     * Draws all of the objects in the correct order.
+     */
     public void draw(Graphics2D g2d) {
-        
-        
         grass.draw(g2d);
         road1.draw(g2d);
         road2.draw(g2d);

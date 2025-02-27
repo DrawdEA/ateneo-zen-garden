@@ -1,5 +1,6 @@
 /**
- * TODO: Description
+ * The Circle class creates a circle by setting its anchor point to the upper-left, along with its size and color.
+ * The class can be created with either Double or int values.
  * 
  * @author Edward Joshua M. Diesta (241571), Charles Joshua T. Uy (244644)
  * @version March 3, 2025
@@ -22,14 +23,14 @@ import java.awt.*;
 import java.awt.geom.*;
 
 public class Circle implements DrawingObject, DetectableObject {
-    int x;
-    int y;
-    int size;
+    double x;
+    double y;
+    double size;
     Color color;
     Ellipse2D.Double circle;
 
     /**
-     * Instantiate a circle object.
+     * Instantiate a circle object with int values.
      * 
      * @param x1 the x position of the shape
      * @param y1 the y position of the shape
@@ -45,10 +46,25 @@ public class Circle implements DrawingObject, DetectableObject {
     }
 
     /**
+     * Instantiate a circle object with double values.
+     * 
+     * @param x1 the x position of the shape
+     * @param y1 the y position of the shape
+     * @param s size of the circle
+     * @param c color of the circle
+     */
+    public Circle(double x, double y, double size, Color c) {
+        color = c;
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        circle = new Ellipse2D.Double(x, y, size, size);
+    }
+
+    /**
      * Draws the circle shape.
-     *  
+     * 
      * @param g2d the Graphics2D of the SceneCanvas
->>>>>>> Stashed changes
      */
     @Override
     public void draw(Graphics2D g2d) {
@@ -72,6 +88,11 @@ public class Circle implements DrawingObject, DetectableObject {
         circle = new Ellipse2D.Double(x, y, size, size);
     }
 
+    /**
+     * Checks if a point is within the shape.
+     * 
+     * @return true if the point is within the shape.
+     */
     @Override
     public boolean isWithin(int x, int y) {
         return circle.contains(x, y);

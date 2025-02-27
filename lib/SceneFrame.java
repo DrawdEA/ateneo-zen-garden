@@ -1,5 +1,6 @@
 /**
- * TODO: Description
+ * The SceneFrame class is responsible for managing the canvas and overall GUI.
+ * It sets up the main button of the GUI.
  * 
  * @author Edward Joshua M. Diesta (241571), Charles Joshua T. Uy (244644)
  * @version March 3, 2025
@@ -33,7 +34,6 @@ public class SceneFrame {
      */
     public SceneFrame() {
         mainFrame = new JFrame();
-
         canvas = new SceneCanvas();
         actionButton = new JButton("Toggle Laptop");
     }
@@ -62,7 +62,7 @@ public class SceneFrame {
     public void setUpButtonListeners() {
         ActionListener buttonListener = new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae) { 
+            public void actionPerformed(ActionEvent ae) {
                 Object o = ae.getSource();
 
                 if (o == actionButton) {

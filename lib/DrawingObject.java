@@ -1,10 +1,11 @@
 /**
- * TODO: Description
+ * The DrawingObject interface is responsible for making an object drawable.
+ * It requires a class to create a draw method.
  * 
  * @author Edward Joshua M. Diesta (241571), Charles Joshua T. Uy (244644)
  * @version March 3, 2025
  * 
- * We have not discussed the Java language code in our program  
+ * We have not discussed the Java language code in our program 
  * with anyone other than our instructor or the teaching assistants 
  * assigned to this course.
  * 

@@ -1,5 +1,6 @@
 /**
- * TODO: Description
+ * The Ellipse class creates a ellipse by setting its anchor point to the upper-left, along with its length, width, and color.
+ * The class can be created with either Double or int values.
  * 
  * @author Edward Joshua M. Diesta (241571), Charles Joshua T. Uy (244644)
  * @version March 3, 2025
@@ -22,14 +23,12 @@ import java.awt.*;
 import java.awt.geom.*;
 
 public class Ellipse implements DrawingObject {
-    int x;
-    int y;
     int size;
     Color color;
     Ellipse2D.Double ellipse;
 
     /**
-     * Instantiate a circle object.
+     * Instantiate an ellipse object with int values.
      * 
      * @param x1 the x position of the shape
      * @param y1 the y position of the shape
@@ -42,10 +41,10 @@ public class Ellipse implements DrawingObject {
     }
 
     /**
-     * Instantiate an ellipse object with double values. 
+     * Instantiate an ellipse object with double values.
      * 
      * @param x1 the x position of the shape
-     * @param y1 the y position of the shape 
+     * @param y1 the y position of the shape
      * @param s size of the circle
      * @param c color of the circle
      */

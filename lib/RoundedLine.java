@@ -1,5 +1,6 @@
 /**
- * TODO: Description
+ * The RoundedLine class creates a line with rounded ends using 2 points, a set thickness, and a color.
+ * The class can be created with int values.
  * 
  * @author Edward Joshua M. Diesta (241571), Charles Joshua T. Uy (244644)
  * @version March 3, 2025
@@ -12,7 +13,7 @@
  * or any other unauthorized source, either modified or unmodified.
  * 
  * If any Java language code or documentation used in our program 
- * was obtained from another source, such as a textbook or website,  
+ * was obtained from another source, such as a textbook or website, 
  * that has been clearly noted with a proper citation in the comments 
  * of our program.
  */
@@ -79,7 +80,7 @@ public class RoundedLine implements DrawingObject {
     /**
      * Draws the line.
      * 
-     * @param g2d the Graphics2D of the component to place the drawing on
+     * @param g2d the Graphics2D of SceneCanvas
      */
     @Override
     public void draw(Graphics2D g2d) {
