@@ -21,11 +21,11 @@ package lib;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.util.ArrayList;
 import javax.swing.Timer;
 
 public class Person implements DrawingObject{
     Timer timer;
+    final int TIMER_DELAY = 300;
 
     String state; // This can be "walking", "idling", or "crawling" (maybe make this an enum)
     int animationFrameNum;
@@ -36,14 +36,14 @@ public class Person implements DrawingObject{
     // The variables with 1 is the initial state then x2 is the final destination for walking states
     int x1, x2;
     int y1, y2;
-    float scale1, scale2;
+    double scale1, scale2;
 
     // These are the actual current values of the person
     int x,y;
-    float scale;
+    double scale;
 
     // Constructor to create walking people
-    public Person(String state, Color shirtColor, Color pantsColor, Color skinColor, int x1, int x2, int y1, int y2, float scale1, float scale2){
+    public Person(String state, Color shirtColor, Color pantsColor, Color skinColor, int x1, int x2, int y1, int y2, double scale1, double scale2){
         this.state = state;
         this.shirtColor = shirtColor;
         this.skinColor = skinColor;
@@ -61,14 +61,21 @@ public class Person implements DrawingObject{
         scale = scale1;
 
         animationFrameNum = 0;
-        timer = new Timer(300, e -> {
+        timer = new Timer(TIMER_DELAY, e -> {
             incrementAnimation();
+            // change the current x and y position
+            if (x < x2){
+                x += 10 * scale;
+            }
+            if (y < y2){
+                x += 10 * scale;
+            }
         });
         timer.start();
     }
 
     // Constructor to create idling people
-    public Person(String state, Color shirtColor, Color pantsColor,  Color skinColor, int x1, int y1, float scale1){
+    public Person(String state, Color shirtColor, Color pantsColor,  Color skinColor, int x1, int y1, double scale1){
         this.state = state;
         this.shirtColor = shirtColor;
         this.skinColor = skinColor;
@@ -83,21 +90,16 @@ public class Person implements DrawingObject{
         scale = scale1;
 
         animationFrameNum = 0;
-        timer = new Timer(750, e -> {
+        timer = new Timer(TIMER_DELAY, e -> {
             incrementAnimation();
         });
         timer.start();
     }
 
-    private ArrayList<Rectangle> getWalkingAnimationFrame(){
-        ArrayList<Rectangle> walkingFrame = new ArrayList<>();
-        int frameNum = animationFrameNum % 10;
-
-
-        return walkingFrame;
-    }
-
     private void makeHead(Graphics2D g2d, double headX, double headY, double width){
+        AffineTransform transform = new AffineTransform();
+        transform.setToIdentity();
+        g2d.setTransform(transform);
         (new Rectangle(x+headX*scale, y+headY*scale, width*scale, width*scale, skinColor)).draw(g2d);
     }
 
@@ -138,14 +140,47 @@ public class Person implements DrawingObject{
     }
 
     private void getWalkingFrame(Graphics2D g2d){
-        int frameNum = animationFrameNum % 10;
-        switch (frameNum) {
-            case 0:
-                // Head
-
-                break;
-            default:
-                throw new AssertionError();
+        int frameNum = animationFrameNum % 10 + 1;
+        if (frameNum == 1){
+            makeHead(g2d, 0.0, 0.0, 73.7); // Head
+            makeLimb(g2d, 37, 97.2, -39, 20.2, 88.8, skinColor); // Right Arm
+            makeLimb(g2d, 27.3, 182.9, 31.8, 21.2, 117.7, pantsColor); // Left Leg
+            makeLimb(g2d, 34, 194, -30.4, 21.2, 117.7, pantsColor); // Right Leg
+            makeShirt(g2d, 0, 84.1, 74.1, 116.9); // Shirt
+            makeLimb(g2d, 19.3, 80.9, 41.8, 20.6, 92.2, skinColor); // Left Arm
+        } else if (frameNum == 2 || frameNum == 10){
+            makeHead(g2d, 4.3, 0.0, 73.7); // Head
+            makeLimb(g2d, 32.1, 101.3, -33.2, 20.2, 88.8, skinColor); // Right Arm
+            makeLimb(g2d, 43.6, 187.8, 35.7, 21.2, 117.7, pantsColor); // Left Leg
+            makeShirt(g2d, 0.6, 79.7, 74.1, 116.9); // Shirt
+            makeLimb(g2d, 32.4, 186.6, -10.3, 21.2, 117.7, pantsColor); // Right Leg
+            makeLimb(g2d, 9.1, 82.7, 14.6, 20.6, 92.2, skinColor); // Left Arm
+        } else if (frameNum == 3 || frameNum == 9){
+            makeHead(g2d, 2.4, 0.0, 73.7); // Head
+            makeLimb(g2d, 43.9, 85, -15, 20.2, 88.8, skinColor); // Right Arm
+            makeLimb(g2d, 48.8, 181, 26.6, 21.2, 117.7, pantsColor); // Right Leg
+            makeShirt(g2d, 0.2, 80.7, 74.1, 116.9); // Shirt
+            makeLimb(g2d, 18.4, 194.8, -8, 21.2, 117.7, pantsColor); // Left Leg
+            makeLimb(g2d, 0.2, 89.6, -11.9, 20.6, 92.2, skinColor); // Left Arm
+        } else if (frameNum == 4 || frameNum == 8){
+            makeHead(g2d, 5.8, 0.0, 74.1); // Head
+            makeLimb(g2d, 6.7, 186.9, 11.1, 21.2, 117.7, pantsColor); // Left Leg
+            makeShirt(g2d, 0.2, 80.5, 74.1, 116.9); // Shirt
+            makeLimb(g2d, 29.6, 189.2, -5.9, 21.2, 117.7, pantsColor); // Right Leg
+            makeLimb(g2d, -4, 89.3, -9.7, 20.6, 92.2, skinColor); // Left Arm
+        } else if (frameNum == 5 || frameNum == 7){
+            makeHead(g2d, 11.1, 0.0, 74.1); // Head
+            makeLimb(g2d, 18.3, 191.8, 23.8, 21.2, 117.7, pantsColor); // Left Leg
+            makeShirt(g2d, 0.7, 80.5, 74.1, 116.9); // Shirt
+            makeLimb(g2d, 37.7, 196.7, -15.2, 21.2, 116.1, pantsColor); // Right Leg
+            makeLimb(g2d, -7.9, 91.7, -32.6, 20.6, 92.2, skinColor); // Left Arm
+        } else if (frameNum == 6) {
+            makeHead(g2d, 6.8, 0.0, 73.7); // Head
+            makeLimb(g2d, 41.9, 90.6, 38.8, 20.2, 88.8, skinColor); // Right Arm
+            makeLimb(g2d, 32.3, 192.3, -15.2, 21.2, 117.7, pantsColor); // Right Leg
+            makeShirt(g2d, 0.4, 79.5, 74.1, 116.9); // Shirt
+            makeLimb(g2d, 21.1, 175.3, 39.5, 21.2, 117.7, pantsColor); // Left Leg
+            makeLimb(g2d, 3, 99.9, -46.1, 20.6, 92.2, skinColor); // Left Arm
         }
     }
 
