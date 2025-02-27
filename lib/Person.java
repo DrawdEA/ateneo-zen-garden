@@ -21,11 +21,10 @@ package lib;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import javax.swing.Timer;
+import java.util.Random;
 
 public class Person implements DrawingObject{
-    Timer timer;
-    final int TIMER_DELAY = 300;
+    Random random = new Random();
 
     String state; // This can be "walking", "idling", or "crawling" (maybe make this an enum)
     int animationFrameNum;
@@ -43,7 +42,7 @@ public class Person implements DrawingObject{
     double scale;
 
     // Constructor to create walking people
-    public Person(String state, Color shirtColor, Color pantsColor, Color skinColor, int x1, int x2, int y1, int y2, double scale1, double scale2){
+    public Person(String state, Color shirtColor, Color pantsColor, Color skinColor, int x1, int y1, int x2, int y2, double scale1, double scale2){
         this.state = state;
         this.shirtColor = shirtColor;
         this.skinColor = skinColor;
@@ -61,17 +60,6 @@ public class Person implements DrawingObject{
         scale = scale1;
 
         animationFrameNum = 0;
-        timer = new Timer(TIMER_DELAY, e -> {
-            incrementAnimation();
-            // change the current x and y position
-            if (x < x2){
-                x += 10 * scale;
-            }
-            if (y < y2){
-                x += 10 * scale;
-            }
-        });
-        timer.start();
     }
 
     // Constructor to create idling people
@@ -90,10 +78,6 @@ public class Person implements DrawingObject{
         scale = scale1;
 
         animationFrameNum = 0;
-        timer = new Timer(TIMER_DELAY, e -> {
-            incrementAnimation();
-        });
-        timer.start();
     }
 
     private void makeHead(Graphics2D g2d, double headX, double headY, double width){
@@ -192,10 +176,44 @@ public class Person implements DrawingObject{
     public void draw(Graphics2D g2d) {
         AffineTransform originalTransform = g2d.getTransform();
 
+        // If we had a walking person 
         if (state.equals("walking")){
-            getWalkingFrame(g2d);
+            // See if the person is already past the set bounds. If yes hen make it idle
+            if ((x2-x)*(x2-x1) <= 0 && (y2-y)*(y2-y1) <= 0) {
+                state = "idling";
+                getIdleFrame(g2d);
+            } else {
+                // Every fourth walking frame (the frame closest looking to idle) there is a 10% chance that the character will idle for a few frames
+                if ((animationFrameNum % 10 + 1 == 1) && random.nextInt(9) == 0){
+                    // Idle for 1 cycle
+                    getIdleFrame(g2d);
+                    state = "idling";
+                } else { 
+                    getWalkingFrame(g2d);
+                }
+            }
+
         } else if (state.equals("idling")){
+            
             getIdleFrame(g2d);
+
+            // if idling but has somewhere to go
+            if ((x2-x)*(x2-x1) >= 0 && (y2-y)*(y2-y1) >= 0) {
+                if (animationFrameNum % 10 + 1 == 10 || animationFrameNum % 10 + 1 == 1){
+                    state = "walking";
+                }
+            }
+        }
+
+        incrementAnimation();
+        if (state.equals("walking")){
+            // change the current x and y position
+            if (x < x2){
+                x += 20 * scale;
+            }
+            if (y < y2){
+                y += 20 * scale;
+            }
         }
 
         g2d.setTransform(originalTransform);
