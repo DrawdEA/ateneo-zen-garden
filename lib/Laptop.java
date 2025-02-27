@@ -364,7 +364,7 @@ public class Laptop implements DrawingObject {
         if (isMusicPlaying){
             musicPlayer.pause();
         } else {
-            musicPlayer.play();
+            musicPlayer.play(); 
         }
         
         isMusicPlaying = !isMusicPlaying;

@@ -101,7 +101,7 @@
 
         // Create the set of rules for each generation.
         rules = new HashMap<>();
-        rules.put("X", TREE_PATTERNS[chosenPattern - 1]); 
+        rules.put("X", TREE_PATTERNS[chosenPattern - 1]);  
         rules.put("F", "FF");
 
         // Set up the transforms.

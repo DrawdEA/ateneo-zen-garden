@@ -16,7 +16,13 @@ public class SchmittHall implements DrawingObject {
     Rectangle mainShadow;
 
     ArrayList<Rectangle> windows;
-
+ 
+    /**
+     * Initializes the location and values of the shapes. 
+     * 
+     * @param xPosition x value of the object's anchor point
+     * @param yPosition y value of the object's anchor point
+     */
     public SchmittHall(double xPosition, double yPosition) {
         x = xPosition;
         y = yPosition;

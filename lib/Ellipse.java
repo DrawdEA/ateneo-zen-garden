@@ -42,9 +42,22 @@ public class Ellipse implements DrawingObject {
     }
 
     /**
-     * Draws the circle shape.
+     * Instantiate an ellipse object with double values. 
      * 
-     * @param g2d the Graphics2D of the component to place the drawing on
+     * @param x1 the x position of the shape
+     * @param y1 the y position of the shape 
+     * @param s size of the circle
+     * @param c color of the circle
+     */
+    public Ellipse(double x1, double y1, double w, double h, Color c) {
+        color = c;
+        ellipse = new Ellipse2D.Double(x1, y1, w, h);
+    }
+
+    /**
+     * Draws the ellipse shape.
+     * 
+     * @param g2d the Graphics2D of SceneCanvas
      */
     @Override
     public void draw(Graphics2D g2d) {

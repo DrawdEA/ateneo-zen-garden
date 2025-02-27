@@ -46,8 +46,13 @@ public class Circle implements DrawingObject, DetectableObject {
 
     /**
      * Draws the circle shape.
+<<<<<<< Updated upstream
      * 
      * @param g2d the Graphics2D of the component to place the drawing on
+=======
+     *  
+     * @param g2d the Graphics2D of the SceneCanvas
+>>>>>>> Stashed changes
      */
     @Override
     public void draw(Graphics2D g2d) {

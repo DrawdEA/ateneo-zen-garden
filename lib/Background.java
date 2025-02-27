@@ -14,7 +14,12 @@ public class Background implements DrawingObject {
 
     public Background(int xPosition, int yPosition) {
         x = xPosition;
+<<<<<<< Updated upstream
         y = yPosition;
+=======
+        y = yPosition; 
+
+>>>>>>> Stashed changes
         sky = new Rectangle(x, y, 800, 337.4, new Color(31, 148, 254));
         grass = new Rectangle(x, y + 337.3, 800, 262.6, new Color(86, 161, 64));
 

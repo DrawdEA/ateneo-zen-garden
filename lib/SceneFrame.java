@@ -62,7 +62,7 @@ public class SceneFrame {
     public void setUpButtonListeners() {
         ActionListener buttonListener = new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae) {
+            public void actionPerformed(ActionEvent ae) { 
                 Object o = ae.getSource();
 
                 if (o == actionButton) {

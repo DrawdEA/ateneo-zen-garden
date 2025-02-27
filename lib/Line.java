@@ -52,7 +52,7 @@ public class Line implements DrawingObject {
      * @param t thickness of the line
      * @param c color of the line
      */
-    public Line(int x1, int y1, int x2, int y2, float t, Color c) {
+    public Line(double x1, double y1, double x2, double y2, float t, Color c) { 
         thickness = t;
         color = c;
         line = new Line2D.Double(x1, y1, x2, y2);
