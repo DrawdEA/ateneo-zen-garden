@@ -14,9 +14,6 @@ public class Background implements DrawingObject {
 
     public Background(int xPosition, int yPosition) {
         x = xPosition;
-<<<<<<< Updated upstream
-        y = yPosition;
-=======
         y = yPosition; 
 
 >>>>>>> Stashed changes
