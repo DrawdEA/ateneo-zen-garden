@@ -97,6 +97,58 @@ public class Person implements DrawingObject{
         return walkingFrame;
     }
 
+    private void makeHead(Graphics2D g2d, double headX, double headY, double width){
+        (new Rectangle(x+headX*scale, y+headY*scale, width*scale, width*scale, skinColor)).draw(g2d);
+    }
+
+    private void makeLimb(Graphics2D g2d, double armX, double armY, double degreeRotation, double width, double height, Color color){
+        AffineTransform transform = new AffineTransform();
+        transform.setToRotation(Math.toRadians(degreeRotation), x+armX*scale, y+armY*scale);
+        g2d.setTransform(transform);
+        (new Rectangle(x+armX*scale, y+armY*scale, width*scale, height*scale, color)).draw(g2d);
+        transform.setToIdentity();
+        g2d.setTransform(transform);
+    }
+
+    private void makeShirt(Graphics2D g2d, double shirtX, double shirtY, double width, double height){
+        (new Rectangle(x+shirtX*scale, y+shirtY*scale, width*scale, height*scale, shirtColor)).draw(g2d);
+    }
+
+    private void getIdleFrame(Graphics2D g2d){
+        AffineTransform transform = new AffineTransform();
+        g2d.setTransform(transform);
+
+        if (animationFrameNum % 2 == 0){
+            // IDLE FRAME 1
+            makeHead(g2d, 19.3, 0, 74); // Head
+            makeLimb(g2d, 82.3, 92.7, -6.7, 20.2, 88.8, skinColor); // Right Arm
+            makeLimb(g2d, 21.5, 165.9, 3.3, 21.5, 117.7, pantsColor); // Left Leg
+            makeLimb(g2d, 67.2, 168.7, -4.2, 21.2, 117.7, pantsColor); // Right Leg
+            makeShirt(g2d, 19.3, 85.7, 74.1, 116.9); // Shirt
+            makeLimb(g2d, 8.1, 88.8, 5, 20.6, 92.2, skinColor); // Left Arm
+        } else {
+            // IDLE FRAME 2
+            makeHead(g2d, 19.3, 0, 73.7); // Head
+            makeLimb(g2d, 82.3, 85, -6.7, 20.2, 88.8, skinColor); // Right Arm
+            makeLimb(g2d, 24.1, 164, 5.8, 21.2, 117.7, pantsColor); // Left Leg
+            makeLimb(g2d, 65.2, 167.7, -6.4, 21.2, 117.7, pantsColor); // Right Leg
+            makeShirt(g2d, 19.3, 78, 74.1, 116.9); // Shirt
+            makeLimb(g2d, 8.1, 81.2, 5, 20.6, 92.2, skinColor); // Left Arm
+        }
+    }
+
+    private void getWalkingFrame(Graphics2D g2d){
+        int frameNum = animationFrameNum % 10;
+        switch (frameNum) {
+            case 0:
+                // Head
+
+                break;
+            default:
+                throw new AssertionError();
+        }
+    }
+
     public void incrementAnimation(){
         animationFrameNum++;
     }
@@ -105,85 +157,10 @@ public class Person implements DrawingObject{
     public void draw(Graphics2D g2d) {
         AffineTransform originalTransform = g2d.getTransform();
 
-        AffineTransform transform = new AffineTransform();
-        g2d.setTransform(transform);
-
         if (state.equals("walking")){
-            getWalkingAnimationFrame();
+            getWalkingFrame(g2d);
         } else if (state.equals("idling")){
-            if (animationFrameNum % 2 == 0){
-                // IDLE FRAME 1
-                // Head
-                (new Rectangle(x+19.3*scale, y+0*scale, 74*scale, 74*scale, skinColor)).draw(g2d);
-
-                // Right Hand
-                transform.setToRotation(Math.toRadians(-6.7), x+82.3*scale, y+92.7*scale);
-                g2d.setTransform(transform);
-                (new Rectangle(x+82.3*scale, y+92.7*scale, 20.2*scale, 88.8*scale, skinColor)).draw(g2d);
-                transform.setToIdentity();
-                g2d.setTransform(transform);
-                
-                // Left Leg
-                transform.setToRotation(Math.toRadians(3.3), x+21.5*scale, y+165.9*scale);
-                g2d.setTransform(transform);
-                (new Rectangle(x+21.5*scale, y+165.9*scale, 21.2*scale, 117.7*scale, pantsColor)).draw(g2d);
-                transform.setToIdentity();
-                g2d.setTransform(transform);
-
-                // Right Leg
-                transform.setToRotation(Math.toRadians(-4.2), x+67.2*scale, y+168.7*scale);
-                g2d.setTransform(transform);
-                (new Rectangle(x+67.2*scale, y+168.7*scale, 21.2*scale, 117.7*scale, pantsColor)).draw(g2d);
-                transform.setToIdentity();
-                g2d.setTransform(transform);
-
-                // Shirt
-                (new Rectangle(x+19.3*scale, y+85.7*scale, 74.1*scale, 116.9*scale, shirtColor)).draw(g2d);
-
-                // Left Hand
-                transform.setToRotation(Math.toRadians(5), x+8.1*scale, y+88.8*scale);
-                g2d.setTransform(transform);
-                (new Rectangle(x+8.1*scale, y+88.8*scale, 20.6*scale, 92.2*scale, skinColor)).draw(g2d);
-                transform.setToIdentity();
-                g2d.setTransform(transform);
-            } else {
-                // IDLE FRAME 2
-                // Head
-                (new Rectangle(x+19.3*scale, y+0*scale, 74.1*scale, 73.7*scale, skinColor)).draw(g2d);
-
-                // Right Hand
-                transform.setToRotation(Math.toRadians(-6.7), x+82.3*scale, y+85*scale);
-                g2d.setTransform(transform);
-                (new Rectangle(x+82.3*scale, y+85*scale, 20.2*scale, 88.8*scale, skinColor)).draw(g2d);
-                transform.setToIdentity();
-                g2d.setTransform(transform);
-                
-                 // Left Leg
-                transform.setToRotation(Math.toRadians(5.8), x+24.1*scale, y+164*scale);
-                g2d.setTransform(transform);
-                (new Rectangle(x+24.1*scale, y+164*scale, 21.2*scale, 117.7*scale, pantsColor)).draw(g2d);
-                transform.setToIdentity();
-                g2d.setTransform(transform);
-
-                // Right Leg
-                transform.setToRotation(Math.toRadians(-6.4), x+65.2*scale, y+167.7*scale);
-                g2d.setTransform(transform);
-                (new Rectangle(x+65.2*scale, y+167.7*scale, 21.2*scale, 117.7*scale, pantsColor)).draw(g2d);
-                transform.setToIdentity();
-                g2d.setTransform(transform);
-
-                // Shirt
-                (new Rectangle(x+19.3*scale, y+78*scale, 74.1*scale, 116.9*scale, shirtColor)).draw(g2d);
-
-                // Left Hand
-                transform.setToRotation(Math.toRadians(5), x+8.1*scale, y+81.2*scale);
-                g2d.setTransform(transform);
-                (new Rectangle(x+8.1*scale, y+81.2*scale, 20.6*scale, 92.2*scale, skinColor)).draw(g2d);
-                transform.setToIdentity();
-                g2d.setTransform(transform);
-
-
-            }
+            getIdleFrame(g2d);
         }
 
         g2d.setTransform(originalTransform);
