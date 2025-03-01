@@ -208,11 +208,15 @@ public class Person implements DrawingObject{
         incrementAnimation();
         if (state.equals("walking")){
             // change the current x and y position
-            if (x < x2){
-                x += 20 * scale;
+            if ((x2-x)*(x2-x1) > 0){
+                x += 20 * (x2-x1)/Math.abs((x2-x1));
             }
-            if (y < y2){
-                y += 20 * scale;
+            if ((y2-y)*(y2-y1) > 0){
+                y += 20 * (y2-y1)/Math.abs((y2-y1));
+            }
+
+            if ((scale2-scale)*(scale2-scale1) > 0){
+                scale += 0.005;
             }
         }
 
