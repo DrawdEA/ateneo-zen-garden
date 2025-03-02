@@ -59,9 +59,18 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         drawingObjects.add(new Tree(timer, -20.1, 600.1, 8.1, 0, 7, 1));
         drawingObjects.add(new Tree(timer, 500.1, 380.1, 6.1, 0, 6, 2));
         
-        // Walking Person
-        drawingObjects.add(new Person("walking", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 0, 575, 925, 575, 0.5, 0.5));
-        drawingObjects.add(new Person("idling", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 310, 445, 925, 575, 0.25, 0.5));
+        // To the right
+        drawingObjects.add(new Person("walking", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 0, 365, 640, 365, 0.4, 0.4, 15));
+        drawingObjects.add(new Person("walking", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 205, 290, 640, 365, 0.2, 0.4, 15));
+        
+        // To the left
+        drawingObjects.add(new Person("walking", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 640, 365, 0, 365, 0.4, 0.4, 15));
+        drawingObjects.add(new Person("walking", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 640, 365, 205, 290, 0.4, 0.2, 15));
+
+        // Standing still
+        drawingObjects.add(new Person("idling", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 205, 290, 0.2)); // Entrance of Gonz
+        drawingObjects.add(new Person("idling", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 0, 365, 0.4)); // Left Entrance
+        drawingObjects.add(new Person("idling", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 640, 365, 0.4)); // Right Cross Road
 
         drawingObjects.add(new Bush(-50, 520, 350, 150));
         drawingObjects.add(new Laptop(250, 400, laptopOpened, commandLineOpened, command));
