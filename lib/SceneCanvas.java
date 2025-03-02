@@ -54,10 +54,10 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         drawingObjects.add(new Background(0, 0));
         drawingObjects.add(new GonzagaHall(-91.6, 97.3)); // ACTUAL POSITION: -91.6, 97.3
         drawingObjects.add(new SchmittHall(574.4,23)); // ACTUAL POSITION: 574.4, 23
-        drawingObjects.add(new Tree(680.1, 450.1, 7.1, 0, 5, 2));
-        drawingObjects.add(new Tree(700.1, 600.1, 8.1, 0, 7, 3));
-        drawingObjects.add(new Tree(-20.1, 600.1, 8.1, 0, 7, 1));
-        drawingObjects.add(new Tree(500.1, 380.1, 6.1, 0, 6, 2));
+        drawingObjects.add(new Tree(timer, 680.1, 450.1, 7.1, 0, 5, 2));
+        drawingObjects.add(new Tree(timer, 700.1, 600.1, 8.1, 0, 7, 3));
+        drawingObjects.add(new Tree(timer, -20.1, 600.1, 8.1, 0, 7, 1));
+        drawingObjects.add(new Tree(timer, 500.1, 380.1, 6.1, 0, 6, 2));
         
         // Walking Person
         drawingObjects.add(new Person("walking", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 0, 575, 925, 575, 0.5, 0.5));

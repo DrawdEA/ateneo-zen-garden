@@ -54,8 +54,6 @@
 
     Deque<AffineTransform> transforms;
 
-    Timer timer;
-
     ArrayList<Integer> leafLengths;
     ArrayList<Integer> leafHeights;
     ArrayList<Integer> leafColors;
@@ -100,7 +98,7 @@
      * @param max the maximum maturity of the plant
      * @param chosenPattern the tree's chosen variation (can be chosen from 1 to 3)
      */
-    public Tree(Double xPosition, Double yPosition, Double len, int startingGrowth, int max, int chosenPattern) {
+    public Tree(Timer timer, Double xPosition, Double yPosition, Double len, int startingGrowth, int max, int chosenPattern) {
         x = xPosition;
         y = yPosition;
         iterations = startingGrowth;
@@ -111,14 +109,13 @@
         word = "-X";
 
         // Set a timer for growth.
-        timer = new Timer(1000, e -> {
+        timer.addActionListener(e -> {
             if (iterations < maxGrowth) {
                 if (random.nextInt(3) == 1) {
                     iterations++;
                 }
             }
         });
-        timer.start();
 
         // Create the set of rules for each generation.
         rules = new HashMap<>();

@@ -19,7 +19,6 @@ public class Laptop extends JFrame{
     }
 
     public class DrawOpeningLaptop extends JPanel implements ActionListener{
-        public Timer timer;
         public int laptopDegrees; 
         public Graphics2D g2d;
 
@@ -29,8 +28,6 @@ public class Laptop extends JFrame{
             setFocusTraversalKeysEnabled(false);
 
             laptopDegrees = 0;
-            timer = new Timer(10, this);
-            timer.start();
         }
 
         @Override
