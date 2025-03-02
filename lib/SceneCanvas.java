@@ -25,6 +25,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.Timer;
 
+
 public class SceneCanvas extends JComponent implements KeyListener, MouseListener {
     private static final int MAX_LETTERS = 14;
 
@@ -34,6 +35,40 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
     String command;
     Timer timer;
 
+    Random random = new Random();
+
+    int peopleSpawnRate;
+    final double[][] PATH_PARAMETERS = {
+        // {x,y,scale}
+        {-75, 365, 0.4}, // Down Left Gonz Exit connects to [1]
+        {205, 290, 0.2}, // Gonz Entrance connects to [0,2]
+        {640, 365, 0.4}, // Cross Road connects to [1,3,4]
+        {-50, 365, 0.4}, // Straight left Exit connects to [2]
+        {530, 285, 0.2}, // Gonz Upper Right Exit connects to [2]
+        {875, 400, 0.5}, // Foreground exit connects to [2]
+    }; 
+
+    final int[][] CONNECTED_PATH = {
+        {1},
+        {0,2},
+        {1,3,4},
+        {2},
+        {2},
+        {2},
+    };
+
+    final Color[] SHIRT_COLORS = {
+        new Color(125,26,5)
+    };
+
+    final Color[] SKIN_COLORS = {
+        new Color(238,202,138)
+    };
+
+    final Color[] PANTS_COLORS = {
+        new Color(217,244,255)
+    };
+
     /**
      * Instantiate a SceneCanvas (an extension of JComponent).
      */
@@ -41,36 +76,32 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         laptopOpened = false;
         commandLineOpened = true;
         command = "";
-
-        // Add timer object to continuously update the drawings.
-        timer = new Timer(500, e -> {
-            repaint();
-        });
-        timer.start();
+        peopleSpawnRate = 1;
 
         drawingObjects = new ArrayList<DrawingObject>();
-        
+
         // Add the individual drawing objects.
         drawingObjects.add(new Background(0, 0));
         drawingObjects.add(new GonzagaHall(-91.6, 97.3));
         drawingObjects.add(new SchmittHall(574.4,23));
 
-        drawingObjects.add(new Tree(timer, 680.1, 450.1, 7.1, 0, 5, 2));
-        drawingObjects.add(new Tree(timer, 700.1, 600.1, 8.1, 0, 7, 3));
-        drawingObjects.add(new Tree(timer, -20.1, 600.1, 8.1, 0, 7, 1));
-        drawingObjects.add(new Tree(timer, 500.1, 380.1, 6.1, 0, 6, 2));
+        // drawingObjects.add(new Tree(timer, 680.1, 450.1, 7.1, 0, 5, 2));
+        // drawingObjects.add(new Tree(timer, 700.1, 600.1, 8.1, 0, 7, 3));
+        // drawingObjects.add(new Tree(timer, -20.1, 600.1, 8.1, 0, 7, 1));
+        // drawingObjects.add(new Tree(timer, 500.1, 380.1, 6.1, 0, 6, 2));
         
-        // To the right
-        drawingObjects.add(new Person("walking", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 0, 365, 640, 365, 0.4, 0.4, 15));
-        drawingObjects.add(new Person("walking", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 205, 290, 640, 365, 0.2, 0.4, 15));
+        // // To the right
+        // drawingObjects.add(new Person("walking", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 0, 365, 640, 365, 0.4, 0.4, 15));
+        // drawingObjects.add(new Person("walking", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 205, 290, 640, 365, 0.2, 0.4, 15));
         
-        // To the left
-        drawingObjects.add(new Person("walking", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 640, 365, 0, 365, 0.4, 0.4, 15));
-        drawingObjects.add(new Person("walking", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 640, 365, 205, 290, 0.4, 0.2, 15));
-        drawingObjects.add(new Person("walking", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 205, 290, -130, 365, 0.2, 0.4, 30));
-        drawingObjects.add(new Person("walking", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 640, 365, 530, 285, 0.4, 0.2, 10)); // Crossroad to gonz side exit
-        drawingObjects.add(new Person("walking", new Color(0,0,0), new Color(217,244,255), new Color(238,202,138), 875, 400, 640, 365, 0.5, 0.4, 15)); // foreground to cross
-
+        // // To the left
+        // drawingObjects.add(new Person("walking", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 640, 365, 0, 365, 0.4, 0.4, 15));
+        // drawingObjects.add(new Person("walking", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 640, 365, 205, 290, 0.4, 0.2, 15)); // Cross road to gonz entrance
+        // drawingObjects.add(new Person("walking", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 205, 290, -130, 365, 0.2, 0.4, 30));
+        // drawingObjects.add(new Person("walking", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 640, 365, 530, 285, 0.4, 0.2, 10)); // Crossroad to gonz side exit
+        
+        // drawingObjects.add(new Person("walking", new Color(0,0,0), new Color(217,244,255), new Color(238,202,138), 875, 400, 640, 365, 0.5, 0.4, 15)); // foreground to cross
+        
         // Standing still
         // drawingObjects.add(new Person("idling", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 205, 290, 0.2)); // Entrance of Gonz
         // drawingObjects.add(new Person("idling", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 0, 365, 0.4)); // Left Entrance
@@ -80,6 +111,29 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         drawingObjects.add(new Bush(-50, 520, 350, 150));
         drawingObjects.add(new Laptop(250, 400, laptopOpened, commandLineOpened, command));
         
+        // Add timer object to continuously update the drawings.
+        timer = new Timer(500, e -> {
+            for (int i = 0; i < peopleSpawnRate; i++) {
+                int spawnPoint = random.nextInt(PATH_PARAMETERS.length);
+                int connectedPath = random.nextInt(CONNECTED_PATH[spawnPoint].length);
+                Color shirtColor = SHIRT_COLORS[random.nextInt(SHIRT_COLORS.length)];
+                Color skinColor = SKIN_COLORS[random.nextInt(SKIN_COLORS.length)];
+                Color pantsColor = PANTS_COLORS[random.nextInt(PANTS_COLORS.length)];
+                int speed = random.nextInt(10, 30);
+
+                drawingObjects.add(new Person(
+                    "walking", 
+                    shirtColor, pantsColor, skinColor, 
+                    (int) PATH_PARAMETERS[spawnPoint][0], (int) PATH_PARAMETERS[spawnPoint][1],
+                    (int) PATH_PARAMETERS[connectedPath][0], (int) PATH_PARAMETERS[connectedPath][1],
+                    PATH_PARAMETERS[spawnPoint][2], PATH_PARAMETERS[connectedPath][2],
+                    speed
+                ));
+            }
+            repaint();
+        });
+        timer.start();
+
         // Set up miscellaneous details.
         this.setFocusable(true);
         this.addKeyListener(this); 

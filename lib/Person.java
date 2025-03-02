@@ -202,10 +202,6 @@ public class Person implements DrawingObject{
         if (state.equals("walking")){
             // See if the person is already past the set bounds. If yes then delete them
             if ((x2-x)*(x2-x1) <= 0 && (y2-y)*(y2-y1) <= 0) {
-                x = x2;
-                y = y2;
-                scale = scale2;
-                
                 // Paths are numbered from smallest to biggest x axis
                 // If the person is at the cross road coordinates from somewhere else then go to any new random point
                 if (x2 == 640 && y2 == 365 && scale2 == 0.4){
@@ -214,7 +210,11 @@ public class Person implements DrawingObject{
                     
                     x1 = 640;
                     y1 = 365;
+                    x = x1;
+                    y = y1;
+
                     scale1 = 0.4;
+                    scale = scale1;
 
                     int path = random.nextInt(4);
                     if (path == 0){
@@ -225,7 +225,7 @@ public class Person implements DrawingObject{
                     } else if (path == 1){
                         // Go to Gonz
                         x2 = 205;
-                        y2 = 209;
+                        y2 = 290;
                         scale2 = 0.2;
                     } else if (path == 2){
                         // Go to Gonz Side Exit
@@ -234,19 +234,24 @@ public class Person implements DrawingObject{
                         scale2 = 0.2;
                     } else if (path == 3){
                         // Go to Foreground exit
-                        x2 = 400;
-                        y2 = 875;
-                        scale2 = 0.6;
+                        x2 = 875;
+                        y2 = 400;
+                        scale2 = 0.5;
                     }
-                } else if (x2 == 205 && y2 == 209 && scale2 == 0.2) { // If the person was sent to Gonz Entrance
+
+                } else if (x2 == 205 && y2 == 290 && scale2 == 0.2) { // If the person was sent to Gonz Entrance
                     state = "idling";
                     getIdleFrame(g2d);
                     
                     x1 = 205;
-                    y1 = 209;
-                    scale1 = 0.2;
+                    y1 = 290;
+                    x = x1;
+                    y = y1;
 
-                    int path = random.nextInt(2);
+                    scale1 = 0.2;
+                    scale = scale1;
+
+                    int path = random.nextInt(3); // An extra chance they enter Gonz
                     if (path == 0){
                         // Go left down exit 
                         x2 = -50;
@@ -262,6 +267,7 @@ public class Person implements DrawingObject{
 
                 // Recompute the distance to be traveled
                 distance = Math.sqrt(Math.pow((x2-x1), 2) + Math.pow((y2-y1), 2));
+                animationFrameNum = 0;
     
             } else {
                 // Every fourth walking frame (the frame closest looking to idle) there is a 10% chance that the character will idle for a few frames
@@ -283,6 +289,7 @@ public class Person implements DrawingObject{
             if ((x2-x)*(x2-x1) >= 0 && (y2-y)*(y2-y1) >= 0) {
                 if (animationFrameNum % 10 + 1 == 10 || animationFrameNum % 10 + 1 == 1){
                     state = "walking";
+                    distance = Math.sqrt(Math.pow((x2-x1), 2) + Math.pow((y2-y1), 2));
                 }
             }
         }

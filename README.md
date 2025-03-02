@@ -34,6 +34,7 @@ https://www.geeksforgeeks.org/stringbuilder-class-in-java-with-examples/
 https://www.w3schools.com/java/ref_string_replaceall.asp
 https://www.w3schools.com/java/java_regex.asp
 https://docs.oracle.com/en/java/javase/17/language/switch-expressions-and-statements.html
+https://www.w3schools.com/java/java_arrays_multi.asp
 
 ## Fonts
 https://fonts.google.com/specimen/IBM+Plex+Mono
