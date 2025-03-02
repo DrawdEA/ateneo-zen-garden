@@ -52,8 +52,9 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         
         // Add the individual drawing objects.
         drawingObjects.add(new Background(0, 0));
-        drawingObjects.add(new GonzagaHall(-91.6, 97.3)); // ACTUAL POSITION: -91.6, 97.3
-        drawingObjects.add(new SchmittHall(574.4,23)); // ACTUAL POSITION: 574.4, 23
+        drawingObjects.add(new GonzagaHall(-91.6, 97.3));
+        drawingObjects.add(new SchmittHall(574.4,23));
+
         drawingObjects.add(new Tree(timer, 680.1, 450.1, 7.1, 0, 5, 2));
         drawingObjects.add(new Tree(timer, 700.1, 600.1, 8.1, 0, 7, 3));
         drawingObjects.add(new Tree(timer, -20.1, 600.1, 8.1, 0, 7, 1));
@@ -66,11 +67,15 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         // To the left
         drawingObjects.add(new Person("walking", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 640, 365, 0, 365, 0.4, 0.4, 15));
         drawingObjects.add(new Person("walking", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 640, 365, 205, 290, 0.4, 0.2, 15));
+        drawingObjects.add(new Person("walking", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 205, 290, -130, 365, 0.2, 0.4, 30));
+        drawingObjects.add(new Person("walking", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 640, 365, 530, 285, 0.4, 0.2, 10)); // Crossroad to gonz side exit
+        drawingObjects.add(new Person("walking", new Color(0,0,0), new Color(217,244,255), new Color(238,202,138), 875, 400, 640, 365, 0.5, 0.4, 15)); // foreground to cross
 
         // Standing still
-        drawingObjects.add(new Person("idling", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 205, 290, 0.2)); // Entrance of Gonz
-        drawingObjects.add(new Person("idling", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 0, 365, 0.4)); // Left Entrance
-        drawingObjects.add(new Person("idling", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 640, 365, 0.4)); // Right Cross Road
+        // drawingObjects.add(new Person("idling", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 205, 290, 0.2)); // Entrance of Gonz
+        // drawingObjects.add(new Person("idling", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 0, 365, 0.4)); // Left Entrance
+        // drawingObjects.add(new Person("idling", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 640, 365, 0.4)); // Right Cross Road
+        // drawingObjects.add(new Person("idling", new Color(125,26,5), new Color(217,244,255), new Color(238,202,138), 530, 285, 0.2)); // Gonz Side exit Road
 
         drawingObjects.add(new Bush(-50, 520, 350, 150));
         drawingObjects.add(new Laptop(250, 400, laptopOpened, commandLineOpened, command));
