@@ -295,8 +295,12 @@ public class Laptop implements DrawingObject {
             
             if (inCommandLine) {
                 g2d.setFont(plex.deriveFont(Font.PLAIN, 10f));
-                g2d.drawString("To see a list of commands, run: help", x + 10, y + 43);
-                g2d.drawString("C:\\Users\\DiestaUy\\gardZen> " + command, x + 10, y + 55);
+                g2d.drawString("Welcome to the Command Line!", x + 10, y + 43 + 12*0);
+                g2d.drawString("Start typing to enter a command", x + 10, y + 43 + 12*1);
+                g2d.drawString("Outputs are in your real terminal tho", x + 10, y + 43 + 12*2); // No time to figure our JScrollPane on a canvas with readable input and all that
+                g2d.drawString("To see a list of commands, run: help", x + 10, y + 43 + 12*3);
+
+                g2d.drawString("C:\\Users\\DiestaUy\\gardZen> " + command, x + 10, y + 43 + 12*5);
             } else {
                 g2d.setColor(new Color(30,30,30));
                 g2d.setFont(avenir.deriveFont(Font.BOLD, 35f));

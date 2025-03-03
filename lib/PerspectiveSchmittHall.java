@@ -17,14 +17,15 @@
  * of our program.
  */
 
+package lib;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class SchmittHall implements DrawingObject {
+public class PerspectiveSchmittHall implements DrawingObject {
     int x,y;
     int opacity = 255;
 
-    public SchmittHall(int xPosition, int yPosition){
+    public PerspectiveSchmittHall(int xPosition, int yPosition){
         x = xPosition;
         y = yPosition;
     }

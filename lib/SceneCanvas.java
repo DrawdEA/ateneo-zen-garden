@@ -27,13 +27,15 @@ import javax.swing.Timer;
 
 
 public class SceneCanvas extends JComponent implements KeyListener, MouseListener {
-    private static final int MAX_LETTERS = 14;
-
     ArrayList<DrawingObject> drawingObjects;
+    Timer timer;
+
+    // Laptop commandline related fields
+    private static final int MAX_LETTERS = 20;
     boolean laptopOpened;
     boolean commandLineOpened;
     String command;
-    Timer timer;
+    boolean isBuildingsToggled;
 
     Random random = new Random();
 
@@ -91,6 +93,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         commandLineOpened = true;
         command = "";
         peopleSpawnRate = 1;
+        isBuildingsToggled = false;
 
         drawingObjects = new ArrayList<DrawingObject>();
         ArrayList<DrawingObject> people = new ArrayList<DrawingObject>();
@@ -213,7 +216,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
     @Override
     public void keyTyped(KeyEvent e) {
         if (laptopOpened) {
-            if (e.getKeyChar() != KeyEvent.VK_BACK_SPACE && command.length() <= MAX_LETTERS) {
+            if (e.getKeyChar() != KeyEvent.VK_BACK_SPACE && command.length() <= MAX_LETTERS && e.getKeyCode() != KeyEvent.VK_ENTER) {
                 command += e.getKeyChar();
             }
         }
@@ -227,15 +230,38 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
     public void keyPressed(KeyEvent e) {
         if (laptopOpened) {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) { // In case enter, clear out the command and execute it if it belongs to one of the correct ones.
-                // TODO: add commands in case if it corresponds to a something.
-                    
-                switch (command) {
-                    case ("spawn --cats"):
-                        // TODO: add command
-                    default:
-                        System.out.println(command);
+                String output;
+                command = command.toLowerCase().strip();
+                if (command.equals("help")){
+                    output = String.format("Below is a list all commands and their flags to change the scenery:\n");
+                    // Building commands
+                    output += String.format("   building --toggle\tToggle the perspective of the buildings\n");
+                    // People Commands
+                    output += String.format("   people --more\tIncrease the people spawn rate\n");
+                    output += String.format("   people --less\tDecrease the people spawn rate\n");
+                    // Trees Commands
+                    output += String.format("   trees --strip\tRemove all leaves on the trees\n");
+                    output += String.format("   trees --regrow\tRegrow the trees\n");
+                    output += String.format("   leaves --more\tMore falling leaves\n");
+                    output += String.format("   leaves --less\tLess falling leaves\n");
+                } else if (command.equals("building --toggle")) {
+                    isBuildingsToggled = !isBuildingsToggled;
+                    output = String.format("Toggled Buildings in the scenery\n");
+
+                    if (isBuildingsToggled){
+                        // Set Gonz to the New Gonz
+                        drawingObjects.set(1, new PerspectiveGonzagaHall(-30, 120)); 
+                        drawingObjects.set(2, new PerspectiveSchmittHall(600, 235)); 
+                    } else {
+                        drawingObjects.set(1, new GonzagaHall(-91.6, 97.3));
+                        drawingObjects.set(2, new SchmittHall(574.4,23));
+                    }
+                } 
+                else {
+                    output = String.format("Unknown command: \"%s\"\n",command);
                 }
 
+                System.out.println(output);
                 command = "";
             } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) { // Removes a letter if user typed backspace.
                 if (command.length() > 0) {
