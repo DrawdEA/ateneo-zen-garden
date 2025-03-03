@@ -247,17 +247,19 @@ public class Person implements DrawingObject{
                     scale1 = 0.2;
                     scale = scale1;
 
-                    int path = random.nextInt(3); // An extra chance they enter Gonz
+                    int path = random.nextInt(3);
                     if (path == 0){
                         // Go left down exit 
-                        x2 = -50;
+                        x2 = -80;
                         y2 = 365;
-                        scale2 = 0.4;
+                        scale2 = 0.3;
                     } else if (path == 1){
                         // Go to to cross road
                         x2 = 640;
                         y2 = 365;
                         scale2 = 0.4;
+                    } else {
+                        state="deleted";
                     }
                 } 
 

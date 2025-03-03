@@ -295,7 +295,8 @@ public class Laptop implements DrawingObject {
             
             if (inCommandLine) {
                 g2d.setFont(plex.deriveFont(Font.PLAIN, 10f));
-                g2d.drawString("C:\\Users\\DiestaUy\\gardZen> " + command, x + 10, y + 43);
+                g2d.drawString("To see a list of commands, run: help", x + 10, y + 43);
+                g2d.drawString("C:\\Users\\DiestaUy\\gardZen> " + command, x + 10, y + 55);
             } else {
                 g2d.setColor(new Color(30,30,30));
                 g2d.setFont(avenir.deriveFont(Font.BOLD, 35f));

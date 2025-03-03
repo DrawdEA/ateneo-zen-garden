@@ -40,7 +40,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
     int peopleSpawnRate;
     final double[][] PATH_PARAMETERS = {
         // {x,y,scale}
-        {-75, 365, 0.4}, // Down Left Gonz Exit connects to [1]
+        {-80, 365, 0.3}, // Down Left Gonz Exit connects to [1]
         {205, 290, 0.2}, // Gonz Entrance connects to [0,5]
         {-50, 365, 0.4}, // Straight left Exit connects to [5]
         {530, 285, 0.2}, // Gonz Upper Right Exit connects to [5]
@@ -84,6 +84,8 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
     /**
      * Instantiate a SceneCanvas (an extension of JComponent).
      */
+    boolean initializedCanvas = false;
+    int peopleSpawnerTimerLoopCounter = 5;
     public SceneCanvas() {
         laptopOpened = false;
         commandLineOpened = true;
@@ -91,27 +93,41 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         peopleSpawnRate = 1;
 
         drawingObjects = new ArrayList<DrawingObject>();
+        ArrayList<DrawingObject> people = new ArrayList<DrawingObject>();
 
         // Add timer object to continuously update the drawings.
-        timer = new Timer(500, e -> {
-            for (int i = 0; i < peopleSpawnRate; i++) {
-                int spawnPoint = random.nextInt(PATH_PARAMETERS.length - 1); // Since people cannot spawn on the cross road
-                int connectedPathIndex = random.nextInt(CONNECTED_PATH[spawnPoint].length);
-                int connectedPath = CONNECTED_PATH[spawnPoint][connectedPathIndex];
-                Color shirtColor = SHIRT_COLORS[random.nextInt(SHIRT_COLORS.length)];
-                Color skinColor = SKIN_COLORS[random.nextInt(SKIN_COLORS.length)];
-                Color pantsColor = PANTS_COLORS[random.nextInt(PANTS_COLORS.length)];
-                int speed = random.nextInt(10, 30);
+        timer = new Timer(100, e -> {
+            if (peopleSpawnerTimerLoopCounter % 40 == 0){ // Every 4 seconds generate a new person
+                for (int i = 0; i < peopleSpawnRate; i++) {
+                    int spawnPoint = random.nextInt(PATH_PARAMETERS.length - 1); // Since people cannot spawn on the cross road
+                    int connectedPathIndex = random.nextInt(CONNECTED_PATH[spawnPoint].length);
+                    int connectedPath = CONNECTED_PATH[spawnPoint][connectedPathIndex];
+                    Color shirtColor = SHIRT_COLORS[random.nextInt(SHIRT_COLORS.length)];
+                    Color skinColor = SKIN_COLORS[random.nextInt(SKIN_COLORS.length)];
+                    Color pantsColor = PANTS_COLORS[random.nextInt(PANTS_COLORS.length)];
+                    int speed = random.nextInt(5, 10);
 
-                drawingObjects.add(5, new Person(
-                    "walking", 
-                    shirtColor, pantsColor, skinColor, 
-                    (int) PATH_PARAMETERS[spawnPoint][0], (int) PATH_PARAMETERS[spawnPoint][1],
-                    (int) PATH_PARAMETERS[connectedPath][0], (int) PATH_PARAMETERS[connectedPath][1],
-                    PATH_PARAMETERS[spawnPoint][2], PATH_PARAMETERS[connectedPath][2],
-                    speed
-                ));
+                    Person person = new Person(
+                        "walking", 
+                        shirtColor, pantsColor, skinColor, 
+                        (int) PATH_PARAMETERS[spawnPoint][0], (int) PATH_PARAMETERS[spawnPoint][1],
+                        (int) PATH_PARAMETERS[connectedPath][0], (int) PATH_PARAMETERS[connectedPath][1],
+                        PATH_PARAMETERS[spawnPoint][2], PATH_PARAMETERS[connectedPath][2],
+                        speed
+                    );
+
+                    // Checks if the timer function is being called in the constructor or in repaint()
+                    if (initializedCanvas) { // If in repaint() then insert the new person into the drawingObjects
+                        drawingObjects.add(5, person);
+                    } else { // if in the constructor then add it to a temporary people object to added at the right later at the end of the constructor
+                        people.add(person);
+                    }
+
+                    // Set timer loop counter back to 1  
+                    peopleSpawnerTimerLoopCounter = 1;
+                }
             }
+            peopleSpawnerTimerLoopCounter++;
             repaint();
         });
         timer.start();
@@ -123,14 +139,21 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
 
         drawingObjects.add(new Tree(timer, 500.1, 380.1, 6.1, 0, 6, 2));
         drawingObjects.add(new Tree(timer, 680.1, 450.1, 7.1, 0, 5, 2));
-
-        // People should be here index [5]
+        
+        // People should be added in this layer [5]
 
         drawingObjects.add(new Tree(timer, 700.1, 600.1, 8.1, 0, 7, 3));
         drawingObjects.add(new Tree(timer, -20.1, 600.1, 8.1, 0, 7, 1));
         
         drawingObjects.add(new Bush(-50, 520, 350, 150));
         drawingObjects.add(new Laptop(250, 400, laptopOpened, commandLineOpened, command));
+
+        for (DrawingObject person : people){
+            drawingObjects.add(5, person);
+        }
+
+        // Set to true so that we know index 5 exists in drawingObjects
+        initializedCanvas = true;
 
         // Set up miscellaneous details.
         this.setFocusable(true);

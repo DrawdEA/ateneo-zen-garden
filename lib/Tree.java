@@ -19,12 +19,12 @@
  * of our program.
  */
 
- package lib;
- import java.awt.*;
- import java.awt.geom.*;
- import java.util.*;
- import java.util.function.*;
- import javax.swing.Timer;
+package lib;
+import java.awt.*;
+import java.awt.geom.*;
+import java.util.*;
+import java.util.function.*;
+import javax.swing.Timer;
  
  public class Tree implements DrawingObject {
     private static final Color[] GREEN_COLORS = {
@@ -59,6 +59,7 @@
     ArrayList<Integer> leafColors;
 
     int leafCounter = 0;
+    int timerLoopCounter = 1;
 
     /**
      * Generates an L-system string given a word and desired layers.
@@ -110,11 +111,11 @@
 
         // Set a timer for growth.
         timer.addActionListener(e -> {
-            if (iterations < maxGrowth) {
-                if (random.nextInt(3) == 1) {
-                    iterations++;
-                }
+            if (iterations < maxGrowth && random.nextInt(3) == 0 && timerLoopCounter % 5 == 0) {
+                iterations++;
+                timerLoopCounter = 1;
             }
+            timerLoopCounter++;
         });
 
         // Create the set of rules for each generation.
