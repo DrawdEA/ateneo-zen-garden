@@ -103,7 +103,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                 Color pantsColor = PANTS_COLORS[random.nextInt(PANTS_COLORS.length)];
                 int speed = random.nextInt(10, 30);
 
-                drawingObjects.add(new Person(
+                drawingObjects.add(5, new Person(
                     "walking", 
                     shirtColor, pantsColor, skinColor, 
                     (int) PATH_PARAMETERS[spawnPoint][0], (int) PATH_PARAMETERS[spawnPoint][1],
@@ -121,10 +121,13 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         drawingObjects.add(new GonzagaHall(-91.6, 97.3));
         drawingObjects.add(new SchmittHall(574.4,23));
 
+        drawingObjects.add(new Tree(timer, 500.1, 380.1, 6.1, 0, 6, 2));
         drawingObjects.add(new Tree(timer, 680.1, 450.1, 7.1, 0, 5, 2));
+
+        // People should be here index [5]
+
         drawingObjects.add(new Tree(timer, 700.1, 600.1, 8.1, 0, 7, 3));
         drawingObjects.add(new Tree(timer, -20.1, 600.1, 8.1, 0, 7, 1));
-        drawingObjects.add(new Tree(timer, 500.1, 380.1, 6.1, 0, 6, 2));
         
         drawingObjects.add(new Bush(-50, 520, 350, 150));
         drawingObjects.add(new Laptop(250, 400, laptopOpened, commandLineOpened, command));
