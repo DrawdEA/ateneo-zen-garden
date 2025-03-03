@@ -27,20 +27,22 @@ import javax.swing.Timer;
 
 
 public class SceneCanvas extends JComponent implements KeyListener, MouseListener {
-    private static final int MAX_LETTERS = 14;
-
     ArrayList<DrawingObject> drawingObjects;
+    Timer timer;
+
+    // Laptop commandline related fields
+    private static final int MAX_LETTERS = 20;
     boolean laptopOpened;
     boolean commandLineOpened;
     String command;
-    Timer timer;
+    boolean isBuildingsToggled;
 
     Random random = new Random();
 
     int peopleSpawnRate;
     final double[][] PATH_PARAMETERS = {
         // {x,y,scale}
-        {-75, 365, 0.4}, // Down Left Gonz Exit connects to [1]
+        {-80, 365, 0.3}, // Down Left Gonz Exit connects to [1]
         {205, 290, 0.2}, // Gonz Entrance connects to [0,5]
         {-50, 365, 0.4}, // Straight left Exit connects to [5]
         {530, 285, 0.2}, // Gonz Upper Right Exit connects to [5]
@@ -93,14 +95,18 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
     /**
      * Instantiate a SceneCanvas (an extension of JComponent).
      */
+    boolean initializedCanvas = false;
+    int peopleSpawnerTimerLoopCounter = 5;
     public SceneCanvas() {
         laptopOpened = false;
         commandLineOpened = true;
         command = "";
         peopleSpawnRate = 1;
         leafCounter = 0;
+        isBuildingsToggled = false;
 
         drawingObjects = new ArrayList<DrawingObject>();
+        ArrayList<DrawingObject> people = new ArrayList<DrawingObject>();
 
         // Add timer object to continuously update the drawings.
         timer = new Timer(200, e -> {
@@ -118,16 +124,38 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                 Color skinColor = SKIN_COLORS[random.nextInt(SKIN_COLORS.length)];
                 Color pantsColor = PANTS_COLORS[random.nextInt(PANTS_COLORS.length)];
                 int speed = random.nextInt(10, 30);
+        timer = new Timer(100, e -> {
+            if (peopleSpawnerTimerLoopCounter % 40 == 0){ // Every 4 seconds generate a new person
+                for (int i = 0; i < peopleSpawnRate; i++) {
+                    int spawnPoint = random.nextInt(PATH_PARAMETERS.length - 1); // Since people cannot spawn on the cross road
+                    int connectedPathIndex = random.nextInt(CONNECTED_PATH[spawnPoint].length);
+                    int connectedPath = CONNECTED_PATH[spawnPoint][connectedPathIndex];
+                    Color shirtColor = SHIRT_COLORS[random.nextInt(SHIRT_COLORS.length)];
+                    Color skinColor = SKIN_COLORS[random.nextInt(SKIN_COLORS.length)];
+                    Color pantsColor = PANTS_COLORS[random.nextInt(PANTS_COLORS.length)];
+                    int speed = random.nextInt(5, 10);
 
-                drawingObjects.add(new Person(
-                    "walking", 
-                    shirtColor, pantsColor, skinColor, 
-                    (int) PATH_PARAMETERS[spawnPoint][0], (int) PATH_PARAMETERS[spawnPoint][1],
-                    (int) PATH_PARAMETERS[connectedPath][0], (int) PATH_PARAMETERS[connectedPath][1],
-                    PATH_PARAMETERS[spawnPoint][2], PATH_PARAMETERS[connectedPath][2],
-                    speed
-                ));
+                    Person person = new Person(
+                        "walking", 
+                        shirtColor, pantsColor, skinColor, 
+                        (int) PATH_PARAMETERS[spawnPoint][0], (int) PATH_PARAMETERS[spawnPoint][1],
+                        (int) PATH_PARAMETERS[connectedPath][0], (int) PATH_PARAMETERS[connectedPath][1],
+                        PATH_PARAMETERS[spawnPoint][2], PATH_PARAMETERS[connectedPath][2],
+                        speed
+                    );
+
+                    // Checks if the timer function is being called in the constructor or in repaint()
+                    if (initializedCanvas) { // If in repaint() then insert the new person into the drawingObjects
+                        drawingObjects.add(5, person);
+                    } else { // if in the constructor then add it to a temporary people object to added at the right later at the end of the constructor
+                        people.add(person);
+                    }
+
+                    // Set timer loop counter back to 1  
+                    peopleSpawnerTimerLoopCounter = 1;
+                }
             }
+            peopleSpawnerTimerLoopCounter++;
             repaint();
         });
         timer.start();
@@ -137,13 +165,23 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         drawingObjects.add(new GonzagaHall(-91.6, 97.3));
         drawingObjects.add(new SchmittHall(574.4,23));
 
-        drawingObjects.add(new Tree(timer, 680.1, 450.1, 7.1, 0, 5, 2));
-        drawingObjects.add(new Tree(timer, 700.1, 600.1, 8.1, 0, 7, 3));
-        drawingObjects.add(new Tree(timer, -20.1, 600.1, 8.1, 0, 7, 1));
-        drawingObjects.add(new Tree(timer, 500.1, 380.1, 6.1, 0, 6, 2));
+        drawingObjects.add(new Tree(timer, true, 500.1, 380.1, 6.1, 0, 6, 2));
+        drawingObjects.add(new Tree(timer, true, 680.1, 450.1, 7.1, 0, 5, 2));
+        
+        // People should be added in this layer [5]
+
+        drawingObjects.add(new Tree(timer, true, 700.1, 600.1, 8.1, 0, 7, 3));
+        drawingObjects.add(new Tree(timer, true, -20.1, 600.1, 8.1, 0, 7, 1));
         
         drawingObjects.add(new Bush(-50, 520, 350, 150));
         drawingObjects.add(new Laptop(250, 400, laptopOpened, commandLineOpened, command));
+
+        for (DrawingObject person : people){
+            drawingObjects.add(5, person);
+        }
+
+        // Set to true so that we know index 5 exists in drawingObjects
+        initializedCanvas = true;
 
         // Set up miscellaneous details.
         this.setFocusable(true);
@@ -203,7 +241,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
     @Override
     public void keyTyped(KeyEvent e) {
         if (laptopOpened) {
-            if (e.getKeyChar() != KeyEvent.VK_BACK_SPACE && command.length() <= MAX_LETTERS) {
+            if (e.getKeyChar() != KeyEvent.VK_BACK_SPACE && command.length() <= MAX_LETTERS && e.getKeyCode() != KeyEvent.VK_ENTER) {
                 command += e.getKeyChar();
             }
         }
@@ -217,15 +255,49 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
     public void keyPressed(KeyEvent e) {
         if (laptopOpened) {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) { // In case enter, clear out the command and execute it if it belongs to one of the correct ones.
-                // TODO: add commands in case if it corresponds to a something.
-                    
-                switch (command) {
-                    case ("spawn --cats"):
-                        // TODO: add command
-                    default:
-                        System.out.println(command);
+                String output;
+                command = command.toLowerCase().strip();
+                
+                if (command.equals("help")){
+                    output = String.format("Below is a list all commands and their flags to change the scenery:\n");
+                    // Building commands
+                    output += String.format("   buildings --toggle\tToggle the perspective of the buildings\n");
+                    // People Commands
+                    output += String.format("   people --more\tIncrease the people spawn rate\n");
+                    output += String.format("   people --less\tDecrease the people spawn rate\n");
+                    // Trees Commands
+                    output += String.format("   trees --strip\tRemove all leaves on the trees\n");
+                    output += String.format("   trees --regrow\tRegrow the trees\n");
+                    output += String.format("   leaves --more\tMore falling leaves\n");
+                    output += String.format("   leaves --less\tLess falling leaves\n");
+
+                } else if (command.equals("buildings --toggle")) {
+                    isBuildingsToggled = !isBuildingsToggled;
+                    output = String.format("Toggled Buildings in the scenery\n");
+
+                    if (isBuildingsToggled){
+                        // Set Gonz to the New Gonz
+                        drawingObjects.set(1, new PerspectiveGonzagaHall(-30, 120)); 
+                        drawingObjects.set(2, new PerspectiveSchmittHall(600, 235)); 
+                    } else {
+                        drawingObjects.set(1, new GonzagaHall(-91.6, 97.3));
+                        drawingObjects.set(2, new SchmittHall(574.4,23));
+                    }
+
+                } else if (command.equals("trees --strip")) {
+                    output = String.format("Stripped all trees of their leaves in the scenery\n");
+                    for (DrawingObject object : drawingObjects) {
+                        if (object instanceof Tree tree){
+                            tree.toggleLeaves();
+                        }
+                    }
                 }
 
+                else {
+                    output = String.format("Unknown command: \"%s\"\n",command);
+                }
+
+                System.out.println(output);
                 command = "";
             } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) { // Removes a letter if user typed backspace.
                 if (command.length() > 0) {

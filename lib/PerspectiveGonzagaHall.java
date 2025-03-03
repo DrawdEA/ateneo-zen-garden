@@ -21,11 +21,11 @@ package lib;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class GonzagaHall implements DrawingObject {
+public class PerspectiveGonzagaHall implements DrawingObject {
     int x, y;
     int opacity = 255;
     
-    public GonzagaHall(int xPosition, int yPosition){
+    public PerspectiveGonzagaHall(int xPosition, int yPosition){
         x = xPosition;
         y = yPosition;
     }

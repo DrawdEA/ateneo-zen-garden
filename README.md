@@ -35,6 +35,7 @@ https://www.w3schools.com/java/ref_string_replaceall.asp
 https://www.w3schools.com/java/java_regex.asp
 https://docs.oracle.com/en/java/javase/17/language/switch-expressions-and-statements.html
 https://www.w3schools.com/java/java_arrays_multi.asp
+https://www.delftstack.com/howto/java/java-get-type-of-object/
 
 ## Fonts
 https://fonts.google.com/specimen/IBM+Plex+Mono
