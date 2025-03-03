@@ -21,7 +21,6 @@ package lib;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 public class Person implements DrawingObject{
@@ -95,23 +94,20 @@ public class Person implements DrawingObject{
     private void makeHead(Graphics2D g2d, AffineTransform baseReset, double headX, double headY, double width){
         AffineTransform transform = new AffineTransform(baseReset);
         g2d.setTransform(transform);
-        g2d.setColor(skinColor);
-        g2d.fill(new Rectangle2D.Double(x+headX*scale, y+headY*scale, width*scale, width*scale));
+        (new Rectangle(x+headX*scale, y+headY*scale, width*scale, width*scale, skinColor)).draw(g2d);
     }
 
     private void makeLimb(Graphics2D g2d, AffineTransform baseReset, double armX, double armY, double degreeRotation, double width, double height, Color color){
         AffineTransform transform = new AffineTransform(baseReset);
         transform.rotate(Math.toRadians(degreeRotation), x+armX*scale, y+armY*scale);
         g2d.setTransform(transform);
-        g2d.setColor(color);
-        g2d.fill(new Rectangle2D.Double(x+armX*scale, y+armY*scale, width*scale, height*scale));
+        (new Rectangle(x+armX*scale, y+armY*scale, width*scale, height*scale, color)).draw(g2d);
         g2d.setTransform(baseReset);
     }
 
     private void makeShirt(Graphics2D g2d, AffineTransform baseReset, double shirtX, double shirtY, double width, double height){
         g2d.setTransform(baseReset);
-        g2d.setColor(shirtColor);
-        g2d.fill(new Rectangle2D.Double(x+shirtX*scale, y+shirtY*scale, width*scale, height*scale));
+        (new Rectangle(x+shirtX*scale, y+shirtY*scale, width*scale, height*scale, shirtColor)).draw(g2d);
     }
 
     private void getIdleFrame(Graphics2D g2d){
