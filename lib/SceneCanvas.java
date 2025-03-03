@@ -81,6 +81,15 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         new Color(255,217,33)
     };
 
+    private static final Color[] GREEN_COLORS = {
+        new Color(15, 58, 42), 
+        new Color(25, 89, 51),
+        new Color(13, 48, 44),
+        new Color(23, 112, 73)
+    };
+
+    int leafCounter;
+
     /**
      * Instantiate a SceneCanvas (an extension of JComponent).
      */
@@ -89,11 +98,18 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         commandLineOpened = true;
         command = "";
         peopleSpawnRate = 1;
+        leafCounter = 0;
 
         drawingObjects = new ArrayList<DrawingObject>();
 
         // Add timer object to continuously update the drawings.
-        timer = new Timer(500, e -> {
+        timer = new Timer(200, e -> {
+            leafCounter++;
+            if (leafCounter == 5) {
+                leafCounter = 0;
+                drawingObjects.add(new FallingLeaf(random.nextDouble() * 800, 0, GREEN_COLORS[random.nextInt(4)], random.nextDouble() / 4, random.nextInt(7), random.nextInt(10, 20)));
+            }
+            
             for (int i = 0; i < peopleSpawnRate; i++) {
                 int spawnPoint = random.nextInt(PATH_PARAMETERS.length - 1); // Since people cannot spawn on the cross road
                 int connectedPathIndex = random.nextInt(CONNECTED_PATH[spawnPoint].length);

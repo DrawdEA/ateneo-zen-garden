@@ -110,11 +110,14 @@
 
         // Set a timer for growth.
         timer.addActionListener(e -> {
+            // fallingLeaf = new FallingLeaf(x, y, GREEN_COLORS[random.nextInt(3)], (0.5 + random.nextDouble() * (0.1 - 0.05)) * iterations);
             if (iterations < maxGrowth) {
-                if (random.nextInt(3) == 1) {
+                if (random.nextInt(10) == 1) {
                     iterations++;
                 }
             }
+
+            
         });
 
         // Create the set of rules for each generation.
@@ -174,6 +177,7 @@
                 instructions.get(letter).accept(g2d);
             }
         }
+
         g2d.setTransform(originalTransform);
 
         // Set back the leaf counter to 0 after drawing the tree.
