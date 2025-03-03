@@ -140,13 +140,13 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         drawingObjects.add(new GonzagaHall(-91.6, 97.3));
         drawingObjects.add(new SchmittHall(574.4,23));
 
-        drawingObjects.add(new Tree(timer, 500.1, 380.1, 6.1, 0, 6, 2));
-        drawingObjects.add(new Tree(timer, 680.1, 450.1, 7.1, 0, 5, 2));
+        drawingObjects.add(new Tree(timer, true, 500.1, 380.1, 6.1, 0, 6, 2));
+        drawingObjects.add(new Tree(timer, true, 680.1, 450.1, 7.1, 0, 5, 2));
         
         // People should be added in this layer [5]
 
-        drawingObjects.add(new Tree(timer, 700.1, 600.1, 8.1, 0, 7, 3));
-        drawingObjects.add(new Tree(timer, -20.1, 600.1, 8.1, 0, 7, 1));
+        drawingObjects.add(new Tree(timer, true, 700.1, 600.1, 8.1, 0, 7, 3));
+        drawingObjects.add(new Tree(timer, true, -20.1, 600.1, 8.1, 0, 7, 1));
         
         drawingObjects.add(new Bush(-50, 520, 350, 150));
         drawingObjects.add(new Laptop(250, 400, laptopOpened, commandLineOpened, command));
@@ -232,10 +232,11 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
             if (e.getKeyCode() == KeyEvent.VK_ENTER) { // In case enter, clear out the command and execute it if it belongs to one of the correct ones.
                 String output;
                 command = command.toLowerCase().strip();
+                
                 if (command.equals("help")){
                     output = String.format("Below is a list all commands and their flags to change the scenery:\n");
                     // Building commands
-                    output += String.format("   building --toggle\tToggle the perspective of the buildings\n");
+                    output += String.format("   buildings --toggle\tToggle the perspective of the buildings\n");
                     // People Commands
                     output += String.format("   people --more\tIncrease the people spawn rate\n");
                     output += String.format("   people --less\tDecrease the people spawn rate\n");
@@ -244,7 +245,8 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                     output += String.format("   trees --regrow\tRegrow the trees\n");
                     output += String.format("   leaves --more\tMore falling leaves\n");
                     output += String.format("   leaves --less\tLess falling leaves\n");
-                } else if (command.equals("building --toggle")) {
+
+                } else if (command.equals("buildings --toggle")) {
                     isBuildingsToggled = !isBuildingsToggled;
                     output = String.format("Toggled Buildings in the scenery\n");
 
@@ -256,7 +258,16 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                         drawingObjects.set(1, new GonzagaHall(-91.6, 97.3));
                         drawingObjects.set(2, new SchmittHall(574.4,23));
                     }
-                } 
+
+                } else if (command.equals("trees --strip")) {
+                    output = String.format("Stripped all trees of their leaves in the scenery\n");
+                    for (DrawingObject object : drawingObjects) {
+                        if (object instanceof Tree tree){
+                            tree.toggleLeaves();
+                        }
+                    }
+                }
+
                 else {
                     output = String.format("Unknown command: \"%s\"\n",command);
                 }
