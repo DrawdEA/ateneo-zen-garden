@@ -53,7 +53,16 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         new Color(89,201,241),
         new Color(21,17,82),
         new Color(21,16,80),
-        new Color(255,217,33)
+        new Color(255,217,33),
+        new Color(165,230,186),
+        new Color(54,5,104),
+        new Color(91,42,134),
+        new Color(119,133,172),
+        new Color(237,123,132),
+        new Color(176,215,255),
+        new Color(173,172,181),
+        new Color(45,49,66),
+        new Color(177,182,149),
     };
 
     final Color[] SKIN_COLORS = {
@@ -61,6 +70,8 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         new Color(214,156,86),
         new Color(104,53,15),
         new Color(245,223,145),
+        new Color(245,219,203),
+        new Color(199,170,116),
     };
 
     final Color[] PANTS_COLORS = {
@@ -69,7 +80,9 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         new Color(89,201,241),
         new Color(21,17,82),
         new Color(21,16,80),
-        new Color(255,217,33)
+        new Color(255,217,33),
+        new Color(176,215,255),
+        new Color(45,49,66),
     };
 
     final Color[] GREEN_COLORS = {
@@ -113,7 +126,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         laptopOpened = false;
         commandLineOpened = true;
         command = "";
-        peopleSpawnRate = 1;
+        peopleSpawnRate = 2;
         leafCounter = 0;
         canSpawnLeaves = false;
         isBuildingsToggled = false;
@@ -338,13 +351,13 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                     if (fallingLeafSpawnRate == 1){
                         output = String.format("Falling leaves spawn rate is already at maximum!\n");
                     } else {
-                        output = String.format("Increased falling leaves spawn rate\n");
+                        output = String.format("Increased falling leaves spawn interval to %d\n", fallingLeafSpawnRate);
                         fallingLeafSpawnRate--;
                     }
 
                 } else if (command.equals("leaves--")) {
                     fallingLeafSpawnRate++;
-                    output = String.format("Decreased falling leaves spawn rate to %d\n", fallingLeafSpawnRate);
+                    output = String.format("Decreased falling leaves spawn interval to %d\n", fallingLeafSpawnRate);
 
 
                 // People Commands
