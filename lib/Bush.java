@@ -1,5 +1,6 @@
 /**
- * TODO: Description
+ * The Bush class generates a bush shape given a specific width and height.
+ * The colors of the bush is a gradient of 3 specific shades of green.
  * 
  * @author Edward Joshua M. Diesta (241571), Charles Joshua T. Uy (244644)
  * @version March 3, 2025
@@ -18,13 +19,12 @@
  */
 
 package lib;
-
 import java.awt.*;
 import java.util.*;
 
 public class Bush implements DrawingObject {
-    int x,y;
-    int w,h;
+    int x, y;
+    int w, h;
     int numOfBushClusters;
     ArrayList<ArrayList<Integer>> bushClusters;
 
@@ -33,13 +33,14 @@ public class Bush implements DrawingObject {
     Color midtone = new Color(13, 48, 44); 
     Color highlight = new Color(23, 112, 73);
 
-
-
-
-
-
-    ;
-
+    /**
+     * Instantiate a bush object.
+     * 
+     * @param xPosition x anchor position of the bush
+     * @param yPosition y anchor position of the bush
+     * @param width width of the bush
+     * @param height height of the bush
+     */
     public Bush(int xPosition, int yPosition, int width, int height) {
         x = xPosition;
         y = yPosition;
@@ -63,9 +64,13 @@ public class Bush implements DrawingObject {
             bushClusters.get(i).add(cWidth);
             bushClusters.get(i).add(cHeight);
         }
-        
     }
 
+    /**
+     * Creates a rectangle to put the bush in.
+     * 
+     * @return the rectangle
+     */
     public Rectangle boundingBox(){
         return new Rectangle(
             x,
@@ -79,7 +84,12 @@ public class Bush implements DrawingObject {
         base);
     }
 
-    public ArrayList<Ellipse> bushClusters(){
+    /**
+     * Initializes the bush drawings.
+     * 
+     * @return an array list of the individual bush ellipses
+     */
+    public ArrayList<Ellipse> bushClusters() {
         ArrayList<Ellipse> bushClusterDrawings = new ArrayList<>();
 
         for (int i = 0; i < numOfBushClusters; i++) {   
@@ -115,6 +125,9 @@ public class Bush implements DrawingObject {
         return bushClusterDrawings;
     }
 
+    /**
+     * Draws the bushes instantiated by the bush clusters.
+     */
     @Override
     public void draw(Graphics2D g2d) {
         // Bush Base

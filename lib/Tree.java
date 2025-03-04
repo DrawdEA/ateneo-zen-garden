@@ -102,8 +102,8 @@ import javax.swing.Timer;
      * @param max the maximum maturity of the plant
      * @param chosenPattern the tree's chosen variation (can be chosen from 1 to 3)
      */
-    public Tree(Timer timer, boolean hasLeaves, Double xPosition, Double yPosition, Double len, int startingGrowth, int max, int chosenPattern) {
-        this.hasLeaves = hasLeaves;
+    public Tree(Timer timer, boolean hL, Double xPosition, Double yPosition, Double len, int startingGrowth, int max, int chosenPattern) {
+        hasLeaves = hL;
         x = xPosition;
         y = yPosition;
         iterations = startingGrowth;
@@ -121,16 +121,14 @@ import javax.swing.Timer;
                 timerLoopCounter = 1;
 
                 // Toggle leaf falling if it has reached max growth.
-                if (iterations >= 7) {
-                    canFallLeaves = true;
-                }
+                canFallLeaves = iterations >= 7 && hasLeaves;
             }
             timerLoopCounter++;
         });
 
         // Create the set of rules for each generation.
         rules = new HashMap<>();
-        rules.put("X", TREE_PATTERNS[chosenPattern - 1]); 
+        rules.put("X", TREE_PATTERNS[chosenPattern - 1]);
         rules.put("F", "FF");
 
         // Set up the transforms.
@@ -187,16 +185,18 @@ import javax.swing.Timer;
                 instructions.get(letter).accept(g2d);
             }
         }
-
         g2d.setTransform(originalTransform);
 
         // Set back the leaf counter to 0 after drawing the tree.
         leafCounter = 0;
     }
 
-    public void toggleLeaves(){
+    /**
+     * Toggle if there should be leaves or not in the tree.
+     */
+    public void toggleLeaves() {
         hasLeaves = !hasLeaves;
-        System.out.println("Tree toggled leaf");
+        canFallLeaves = !canFallLeaves;
     }
 }
  

@@ -289,7 +289,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                 } else if (command.equals("trees --strip")) {
                     output = String.format("Stripped all trees of their leaves in the scenery\n");
                     for (DrawingObject object : drawingObjects) {
-                        if (object instanceof Tree tree){
+                        if (object instanceof Tree tree) {
                             tree.toggleLeaves();
                         }
                     }
