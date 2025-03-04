@@ -92,6 +92,14 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
 
     int leafCounter;
     boolean canSpawnLeaves;
+    boolean hasLeaves;
+    int fallingLeafSpawnRate; // every 100x ms (smallest 1)
+    double[][] TREE_PARAMETERS = {
+        {500.1, 380.1, 6.1, 0, 6, 2},
+        {680.1, 450.1, 7.1, 0, 5, 2},
+        {700.1, 600.1, 8.1, 0, 7, 3},
+        {-20.1, 600.1, 8.1, 0, 7, 1}
+    };
 
     /**
      * Instantiate a SceneCanvas (an extension of JComponent).
@@ -106,6 +114,8 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         leafCounter = 0;
         canSpawnLeaves = false;
         isBuildingsToggled = false;
+        fallingLeafSpawnRate = 5;
+        hasLeaves = true;
 
         drawingObjects = new ArrayList<DrawingObject>();
         ArrayList<DrawingObject> people = new ArrayList<DrawingObject>();
@@ -122,7 +132,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
 
             // Set up the falling leaves.
             leafCounter++;
-            if (leafCounter % 5 == 0 && canSpawnLeaves) {
+            if (leafCounter % fallingLeafSpawnRate == 0 && canSpawnLeaves) {
                 drawingObjects.add(new FallingLeaf(random.nextInt(-200, 1000), 0, GREEN_COLORS[random.nextInt(4)], random.nextDouble() / 4, random.nextInt(20), random.nextInt(10, 20)));
             }
             canSpawnLeaves = false;
@@ -167,13 +177,13 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         drawingObjects.add(new GonzagaHall(-91.6, 97.3));
         drawingObjects.add(new SchmittHall(574.4,23));
 
-        drawingObjects.add(new Tree(timer, true, 500.1, 380.1, 6.1, 0, 6, 2));
-        drawingObjects.add(new Tree(timer, true, 680.1, 450.1, 7.1, 0, 5, 2));
+        drawingObjects.add(new Tree(timer, hasLeaves, TREE_PARAMETERS[0][0], TREE_PARAMETERS[0][1], TREE_PARAMETERS[0][2], (int) TREE_PARAMETERS[0][3], (int) TREE_PARAMETERS[0][4], (int) TREE_PARAMETERS[0][5]));
+        drawingObjects.add(new Tree(timer, hasLeaves, TREE_PARAMETERS[1][0], TREE_PARAMETERS[1][1], TREE_PARAMETERS[1][2], (int) TREE_PARAMETERS[1][3], (int) TREE_PARAMETERS[1][4], (int) TREE_PARAMETERS[1][5]));
         
         // People should be added in this layer [5]
 
-        drawingObjects.add(new Tree(timer, true, 700.1, 600.1, 8.1, 0, 7, 3));
-        drawingObjects.add(new Tree(timer, true, -20.1, 600.1, 8.1, 0, 7, 1));
+        drawingObjects.add(new Tree(timer, hasLeaves, TREE_PARAMETERS[2][0], TREE_PARAMETERS[2][1], TREE_PARAMETERS[2][2], (int) TREE_PARAMETERS[2][3], (int) TREE_PARAMETERS[2][4], (int) TREE_PARAMETERS[2][5]));
+        drawingObjects.add(new Tree(timer, hasLeaves, TREE_PARAMETERS[3][0], TREE_PARAMETERS[3][1], TREE_PARAMETERS[3][2], (int) TREE_PARAMETERS[3][3], (int) TREE_PARAMETERS[3][4], (int) TREE_PARAMETERS[3][5]));
         
         drawingObjects.add(new Bush(-50, 520, 350, 150));
         drawingObjects.add(new Laptop(250, 400, laptopOpened, commandLineOpened, command));
@@ -263,17 +273,17 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                 if (command.equals("help")){
                     output = String.format("Below is a list all commands and their flags to change the scenery:\n");
                     // Building commands
-                    output += String.format("   buildings --toggle\tToggle the perspective of the buildings\n");
-                    // People Commands
-                    output += String.format("   people --more\tIncrease the people spawn rate\n");
-                    output += String.format("   people --less\tDecrease the people spawn rate\n");
+                    output += String.format("   bldg --toggle\tToggle the perspective of the buildings\n");
                     // Trees Commands
-                    output += String.format("   trees --strip\tRemove all leaves on the trees\n");
                     output += String.format("   trees --regrow\tRegrow the trees\n");
-                    output += String.format("   leaves --more\tMore falling leaves\n");
-                    output += String.format("   leaves --less\tLess falling leaves\n");
+                    output += String.format("   leaves --toggle\tToggle all the leaves on the trees\n");
+                    output += String.format("   leaves++\tMore falling leaves\n");
+                    output += String.format("   leaves--\tLess falling leaves\n");
+                    // People Commands
+                    output += String.format("   people++\tIncrease the people spawn rate by 1\n");
+                    output += String.format("   people--\tDecrease the people spawn rate by 1\n");
 
-                } else if (command.equals("buildings --toggle")) {
+                } else if (command.equals("bldg --toggle")) {
                     isBuildingsToggled = !isBuildingsToggled;
                     output = String.format("Toggled Buildings in the scenery\n");
 
@@ -286,13 +296,36 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                         drawingObjects.set(2, new SchmittHall(574.4,23));
                     }
 
-                } else if (command.equals("trees --strip")) {
+                } else if (command.equals("trees --regrow")) {
+                    output = String.format("Regrowing all trees in the scenery\n");
+                    int treeCounter = 0;
+                    for (int i = 0; i < drawingObjects.size(); i++){
+                        if (drawingObjects.get(i) instanceof Tree){
+                            drawingObjects.set(i, new Tree(timer, hasLeaves, TREE_PARAMETERS[treeCounter][0], TREE_PARAMETERS[treeCounter][1], TREE_PARAMETERS[treeCounter][2], (int) TREE_PARAMETERS[treeCounter][3], (int) TREE_PARAMETERS[treeCounter][4], (int) TREE_PARAMETERS[treeCounter][5]));
+                            treeCounter++;
+                        }
+                    }
+
+                } else if (command.equals("leaves --toggle")) {
                     output = String.format("Stripped all trees of their leaves in the scenery\n");
+                    hasLeaves = !hasLeaves;
                     for (DrawingObject object : drawingObjects) {
                         if (object instanceof Tree tree) {
                             tree.toggleLeaves();
                         }
                     }
+
+                } else if (command.equals("leaves++")) {
+                    if (fallingLeafSpawnRate == 1){
+                        output = String.format("Falling leaves spawn rate is already at maximum!\n");
+                    } else {
+                        output = String.format("Increased falling leaves spawn rate\n");
+                        fallingLeafSpawnRate--;
+                    }
+
+                } else if (command.equals("leaves--")) {
+                    output = String.format("Decreased falling leaves spawn rate\n");
+                    fallingLeafSpawnRate++;
                 }
 
                 else {
