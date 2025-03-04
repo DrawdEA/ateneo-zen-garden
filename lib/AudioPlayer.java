@@ -38,15 +38,29 @@ public class AudioPlayer
     private File[] allMusicFiles;
     private LineListener endOfTrackListener;
   
-    // constructor to initialize streams and clip 
+    /**
+     * AudioPlayer constructor to import all the music
+     * 
+     * @param folderPath the relative path TO the folder with music FROM where the AudioPlayer instance was made
+     */
     public AudioPlayer(String folderPath) throws UnsupportedAudioFileException, IOException, LineUnavailableException  { 
         trackNum = 0;
         allMusicFiles = new File(folderPath).listFiles();
         numOfTracks = allMusicFiles.length;
-
+        
         // Shuffle the array with all music
         Collections.shuffle(Arrays.asList(allMusicFiles));
-        // Add the first on the shuffled list to the audio steam
+
+        // If Littleroot Town is in the folder set it as the first song
+        for (int i = 0; i < numOfTracks; i++){
+            if (allMusicFiles[i].getName().equals("Littleroot Town.wav")){
+                File temp = allMusicFiles[0];
+                allMusicFiles[0] = allMusicFiles[i];
+                allMusicFiles[i] = temp;
+            }
+        }
+
+        // Place the first song in the playlist as the 
         audioInputStream = AudioSystem.getAudioInputStream(allMusicFiles[0].getAbsoluteFile());
           
         clip = AudioSystem.getClip(); 
@@ -73,12 +87,20 @@ public class AudioPlayer
 
         clip.addLineListener(endOfTrackListener);
     } 
-  
+    
+    /**
+     * A method to convert microseconds to the more understandable mm:ss format
+     * 
+     * @param microsecond the microseconds that is to be converted to minutes and seconds
+     */
     public String convertToTimestamp(long microsecond){
         int seconds = (int) (microsecond / 1000000);
         return String.format("%d:%2d", seconds/60, seconds%60).replace(" ", "0");
     }
-      
+    
+    /**
+     * A method to start the audio player and play whatever song is in the playlist
+     */
     public void play() {
         status = "play";
         clip.start();
@@ -101,7 +123,10 @@ public class AudioPlayer
             }
         });
     } 
-      
+    
+    /**
+     * A method to pause the audio player and save the current position
+     */
     public void pause()  
     { 
         if (status.equals("paused"))  
@@ -113,7 +138,10 @@ public class AudioPlayer
         clip.stop(); 
         status = "paused"; 
     } 
-      
+    
+    /**
+     * A method to play the current song based on the last saved time
+     */
     public void resume() throws UnsupportedAudioFileException, IOException, LineUnavailableException  { 
         if (status.equals("play")) { 
             return; 
@@ -125,24 +153,60 @@ public class AudioPlayer
         status = "play";
     } 
       
-    // Method to restart the audio 
-    public void restart() throws IOException, LineUnavailableException, UnsupportedAudioFileException { 
-        clip.stop(); 
-        clip.close(); 
-        resetAudioStream(); 
-        currentTimestamp = 0L; 
-        clip.setMicrosecondPosition(0); 
-        this.play(); 
-    } 
-      
-    // Method to stop the audio 
+    /**
+     * A method to stop the current song (different from pause as the pause is stop and save)
+     */
     public void stop() throws UnsupportedAudioFileException, IOException, LineUnavailableException { 
         currentTimestamp = 0L; 
         clip.stop(); 
         clip.close(); 
     } 
       
-    // Method to jump over a specific part 
+    /**
+     * A method to reset the audio stream
+     */ 
+    public void resetAudioStream() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        clip.stop(); 
+        clip.close();
+        audioInputStream = AudioSystem.getAudioInputStream(allMusicFiles[trackNum].getAbsoluteFile()); 
+        clip.open(audioInputStream);
+    } 
+
+    /**
+     * A method to skip to the next song in the playlist
+     */
+    public void skip() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        clip.stop();
+        if (trackNum + 1 == numOfTracks){
+            trackNum = 0;
+        } else {
+            trackNum++;
+        }
+        resetAudioStream();
+        
+        if (status.equals("play"))
+            play();
+    }
+
+    /**
+     * A method to go back to the previous song in the playlist
+     */
+    public void previous() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        clip.stop();
+        if (trackNum == 0){
+            trackNum = numOfTracks - 1;
+        } else {
+            trackNum--;
+        }
+        resetAudioStream();
+
+        if (status.equals("play"))
+            play();
+    }
+
+    /**
+     * A method to jump to a specific timestamp in the song
+     */
     public void jump(long c) throws UnsupportedAudioFileException, IOException, LineUnavailableException { 
         if (c > 0 && c < clip.getMicrosecondLength()) { 
             clip.stop();
@@ -152,39 +216,10 @@ public class AudioPlayer
             this.play(); 
         } 
     } 
-      
-    // Method to reset audio stream 
-    public void resetAudioStream() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        clip.stop(); 
-        clip.close();
-        audioInputStream = AudioSystem.getAudioInputStream(allMusicFiles[trackNum].getAbsoluteFile()); 
-        clip.open(audioInputStream);
-    } 
 
-    // Method to skip to the next song
-    public void skip() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        if (trackNum + 1 == numOfTracks){
-            trackNum = 0;
-        } else {
-            trackNum++;
-        }
-        resetAudioStream();
-        play();
-    }
-
-    // Method to got back to the previous song
-    public void previous() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        clip.stop();
-        if (trackNum == 0){
-            trackNum = numOfTracks - 1;
-        } else {
-            trackNum--;
-        }
-        resetAudioStream();
-        play();
-    }
-
-    // Shuffle all the songs on front of current song
+    /**
+     * A method to shuffle all the songs in front of the currently playing song
+     */
     public void shuffle(){
         // If we are not on the last track then we shuffle
         if (trackNum != numOfTracks - 1){
@@ -205,112 +240,52 @@ public class AudioPlayer
         }
     }
 
+    /**
+     * A method to get the current track length in mm:ss format
+     */
     public String getTrackLength(){
         return convertToTimestamp(clip.getMicrosecondLength());
     }
 
+    /**
+     * A method to get the timestamp of where the player is at on the current song
+     */
     public String getCurrentTrackTime(){
         return convertToTimestamp(clip.getMicrosecondPosition());
     }
 
+    /**
+     * A method to get the completion rate of the currently playing song from 0 to 1
+     */
     public float getCompletionRate() {
         return (float) (clip.getMicrosecondPosition()) / clip.getMicrosecondLength();
     }
 
+    /**
+     * A method to get the name of the current song and remove the .wav file extension
+     */
     public String getName() {
         String fileName = allMusicFiles[trackNum].getName(); 
         return fileName.substring(0, fileName.length()-4);
     }
 
-    public String[] getPlaylist() {
-        String[] playlist = new String[allMusicFiles.length];
+    /**
+     * A method to return the current playlist of music to be played
+     */
+    public String getPlaylist() {
+        String playlist = "";
 
         for (int i = 0; i < allMusicFiles.length; i++) {
             String fileName = allMusicFiles[i].getName();
             String name = fileName.substring(0, fileName.length()-4);
-            playlist[i] = name;
+            
+            if (i == trackNum) { // Add the indicator for the current song
+                playlist += String.format(">\t%d. %s\n", i+1, name);
+            } else {
+                playlist += String.format("\t%d. %s\n", i+1, name);
+            }
         }
 
         return playlist;
     }
-
-    private void gotoChoice(int c) throws IOException, LineUnavailableException, UnsupportedAudioFileException { 
-        switch (c)  
-        { 
-            case 1: 
-                pause(); 
-                break; 
-            case 2: 
-                resume(); 
-                break; 
-            case 3: 
-                restart(); 
-                break; 
-            case 4: 
-                stop(); 
-                break;
-            case 5:
-                skip();
-                break;
-            case 6:
-                previous();
-                break; 
-            case 7: 
-                System.out.println("Enter time (" + 0 +  
-                ", " + clip.getMicrosecondLength() + ")"); 
-                Scanner sc = new Scanner(System.in); 
-                long c1 = sc.nextLong(); 
-                jump(c1); 
-                break;
-            case 8:
-                System.out.println(getCurrentTrackTime() + " -> " + getTrackLength());
-                System.out.printf("%.4f\n", getCompletionRate());
-                break;
-            case 9:
-                for (String song : getPlaylist()) {
-                    System.out.println(song);
-                }
-                break;
-            case 10:
-                shuffle();
-        } 
-    }
-
-    // Main method for testing out the class
-    public static void main(String[] args)  
-    {   
-        try
-        { 
-            AudioPlayer audioPlayer = new AudioPlayer("../assets/music"); 
-              
-            audioPlayer.play(); 
-            Scanner sc = new Scanner(System.in); 
-              
-            while (true) 
-            {
-                System.out.println(audioPlayer.getName());
-                System.out.println("1. pause"); 
-                System.out.println("2. resume"); 
-                System.out.println("3. restart"); 
-                System.out.println("4. stop"); 
-                System.out.println("5. skip"); 
-                System.out.println("6. previous"); 
-                System.out.println("7. jump");
-                System.out.println("8. time stamp"); 
-                System.out.println("9. playlist"); 
-                System.out.println("10. shuffle");
-                int c = sc.nextInt(); 
-                audioPlayer.gotoChoice(c); 
-                if (c == 4) 
-                break; 
-            } 
-            sc.close(); 
-        }  
-          
-        catch (Exception ex) { 
-            System.out.println("Error with playing sound."); 
-            ex.printStackTrace(); 
-        } 
-    } 
-  
 } 

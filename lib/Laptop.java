@@ -332,6 +332,20 @@ public class Laptop implements DrawingObject {
     }
 
     /**
+     * Gives the list of the current playlist and active song
+     */
+    public String getPlaylist(){
+        return musicPlayer.getPlaylist();
+    }
+
+    /**
+     * Shuffles playlist
+     */
+    public void shufflePlaylist(){
+        musicPlayer.shuffle();
+    }
+
+    /**
      * Updates the current command present in the command line.
      */
     public void updateCommand(String c) {
