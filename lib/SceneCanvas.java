@@ -324,8 +324,21 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                     }
 
                 } else if (command.equals("leaves--")) {
-                    output = String.format("Decreased falling leaves spawn rate\n");
                     fallingLeafSpawnRate++;
+                    output = String.format("Decreased falling leaves spawn rate to %d\n", fallingLeafSpawnRate);
+
+                } else if (command.equals("people++")) {
+                    peopleSpawnRate++;
+                    output = String.format("Increased people spawning rate to %d\n", peopleSpawnRate);
+
+                } else if (command.equals("people--")) {
+                    if (peopleSpawnRate == 1) {
+                        peopleSpawnRate++;
+                        output = String.format("People spawning rate is already at its minimum at 1!\n");
+                    } else {
+                        peopleSpawnRate--;
+                        output = String.format("Decreased people spawning rate to %d\n", peopleSpawnRate);
+                    }
                 }
 
                 else {
