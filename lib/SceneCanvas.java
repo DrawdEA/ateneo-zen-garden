@@ -345,7 +345,6 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                 }
             }
             
-
             repaint();
         }
     }

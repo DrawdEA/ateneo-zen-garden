@@ -24,20 +24,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class Laptop implements DrawingObject {
-    private static final int LAPTOP_LENGTH = 300;
-    private static final int LAPTOP_HEIGHT = 180;
-    private static final int BORDER_LENGTH = 5;
-    private static final int NAVBAR_HEIGHT = 25;
-    private static final int KEYBOARD_ANGLE_INCREMENT = 10;
-    private static final int KEYBOARD_HEIGHT = 20;
-    private static final int NAVBAR_PADDING = 2;
-    private static final int BUTTON_Y = 100;
-    private static final int BUTTON_SIZE = 40;
-    private static final int BUTTON_GAP = 50;
-    private static final int PAUSE_X_SIZE = 7;
-    private static final int PAUSE_Y_SIZE = 20;
-    private static final int PAUSE_GAP = 5;
-
     int x;
     int y;
 
@@ -114,173 +100,96 @@ public class Laptop implements DrawingObject {
         }
         
         // Create the framework of the laptop.
-        border = new Rectangle(
-            x, 
-            y, 
-            x + LAPTOP_LENGTH, 
-            y, 
-            x + LAPTOP_LENGTH, 
-            y + LAPTOP_HEIGHT, 
-            x, 
-            y + LAPTOP_HEIGHT, 
-        new Color(51, 51, 51));
-
-        screen = new Rectangle(
-            x + BORDER_LENGTH, 
-            y + NAVBAR_HEIGHT, 
-            x + LAPTOP_LENGTH - BORDER_LENGTH, 
-            y + NAVBAR_HEIGHT, 
-            x + LAPTOP_LENGTH - BORDER_LENGTH,
-            y + LAPTOP_HEIGHT - BORDER_LENGTH * 2, 
-            x + BORDER_LENGTH, 
-            y + LAPTOP_HEIGHT - BORDER_LENGTH * 2, 
-        inCommandLine ? new Color(30,30,30) : new Color(30,215,96));
-
-        keyboard = new Rectangle(
-            x, 
-            y + LAPTOP_HEIGHT,
-            x + LAPTOP_LENGTH, 
-            y + LAPTOP_HEIGHT, 
-            x + LAPTOP_LENGTH + KEYBOARD_ANGLE_INCREMENT, 
-            y + LAPTOP_HEIGHT + KEYBOARD_HEIGHT, 
-            x - KEYBOARD_ANGLE_INCREMENT, 
-            y + LAPTOP_HEIGHT + KEYBOARD_HEIGHT, 
-        isOpen ? new Color(107, 107, 107) : new Color(51, 51, 51));
-
-        commandLineButton = new Rectangle(
-            x + BORDER_LENGTH, 
-            y + BORDER_LENGTH, 
-            x + BORDER_LENGTH + LAPTOP_LENGTH / 2, 
-            y + BORDER_LENGTH, 
-            x + BORDER_LENGTH + LAPTOP_LENGTH / 2,
-            y + NAVBAR_HEIGHT + NAVBAR_PADDING, 
-            x + BORDER_LENGTH, 
-            y + NAVBAR_HEIGHT + NAVBAR_PADDING, 
-        new Color(30,30,30));
-
-        musicButton = new Rectangle(
-            x + LAPTOP_LENGTH / 2, 
-            y + BORDER_LENGTH, 
-            x + LAPTOP_LENGTH - BORDER_LENGTH, 
-            y + BORDER_LENGTH, 
-            x + LAPTOP_LENGTH - BORDER_LENGTH,
-            y + NAVBAR_HEIGHT + NAVBAR_PADDING, 
-            x + LAPTOP_LENGTH / 2, 
-            y + NAVBAR_HEIGHT + NAVBAR_PADDING, 
-        new Color(30,215,96));
+        border = new Rectangle(x, y, x + 300, y, x + 300, y + 180, x, y + 180, new Color(51, 51, 51));
+        screen = new Rectangle(x + 5, y + 25, x + 300 - 5, y + 25, x + 300 - 5, y + 180 - 5 * 2, x + 5, y + 180 - 5 * 2, inCommandLine ? new Color(30,30,30) : new Color(30,215,96));
+        keyboard = new Rectangle(x, y + 180,x + 300, y + 180, x + 300 + 10, y + 180 + 20, x - 10, y + 180 + 20, isOpen ? new Color(107, 107, 107) : new Color(51, 51, 51));
+        commandLineButton = new Rectangle(x + 5, y + 5, x + 5 + 300 / 2, y + 5, x + 5 + 300 / 2, y + 25 + 2, x + 5, y + 25 + 2, new Color(30,30,30));
+        musicButton = new Rectangle(x + 300 / 2, y + 5, x + 300 - 5, y + 5, x + 300 - 5, y + 25 + 2, x + 300 / 2, y + 25 + 2, new Color(30,215,96));
 
         // Marker on the song timeline.
-        outerMarker = new Circle(
-            0, 
-            y + BORDER_LENGTH + BUTTON_Y - 20 - 4, 
-        12, new Color(30,30,30));
-        innerMarker = new Circle(
-            0, 
-            y + BORDER_LENGTH + BUTTON_Y - 20 - 2, 
-        8, Color.WHITE);
-
-        songTimeLine = new RoundedLine(
-            x + LAPTOP_LENGTH / 8, 
-            y + BORDER_LENGTH + BUTTON_Y - 20, 
-            x + LAPTOP_LENGTH * 7 / 8, 
-            y + BORDER_LENGTH + BUTTON_Y - 20, 
-            5, 
-        new Color(30,30,30));
-
-        playButton = new Circle(
-            x + LAPTOP_LENGTH / 2 - BUTTON_SIZE / 2, 
-            y + BORDER_LENGTH + BUTTON_Y, 
-            BUTTON_SIZE, 
-        new Color(30,30,30));
-
-        leftButton = new Circle(
-            x + LAPTOP_LENGTH / 2 - BUTTON_SIZE / 2 - BUTTON_GAP, 
-            y + BORDER_LENGTH + BUTTON_Y, 
-            BUTTON_SIZE, 
-        new Color(30,215,96));
-
-        rightButton = new Circle(
-            x + LAPTOP_LENGTH / 2 - BUTTON_SIZE / 2 + BUTTON_GAP, 
-            y + BORDER_LENGTH + BUTTON_Y, 
-            BUTTON_SIZE, 
-        new Color(30,215,96));
-
+        outerMarker = new Circle(0, y + 5 + 100 - 20 - 4, 12, new Color(30,30,30));
+        innerMarker = new Circle(0, y + 5 + 100 - 20 - 2, 8, Color.WHITE);
+        songTimeLine = new RoundedLine(x + 300 / 8, y + 5 + 100 - 20, x + 300 * 7 / 8, y + 5 + 100 - 20, 5, new Color(30,30,30));
+        playButton = new Circle(x + 300 / 2 - 40 / 2, y + 5 + 100, 40, new Color(30,30,30));
+        leftButton = new Circle(x + 300 / 2 - 40 / 2 - 50, y + 5 + 100, 40, new Color(30,215,96));
+        rightButton = new Circle(x + 300 / 2 - 40 / 2 + 50, y + 5 + 100, 40, new Color(30,215,96));
+        
         leftPause = new Rectangle(
-            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP, 
-            y + BORDER_LENGTH + BUTTON_Y - PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
-            x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 - PAUSE_GAP, 
-            y + BORDER_LENGTH + BUTTON_Y - PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
-            x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 - PAUSE_GAP, 
-            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
-            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP, 
-            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+            x + 300 / 2 - 7 / 2 - 5, 
+            y + 5 + 100 - 20 / 2 + 40 / 2, 
+            x + 300 / 2 + 7 / 2 - 5, 
+            y + 5 + 100 - 20 / 2 + 40 / 2, 
+            x + 300 / 2 + 7 / 2 - 5, 
+            y + 5 + 100 + 20 / 2 + 40 / 2, 
+            x + 300 / 2 - 7 / 2 - 5, 
+            y + 5 + 100 + 20 / 2 + 40 / 2, 
         Color.WHITE);
 
         rightPause = new Rectangle(
-            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 + PAUSE_GAP, 
-            y + BORDER_LENGTH + BUTTON_Y - PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
-            x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 + PAUSE_GAP, 
-            y + BORDER_LENGTH + BUTTON_Y - PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
-            x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 + PAUSE_GAP, 
-            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
-            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 + PAUSE_GAP, 
-            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+            x + 300 / 2 - 7 / 2 + 5, 
+            y + 5 + 100 - 20 / 2 + 40 / 2, 
+            x + 300 / 2 + 7 / 2 + 5, 
+            y + 5 + 100 - 20 / 2 + 40 / 2, 
+            x + 300 / 2 + 7 / 2 + 5, 
+            y + 5 + 100 + 20 / 2 + 40 / 2, 
+            x + 300 / 2 - 7 / 2 + 5, 
+            y + 5 + 100 + 20 / 2 + 40 / 2, 
         Color.WHITE);
 
         stop = new Triangle(
-            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP, 
-            y + BORDER_LENGTH + BUTTON_Y - PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
-            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP, 
-            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
-            x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 + PAUSE_GAP + 4, 
-            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 4, 
+            x + 300 / 2 - 7 / 2 - 5, 
+            y + 5 + 100 - 20 / 2 + 40 / 2, 
+            x + 300 / 2 - 7 / 2 - 5, 
+            y + 5 + 100 + 20 / 2 + 40 / 2, 
+            x + 300 / 2 + 7 / 2 + 5 + 4, 
+            y + 5 + 100 + 20 / 2 + 40 / 4, 
         Color.WHITE);
 
         lowerLeftArrow = new Line(
-            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP - 49, 
-            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 4, 
-            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP - 39, 
-            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+            x + 300 / 2 - 7 / 2 - 5 - 49, 
+            y + 5 + 100 + 20 / 2 + 40 / 4, 
+            x + 300 / 2 - 7 / 2 - 5 - 39, 
+            y + 5 + 100 + 20 / 2 + 40 / 2, 
             5, 
         new Color(30,30,30));
 
         upperLeftArrow = new Line(
-            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP - 49, 
-            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 4, 
-            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP - 39, 
-            y + BORDER_LENGTH + BUTTON_Y - PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+            x + 300 / 2 - 7 / 2 - 5 - 49, 
+            y + 5 + 100 + 20 / 2 + 40 / 4, 
+            x + 300 / 2 - 7 / 2 - 5 - 39, 
+            y + 5 + 100 - 20 / 2 + 40 / 2, 
             5, 
         new Color(30,30,30));
 
         barLeftArrow = new RoundedLine(
-            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP - 49 - 8, 
-            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE + BUTTON_SIZE / 4, 
-            x + LAPTOP_LENGTH / 2 - PAUSE_X_SIZE / 2 - PAUSE_GAP - 49 - 8, 
-            y + BORDER_LENGTH + BUTTON_Y - PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+            x + 300 / 2 - 7 / 2 - 5 - 49 - 8, 
+            y + 5 + 100 + 20 + 40 / 4, 
+            x + 300 / 2 - 7 / 2 - 5 - 49 - 8, 
+            y + 5 + 100 - 20 / 2 + 40 / 2, 
             5,
         new Color(30,30,30));
 
         lowerRightArrow = new Line(
-            x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 + PAUSE_GAP + 49, 
-            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 4, 
-            x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 + PAUSE_GAP + 39, 
-            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+            x + 300 / 2 + 7 / 2 + 5 + 49, 
+            y + 5 + 100 + 20 / 2 + 40 / 4, 
+            x + 300 / 2 + 7 / 2 + 5 + 39, 
+            y + 5 + 100 + 20 / 2 + 40 / 2, 
             5,
         new Color(30,30,30));
 
         barRightArrow = new RoundedLine(
-            x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 + PAUSE_GAP + 49 + 4, 
-            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE + BUTTON_SIZE / 4, 
-            x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 + PAUSE_GAP + 49 + 4, 
-            y + BORDER_LENGTH + BUTTON_Y - PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+            x + 300 / 2 + 7 / 2 + 5 + 49 + 4, 
+            y + 5 + 100 + 20 + 40 / 4, 
+            x + 300 / 2 + 7 / 2 + 5 + 49 + 4, 
+            y + 5 + 100 - 20 / 2 + 40 / 2, 
             5,
         new Color(30,30,30));
 
         upperRightArrow = new Line(
-            x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 + PAUSE_GAP + 49, 
-            y + BORDER_LENGTH + BUTTON_Y + PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 4, 
-            x + LAPTOP_LENGTH / 2 + PAUSE_X_SIZE / 2 + PAUSE_GAP + 39, 
-            y + BORDER_LENGTH + BUTTON_Y - PAUSE_Y_SIZE / 2 + BUTTON_SIZE / 2, 
+            x + 300 / 2 + 7 / 2 + 5 + 49, 
+            y + 5 + 100 + 20 / 2 + 40 / 4, 
+            x + 300 / 2 + 7 / 2 + 5 + 39, 
+            y + 5 + 100 - 20 / 2 + 40 / 2, 
             5, 
         new Color(30,30,30));
     }
@@ -315,14 +224,14 @@ public class Laptop implements DrawingObject {
                 g2d.setColor(new Color(30,30,30));
                 g2d.setFont(avenir.deriveFont(Font.BOLD, 35f));
                 g2d.setFont(avenir.deriveFont(Font.BOLD, 15f));
-                g2d.drawString(musicPlayer.getName(), x + LAPTOP_LENGTH / 9, y + BORDER_LENGTH + BUTTON_Y - 45);
-                g2d.drawString(musicPlayer.getCurrentTrackTime(), x + LAPTOP_LENGTH / 9, y + BORDER_LENGTH + BUTTON_Y + 25);
-                g2d.drawString(musicPlayer.getTrackLength(),  x + LAPTOP_LENGTH * 7 / 9, y + BORDER_LENGTH + BUTTON_Y + 25);
+                g2d.drawString(musicPlayer.getName(), x + 300 / 9, y + 5 + 100 - 45);
+                g2d.drawString(musicPlayer.getCurrentTrackTime(), x + 300 / 9, y + 5 + 100 + 25);
+                g2d.drawString(musicPlayer.getTrackLength(),  x + 300 * 7 / 9, y + 5 + 100 + 25);
 
                 songTimeLine.draw(g2d);
                 
-                outerMarker.setX(x + LAPTOP_LENGTH / 8 + (int) (LAPTOP_LENGTH * 6/8 * musicPlayer.getCompletionRate()) - 6);
-                innerMarker.setX(x + LAPTOP_LENGTH / 8 + (int) (LAPTOP_LENGTH * 6/8 * musicPlayer.getCompletionRate()) - 4);
+                outerMarker.setX(x + 300 / 8 + (int) (300 * 6/8 * musicPlayer.getCompletionRate()) - 6);
+                innerMarker.setX(x + 300 / 8 + (int) (300 * 6/8 * musicPlayer.getCompletionRate()) - 4);
                 outerMarker.draw(g2d);
                 innerMarker.draw(g2d);
                 
@@ -356,13 +265,13 @@ public class Laptop implements DrawingObject {
         isOpen = !isOpen;
         keyboard = new Rectangle(
             x, 
-            y + LAPTOP_HEIGHT,
-            x + LAPTOP_LENGTH, 
-            y + LAPTOP_HEIGHT, 
-            x + LAPTOP_LENGTH + KEYBOARD_ANGLE_INCREMENT, 
-            y + LAPTOP_HEIGHT + KEYBOARD_HEIGHT, 
-            x - KEYBOARD_ANGLE_INCREMENT, 
-            y + LAPTOP_HEIGHT + KEYBOARD_HEIGHT, 
+            y + 180,
+            x + 300, 
+            y + 180, 
+            x + 300 + 10, 
+            y + 180 + 20, 
+            x - 10, 
+            y + 180 + 20, 
         isOpen ? new Color(107, 107, 107) : new Color(51, 51, 51));
     }
 
@@ -374,14 +283,14 @@ public class Laptop implements DrawingObject {
     public void goToMusic(boolean t) {
         inCommandLine = !t;
         screen = new Rectangle(
-            x + BORDER_LENGTH, 
-            y + NAVBAR_HEIGHT, 
-            x + LAPTOP_LENGTH - BORDER_LENGTH, 
-            y + NAVBAR_HEIGHT, 
-            x + LAPTOP_LENGTH - BORDER_LENGTH,
-            y + LAPTOP_HEIGHT - BORDER_LENGTH * 2, 
-            x + BORDER_LENGTH, 
-            y + LAPTOP_HEIGHT - BORDER_LENGTH * 2, 
+            x + 5, 
+            y + 25, 
+            x + 300 - 5, 
+            y + 25, 
+            x + 300 - 5,
+            y + 180 - 5 * 2, 
+            x + 5, 
+            y + 180 - 5 * 2, 
         inCommandLine ? new Color(30,30,30) : new Color(30,215,96));
     }
 

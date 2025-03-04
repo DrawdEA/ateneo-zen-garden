@@ -22,7 +22,7 @@ package lib;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class Circle implements DrawingObject, DetectableObject {
+public class Circle implements DrawingObject, DetectableObject, MovableObject {
     double x;
     double y;
     double size;
