@@ -277,8 +277,9 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         if (laptopOpened) {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) { // In case enter, clear out the command and execute it if it belongs to one of the correct ones.
                 String output;
-                command = command.toLowerCase().strip();
+                command = command.toLowerCase().strip(); // clean up the command string and make it uniform
                 
+                // help command to display all accepted commands
                 if (command.equals("help")){
                     output = String.format("Below is a list all commands and their flags to change the scenery:\n");
                     // Building commands
@@ -286,12 +287,17 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                     // Trees Commands
                     output += String.format("   trees --regrow\tRegrow the trees\n");
                     output += String.format("   leaves --toggle\tToggle all the leaves on the trees\n");
-                    output += String.format("   leaves++\tMore falling leaves\n");
-                    output += String.format("   leaves--\tLess falling leaves\n");
+                    output += String.format("   leaves++\t\tMore falling leaves\n");
+                    output += String.format("   leaves--\t\tLess falling leaves\n");
                     // People Commands
-                    output += String.format("   people++\tIncrease the people spawn rate by 1\n");
-                    output += String.format("   people--\tDecrease the people spawn rate by 1\n");
+                    output += String.format("   people++\t\tIncrease the people spawn rate by 1\n");
+                    output += String.format("   people--\t\tDecrease the people spawn rate by 1\n");
+                    // Music Commands
+                    output += String.format("   music --playlist\tIncrease the people spawn rate by 1\n");
+                    output += String.format("   music --shuffle\tDecrease the people spawn rate by 1\n");
 
+
+                // Building Commands
                 } else if (command.equals("bldg --toggle")) {
                     isBuildingsToggled = !isBuildingsToggled;
                     output = String.format("Toggled Buildings in the scenery\n");
@@ -305,6 +311,8 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                         drawingObjects.set(2, new SchmittHall(574.4,23));
                     }
 
+
+                // Trees Commands
                 } else if (command.equals("trees --regrow")) {
                     output = String.format("Regrowing all trees in the scenery\n");
                     int treeCounter = 0;
@@ -324,6 +332,8 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                         }
                     }
 
+
+                // Leaves Commands
                 } else if (command.equals("leaves++")) {
                     if (fallingLeafSpawnRate == 1){
                         output = String.format("Falling leaves spawn rate is already at maximum!\n");
@@ -336,6 +346,8 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                     fallingLeafSpawnRate++;
                     output = String.format("Decreased falling leaves spawn rate to %d\n", fallingLeafSpawnRate);
 
+
+                // People Commands
                 } else if (command.equals("people++")) {
                     peopleSpawnRate++;
                     output = String.format("Increased people spawning rate to %d\n", peopleSpawnRate);
@@ -348,9 +360,20 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                         peopleSpawnRate--;
                         output = String.format("Decreased people spawning rate to %d\n", peopleSpawnRate);
                     }
-                }
 
-                else {
+
+                // Music Commands
+                } else if (command.equals("music --playlist")) {
+                    output = String.format("Your current playlist is:\n");
+                    output += String.format("  %s", getLaptop().getPlaylist());
+
+                } else if (command.equals("music --shuffle")) {
+                    getLaptop().shufflePlaylist();
+                    output = String.format("Playlist has been shuffled!");
+
+
+                // Set warning for unknown commands
+                } else {
                     output = String.format("Unknown command: \"%s\"\n",command);
                 }
 
@@ -391,7 +414,6 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                 }
             }
             
-
             repaint();
         }
     }

@@ -18,7 +18,7 @@
  * of our program.
  */
 
- package lib;
+package lib;
 import java.awt.*;
 
 public class Background implements DrawingObject {
