@@ -43,10 +43,20 @@ public class AudioPlayer
         trackNum = 0;
         allMusicFiles = new File(folderPath).listFiles();
         numOfTracks = allMusicFiles.length;
-
+        
         // Shuffle the array with all music
         Collections.shuffle(Arrays.asList(allMusicFiles));
-        // Add the first on the shuffled list to the audio steam
+
+        // If Littleroot Town is in the folder set it as the first song
+        for (int i = 0; i < numOfTracks; i++){
+            if (allMusicFiles[i].getName().equals("Littleroot Town.wav")){
+                File temp = allMusicFiles[0];
+                allMusicFiles[0] = allMusicFiles[i];
+                allMusicFiles[i] = temp;
+            }
+        }
+
+        // Place the first song in the playlist as the 
         audioInputStream = AudioSystem.getAudioInputStream(allMusicFiles[0].getAbsoluteFile());
           
         clip = AudioSystem.getClip(); 
