@@ -74,7 +74,15 @@ public class Laptop implements DrawingObject {
 
     AudioPlayer musicPlayer;
 
-    // Instantiates a laptop object.
+    /**
+     * Instantiates a laptop object.
+     * 
+     * @param x1 x-axis anchor of the laptop
+     * @param y1 y-axis anchor of the laptop
+     * @param iO boolean if the laptop is open or not
+     * @param iCL boolean if the laptop is in the command line or not
+     * @param t the current command typed in the laptop
+     */
     public Laptop(int x1, int y1, boolean iO, boolean iCL, String t) {
         isOpen = iO;
         inCommandLine = iCL;
@@ -277,7 +285,9 @@ public class Laptop implements DrawingObject {
         new Color(30,30,30));
     }
 
-    // Draws the laptop object in the correct order. The way it is drawn depends on its activated states.
+    /**
+     * Draws the laptop object in the correct order. The way it is drawn depends on its activated states.
+     */
     @Override
     public void draw(Graphics2D g2d) {
         if (isOpen) {
@@ -339,7 +349,9 @@ public class Laptop implements DrawingObject {
         keyboard.draw(g2d);
     }
 
-    // Toggles the open and close state of the laptop.
+    /**
+     * Toggles the open and close state of the laptop.
+     */
     public void toggleOpen() {
         isOpen = !isOpen;
         keyboard = new Rectangle(
@@ -354,7 +366,11 @@ public class Laptop implements DrawingObject {
         isOpen ? new Color(107, 107, 107) : new Color(51, 51, 51));
     }
 
-    // Toggles the tab between music and command line.
+    /**
+     * Toggles the tab between music and command line.
+     * 
+     * @param t boolean if it will go to music or not
+     */
     public void goToMusic(boolean t) {
         inCommandLine = !t;
         screen = new Rectangle(
@@ -369,7 +385,9 @@ public class Laptop implements DrawingObject {
         inCommandLine ? new Color(30,30,30) : new Color(30,215,96));
     }
 
-    // Handles the pause and play of the music.
+    /**
+     * Handles the pause and play of the music.
+     */
     public void toggleMusic() {
         if (isMusicPlaying){
             musicPlayer.pause();
@@ -380,7 +398,9 @@ public class Laptop implements DrawingObject {
         isMusicPlaying = !isMusicPlaying;
     }
 
-    // Goes to the previous music in the playlist.
+    /**
+     * Goes to the previous music in the playlist.
+     */
     public void playPreviousMusic() {
         try {
             musicPlayer.previous();
@@ -390,7 +410,9 @@ public class Laptop implements DrawingObject {
         }
     }
 
-    // Goes to the next music in the playlist.
+    /**
+     * Goes to the next music in the playlist.
+     */
     public void playNextMusic() {
         try {
             musicPlayer.skip();
@@ -400,33 +422,74 @@ public class Laptop implements DrawingObject {
         }
     }
 
-    // Updates the current command present in the command line.
+    /**
+     * Updates the current command present in the command line.
+     */
     public void updateCommand(String c) {
         command = c;
     }
-
-    // Checks if the point is in the command line button.
+    
+    /**
+     * Checks if the point is in the command line button.
+     * 
+     * @param x x value of the point
+     * @param y y value of the point
+     * @return boolean if it is inside or not
+     */
     public boolean isInCommandLineButton(int x, int y) {
         return commandLineButton.isWithin(x, y);
     }
 
-    // Checks if the point is in the music button.
+    /**
+     * Checks if the point is in the music button.
+     * 
+     * @param x x value of the point
+     * @param y y value of the point
+     * @return boolean if it is inside or not
+     */
     public boolean isInMusicButton(int x, int y) {
         return musicButton.isWithin(x, y);
     }
 
-    // Checks if the point is in the play button.
+    /**
+     * Checks if the point is in the play button.
+     * 
+     * @param x x value of the point
+     * @param y y value of the point
+     * @return boolean if it is inside or not
+     */
     public boolean isInPlayButton(int x, int y) {
         return playButton.isWithin(x, y);
     }
 
-    // Checks if the point is in the left button.
+    /**
+     * Checks if the point is in the left button.
+     * 
+     * @param x x value of the point
+     * @param y y value of the point
+     * @return boolean if it is inside or not
+     */
     public boolean isInLeftButton(int x, int y) {
         return leftButton.isWithin(x, y);
     }
 
-    // Checks if the point is in the right button.
+    /**
+     * Checks if the point is in the right button.
+     * 
+     * @param x x value of the point
+     * @param y y value of the point
+     * @return boolean if it is inside or not
+     */
     public boolean isInRightButton(int x, int y) {
         return rightButton.isWithin(x, y);
+    }
+
+    /**
+     * Checks if the laptop is in the command line tab.
+     * 
+     * @return whether or not the laptop is in the command line.
+     */
+    public boolean isInCommandLineTab() {
+        return inCommandLine;
     }
 }

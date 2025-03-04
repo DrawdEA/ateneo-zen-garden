@@ -22,5 +22,12 @@
 package lib;
 
 public interface DetectableObject {
+    /**
+     * Checks if a point is within the object.
+     * 
+     * @param x x-axis of the point
+     * @param y y-axis of the point
+     * @return returns whether or not the point is within the shape.
+     */
     boolean isWithin(int x, int y);
 }

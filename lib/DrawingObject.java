@@ -22,5 +22,10 @@ package lib;
 import java.awt.*;
 
 public interface DrawingObject {
+    /**
+     * Draws the instantiated/to be instantiated object/s in the class.
+     * 
+     * @param g2d the Graphics2D of SceneCanvas
+     */
     void draw(Graphics2D g2d);
 }

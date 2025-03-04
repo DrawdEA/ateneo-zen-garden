@@ -27,19 +27,8 @@ import javax.swing.Timer;
 
 
 public class SceneCanvas extends JComponent implements KeyListener, MouseListener {
-    ArrayList<DrawingObject> drawingObjects;
-    Timer timer;
-
-    // Laptop commandline related fields
     private static final int MAX_LETTERS = 20;
-    boolean laptopOpened;
-    boolean commandLineOpened;
-    String command;
-    boolean isBuildingsToggled;
-
-    Random random = new Random();
-
-    int peopleSpawnRate;
+    
     final double[][] PATH_PARAMETERS = {
         // {x,y,scale}
         {-80, 365, 0.3}, // Down Left Gonz Exit connects to [1]
@@ -83,21 +72,35 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         new Color(255,217,33)
     };
 
-    private static final Color[] GREEN_COLORS = {
+    final Color[] GREEN_COLORS = {
         new Color(15, 58, 42), 
         new Color(25, 89, 51),
         new Color(13, 48, 44),
         new Color(23, 112, 73)
     };
 
+    ArrayList<DrawingObject> drawingObjects;
+    Timer timer;
+
+    // Laptop commandline related fields
+    boolean laptopOpened;
+    boolean commandLineOpened;
+    String command;
+    boolean isBuildingsToggled;
+
+    Random random = new Random();
+
+    int peopleSpawnRate;
+
     int leafCounter;
     boolean canSpawnLeaves;
+
+    boolean initializedCanvas = false;
+    int peopleSpawnerTimerLoopCounter = 5;
 
     /**
      * Instantiate a SceneCanvas (an extension of JComponent).
      */
-    boolean initializedCanvas = false;
-    int peopleSpawnerTimerLoopCounter = 5;
     public SceneCanvas() {
         laptopOpened = false;
         commandLineOpened = true;
@@ -122,7 +125,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
 
             // Set up the falling leaves.
             leafCounter++;
-            if (leafCounter % 5 == 0 && canSpawnLeaves) {
+            if (leafCounter % 3 == 0 && canSpawnLeaves) {
                 drawingObjects.add(new FallingLeaf(random.nextInt(-200, 1000), 0, GREEN_COLORS[random.nextInt(4)], random.nextDouble() / 4, random.nextInt(20), random.nextInt(10, 20)));
             }
             canSpawnLeaves = false;
@@ -229,7 +232,9 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         return null;
     }
 
-    // Methods for the laptop.
+    /**
+     * Toggles the laptop.
+     */
     public void toggleLaptop() {
         laptopOpened = !laptopOpened;
         // Find the Laptop object and update its state
@@ -239,7 +244,9 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         this.requestFocusInWindow();
     }
 
-    // Checks for backspace input. Used for the laptop command line interface.
+    /**
+     * Checks for backspace input. Used for the laptop command line interface.
+     */
     @Override
     public void keyTyped(KeyEvent e) {
         if (laptopOpened) {
@@ -252,7 +259,9 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         repaint();
     }
 
-    // Checks for enter and letter input. Used for the laptop command line interface.
+    /**
+     * Checks for enter and letter input. Used for the laptop command line interface.
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         if (laptopOpened) {
@@ -312,7 +321,9 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         }
     }
 
-    // Checks for clicks in the music player.
+    /**
+     * Checks for clicks in the music player.
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         if (laptopOpened) {
@@ -322,14 +333,18 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
             if (getLaptop().isInCommandLineButton(mouseX, mouseY)) {
                 getLaptop().goToMusic(false);
             } else if (getLaptop().isInMusicButton(mouseX, mouseY)) {
-                getLaptop().goToMusic(true);
-            } else if (getLaptop().isInPlayButton(mouseX, mouseY)) {
-                getLaptop().toggleMusic();
-            } else if (getLaptop().isInLeftButton(mouseX, mouseY)) {
-                getLaptop().playPreviousMusic();
-            } else if (getLaptop().isInRightButton(mouseX, mouseY)) {
-                getLaptop().playNextMusic();
+                getLaptop().goToMusic(true);   
             }
+            if (!getLaptop().isInCommandLineTab()) {
+                if (getLaptop().isInPlayButton(mouseX, mouseY)) {
+                    getLaptop().toggleMusic();
+                } else if (getLaptop().isInLeftButton(mouseX, mouseY)) {
+                    getLaptop().playPreviousMusic();
+                } else if (getLaptop().isInRightButton(mouseX, mouseY)) {
+                    getLaptop().playNextMusic();
+                }
+            }
+            
 
             repaint();
         }
