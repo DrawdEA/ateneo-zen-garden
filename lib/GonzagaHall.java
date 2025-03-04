@@ -88,13 +88,13 @@ public class GonzagaHall implements DrawingObject {
         // Set up the windows.
         windows = new ArrayList<Rectangle>();
         for (int i = 0; i < 5; i++) {
-            windows.add(new Rectangle(x + 25.8 + i * 80, y + 24.8, 86.5, 41.2, new Color(148, 212, 228)));
-            windows.add(new Rectangle(x + 25.8 + i * 80, y + 66, 86.5, 25.9, new Color(221, 90, 48)));
-            windows.add(new Rectangle(x + 25.8 + i * 80, y + 66, 86.5, 5, new Color(181, 133, 68)));
+            windows.add(new Rectangle(x + 25.8 + i * 113, y + 24.8, 86.5, 41.2, new Color(148, 212, 228)));
+            windows.add(new Rectangle(x + 25.8 + i * 113, y + 66, 86.5, 25.9, new Color(221, 90, 48)));
+            windows.add(new Rectangle(x + 25.8 + i * 113, y + 66, 86.5, 5, new Color(181, 133, 68)));
 
-            windows.add(new Rectangle(x + 25.8 + i * 80, y + 24.8 + 113, 86.5, 41.2, new Color(148, 212, 228)));
-            windows.add(new Rectangle(x + 25.8 + i * 80, y + 66 + 113, 86.5, 25.9, new Color(221, 90, 48)));
-            windows.add(new Rectangle(x + 25.8 + i * 80, y + 66 + 113, 86.5, 5, new Color(181, 133, 68)));
+            windows.add(new Rectangle(x + 25.8 + i * 113, y + 24.8 + 80, 86.5, 41.2, new Color(148, 212, 228)));
+            windows.add(new Rectangle(x + 25.8 + i * 113, y + 66 + 80, 86.5, 25.9, new Color(221, 90, 48)));
+            windows.add(new Rectangle(x + 25.8 + i * 113, y + 66 + 80, 86.5, 5, new Color(181, 133, 68)));
         }
 
         // Set up the pillars.
