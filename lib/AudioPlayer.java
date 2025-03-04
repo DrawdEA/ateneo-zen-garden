@@ -169,7 +169,9 @@ public class AudioPlayer
             trackNum++;
         }
         resetAudioStream();
-        play();
+        
+        if (status.equals("play"))
+            play();
     }
 
     // Method to got back to the previous song
@@ -233,84 +235,4 @@ public class AudioPlayer
 
         return playlist;
     }
-
-    private void gotoChoice(int c) throws IOException, LineUnavailableException, UnsupportedAudioFileException { 
-        switch (c)  
-        { 
-            case 1: 
-                pause(); 
-                break; 
-            case 2: 
-                resume(); 
-                break; 
-            case 3: 
-                restart(); 
-                break; 
-            case 4: 
-                stop(); 
-                break;
-            case 5:
-                skip();
-                break;
-            case 6:
-                previous();
-                break; 
-            case 7: 
-                System.out.println("Enter time (" + 0 +  
-                ", " + clip.getMicrosecondLength() + ")"); 
-                Scanner sc = new Scanner(System.in); 
-                long c1 = sc.nextLong(); 
-                jump(c1); 
-                break;
-            case 8:
-                System.out.println(getCurrentTrackTime() + " -> " + getTrackLength());
-                System.out.printf("%.4f\n", getCompletionRate());
-                break;
-            case 9:
-                for (String song : getPlaylist()) {
-                    System.out.println(song);
-                }
-                break;
-            case 10:
-                shuffle();
-        } 
-    }
-
-    // Main method for testing out the class
-    public static void main(String[] args)  
-    {   
-        try
-        { 
-            AudioPlayer audioPlayer = new AudioPlayer("../assets/music"); 
-              
-            audioPlayer.play(); 
-            Scanner sc = new Scanner(System.in); 
-              
-            while (true) 
-            {
-                System.out.println(audioPlayer.getName());
-                System.out.println("1. pause"); 
-                System.out.println("2. resume"); 
-                System.out.println("3. restart"); 
-                System.out.println("4. stop"); 
-                System.out.println("5. skip"); 
-                System.out.println("6. previous"); 
-                System.out.println("7. jump");
-                System.out.println("8. time stamp"); 
-                System.out.println("9. playlist"); 
-                System.out.println("10. shuffle");
-                int c = sc.nextInt(); 
-                audioPlayer.gotoChoice(c); 
-                if (c == 4) 
-                break; 
-            } 
-            sc.close(); 
-        }  
-          
-        catch (Exception ex) { 
-            System.out.println("Error with playing sound."); 
-            ex.printStackTrace(); 
-        } 
-    } 
-  
 } 
