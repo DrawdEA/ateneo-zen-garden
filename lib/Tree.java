@@ -40,6 +40,8 @@ import javax.swing.Timer;
         "F[+X][-X]F[-X]+X" // Equally branched-out tree.
     };
 
+    public boolean canFallLeaves;
+
     Double x;
     Double y;
     int iterations;
@@ -107,15 +109,21 @@ import javax.swing.Timer;
         iterations = startingGrowth;
         length = len;
         maxGrowth = max;
+        canFallLeaves = false;
 
         // Set up the starting word.
         word = "-X";
 
         // Set a timer for growth.
         timer.addActionListener(e -> {
-            if (iterations < maxGrowth && random.nextInt(3) == 0 && timerLoopCounter % 5 == 0) {
+            if (iterations < maxGrowth && random.nextInt(10) == 0 && timerLoopCounter % 5 == 0) {
                 iterations++;
                 timerLoopCounter = 1;
+
+                // Toggle leaf falling if it has reached max growth.
+                if (iterations >= 7) {
+                    canFallLeaves = true;
+                }
             }
             timerLoopCounter++;
         });

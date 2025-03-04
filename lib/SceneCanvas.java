@@ -91,6 +91,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
     };
 
     int leafCounter;
+    boolean canSpawnLeaves;
 
     /**
      * Instantiate a SceneCanvas (an extension of JComponent).
@@ -103,28 +104,29 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         command = "";
         peopleSpawnRate = 1;
         leafCounter = 0;
+        canSpawnLeaves = false;
         isBuildingsToggled = false;
 
         drawingObjects = new ArrayList<DrawingObject>();
         ArrayList<DrawingObject> people = new ArrayList<DrawingObject>();
 
-        // Add timer object to continuously update the drawings.
-        timer = new Timer(200, e -> {
-            leafCounter++;
-            if (leafCounter == 5) {
-                leafCounter = 0;
-                drawingObjects.add(new FallingLeaf(random.nextDouble() * 800, 0, GREEN_COLORS[random.nextInt(4)], random.nextDouble() / 4, random.nextInt(7), random.nextInt(10, 20)));
-            }
-            
-            for (int i = 0; i < peopleSpawnRate; i++) {
-                int spawnPoint = random.nextInt(PATH_PARAMETERS.length - 1); // Since people cannot spawn on the cross road
-                int connectedPathIndex = random.nextInt(CONNECTED_PATH[spawnPoint].length);
-                int connectedPath = CONNECTED_PATH[spawnPoint][connectedPathIndex];
-                Color shirtColor = SHIRT_COLORS[random.nextInt(SHIRT_COLORS.length)];
-                Color skinColor = SKIN_COLORS[random.nextInt(SKIN_COLORS.length)];
-                Color pantsColor = PANTS_COLORS[random.nextInt(PANTS_COLORS.length)];
-                int speed = random.nextInt(10, 30);
         timer = new Timer(100, e -> {
+            // Checks if there is a tree with max growth.
+            for (DrawingObject object : drawingObjects) {
+                if (object instanceof Tree tree){
+                    if (tree.canFallLeaves) { 
+                        canSpawnLeaves = true; 
+                    };
+                }
+            }
+
+            // Set up the falling leaves.
+            leafCounter++;
+            if (leafCounter % 5 == 0 && canSpawnLeaves) {
+                drawingObjects.add(new FallingLeaf(random.nextInt(-200, 1000), 0, GREEN_COLORS[random.nextInt(4)], random.nextDouble() / 4, random.nextInt(20), random.nextInt(10, 20)));
+            }
+            canSpawnLeaves = false;
+
             if (peopleSpawnerTimerLoopCounter % 40 == 0){ // Every 4 seconds generate a new person
                 for (int i = 0; i < peopleSpawnRate; i++) {
                     int spawnPoint = random.nextInt(PATH_PARAMETERS.length - 1); // Since people cannot spawn on the cross road

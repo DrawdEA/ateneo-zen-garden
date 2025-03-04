@@ -45,14 +45,8 @@ public class FallingLeaf implements DrawingObject {
         fallingXIncrement = fX;
         fallingYIncrement = fY;
         
-
         random = new Random();
         state = random.nextInt(8);
-
-        timer = new Timer(100, e -> {
-            System.out.println(state);
-        });
-        timer.start();
     }
 
     public void draw(Graphics2D g2d) {
