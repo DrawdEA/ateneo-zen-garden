@@ -24,10 +24,6 @@ import java.util.*;
 import java.io.*;
 
 public class GonzagaHall implements DrawingObject {
-    public static final double WINDOW_Y_GAP = 80;
-    public static final double WINDOW_X_GAP = 113;
-    public static final double PILLAR_GAP = 116.46;
-
     double x;
     double y;
 
@@ -92,19 +88,19 @@ public class GonzagaHall implements DrawingObject {
         // Set up the windows.
         windows = new ArrayList<Rectangle>();
         for (int i = 0; i < 5; i++) {
-            windows.add(new Rectangle(x + 25.8 + i * WINDOW_X_GAP, y + 24.8, 86.5, 41.2, new Color(148, 212, 228)));
-            windows.add(new Rectangle(x + 25.8 + i * WINDOW_X_GAP, y + 66, 86.5, 25.9, new Color(221, 90, 48)));
-            windows.add(new Rectangle(x + 25.8 + i * WINDOW_X_GAP, y + 66, 86.5, 5, new Color(181, 133, 68)));
+            windows.add(new Rectangle(x + 25.8 + i * 80, y + 24.8, 86.5, 41.2, new Color(148, 212, 228)));
+            windows.add(new Rectangle(x + 25.8 + i * 80, y + 66, 86.5, 25.9, new Color(221, 90, 48)));
+            windows.add(new Rectangle(x + 25.8 + i * 80, y + 66, 86.5, 5, new Color(181, 133, 68)));
 
-            windows.add(new Rectangle(x + 25.8 + i * WINDOW_X_GAP, y + 24.8 + WINDOW_Y_GAP, 86.5, 41.2, new Color(148, 212, 228)));
-            windows.add(new Rectangle(x + 25.8 + i * WINDOW_X_GAP, y + 66 + WINDOW_Y_GAP, 86.5, 25.9, new Color(221, 90, 48)));
-            windows.add(new Rectangle(x + 25.8 + i * WINDOW_X_GAP, y + 66 + WINDOW_Y_GAP, 86.5, 5, new Color(181, 133, 68)));
+            windows.add(new Rectangle(x + 25.8 + i * 80, y + 24.8 + 113, 86.5, 41.2, new Color(148, 212, 228)));
+            windows.add(new Rectangle(x + 25.8 + i * 80, y + 66 + 113, 86.5, 25.9, new Color(221, 90, 48)));
+            windows.add(new Rectangle(x + 25.8 + i * 80, y + 66 + 113, 86.5, 5, new Color(181, 133, 68)));
         }
 
         // Set up the pillars.
         pillars = new ArrayList<Rectangle>();
         for (int i = 0; i < 6; i++) {
-            pillars.add(new Rectangle(x + i * PILLAR_GAP, y + 187.5, 13.9, 52.8, new Color(221, 90, 48)));
+            pillars.add(new Rectangle(x + i * 116.46, y + 187.5, 13.9, 52.8, new Color(221, 90, 48)));
         }
 
         // Set up the shadows.

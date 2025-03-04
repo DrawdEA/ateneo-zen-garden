@@ -23,8 +23,10 @@ import java.awt.*;
 import java.util.*;
 
 public class Bush implements DrawingObject {
-    int x, y;
-    int w, h;
+    int x;
+    int y;
+    int w;
+    int h;
     int numOfBushClusters;
     ArrayList<ArrayList<Integer>> bushClusters;
 
@@ -49,12 +51,12 @@ public class Bush implements DrawingObject {
         bushClusters = new ArrayList<ArrayList<Integer>>();
 
         Random random = new Random();
-        numOfBushClusters = random.nextInt((int)h*w/350, (int)h*w/250);
+        numOfBushClusters = random.nextInt((int) h * w / 350, (int) h * w / 250);
 
         for (int i = 0; i < numOfBushClusters; i++) {
-            int geometricMean =  (int) Math.sqrt(h*w);
-            int cWidth = random.nextInt(geometricMean/15, geometricMean/5);
-            int cHeight = random.nextInt(geometricMean/15, geometricMean/5);
+            int geometricMean =  (int) Math.sqrt(h * w);
+            int cWidth = random.nextInt(geometricMean / 15, geometricMean / 5);
+            int cHeight = random.nextInt(geometricMean / 15, geometricMean / 5);
             int cX = random.nextInt(x, x + w - cWidth);
             int cY = random.nextInt(y, y + h - cHeight);
             
@@ -72,16 +74,7 @@ public class Bush implements DrawingObject {
      * @return the rectangle
      */
     public Rectangle boundingBox(){
-        return new Rectangle(
-            x,
-            y,
-            x+w,
-            y,
-            x+w,
-            y+h,
-            x,
-            y+h,
-        base);
+        return new Rectangle(x, y, x+w, y, x+w, y+h, x, y+h, base);
     }
 
     /**
@@ -98,13 +91,7 @@ public class Bush implements DrawingObject {
             int width = bushClusters.get(i).get(2);
             int height = bushClusters.get(i).get(3);
 
-            bushClusterDrawings.add(new Ellipse(
-                xPos,
-                yPos,
-                width,
-                height,
-                base
-            ));
+            bushClusterDrawings.add(new Ellipse(xPos, yPos, width, height, base));
 
             bushClusterDrawings.add(new Ellipse(
                 xPos + (int) (width * 0.75 / 2),

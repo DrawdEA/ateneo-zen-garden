@@ -51,7 +51,6 @@ public class FallingLeaf implements DrawingObject {
         scale = s;
         fallingXIncrement = fX;
         fallingYIncrement = fY;
-        
         random = new Random();
         state = random.nextInt(8);
     }
