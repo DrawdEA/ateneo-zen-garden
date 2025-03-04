@@ -1,5 +1,6 @@
 /**
- * TODO: Description
+ * The PerspectiveSchmittHall class is responsible for an alternative setting of the Schmitt Hall building.
+ * This includes the main building, windows, and its roof.
  * 
  * @author Edward Joshua M. Diesta (241571), Charles Joshua T. Uy (244644)
  * @version March 3, 2025
@@ -25,6 +26,12 @@ public class PerspectiveSchmittHall implements DrawingObject {
     int x,y;
     int opacity = 255;
 
+    /**
+     * Instantiate a Perspective Schmitt Hall.
+     * 
+     * @param xPosition x-value anchor of the building
+     * @param yPosition y-value anchor of the building
+     */
     public PerspectiveSchmittHall(int xPosition, int yPosition){
         x = xPosition;
         y = yPosition;
@@ -58,7 +65,7 @@ public class PerspectiveSchmittHall implements DrawingObject {
 
     private ArrayList<Rectangle> window(int x, int y, Color color){
         ArrayList<Rectangle> window = new ArrayList<Rectangle>();
-        // Window glass
+        // Window glass.
         window.add(
             new Rectangle(
                 x,
@@ -72,8 +79,8 @@ public class PerspectiveSchmittHall implements DrawingObject {
             color)
         );
 
-        // Window Frame
-        // Vertical Frames
+        // Window Frame.
+        // Vertical Frames.
         int frameWidth = 1;
         for (int i = 0; i < 3; i++) {
             window.add(new Rectangle(
@@ -87,7 +94,7 @@ public class PerspectiveSchmittHall implements DrawingObject {
                 y + 30 - i*2, 
             Color.WHITE));
         }
-        // Horizontal Frames
+        // Horizontal Frames.
         for (int i = 0; i < 3; i++) {
             window.add(new Rectangle(
                 x, 
@@ -117,6 +124,9 @@ public class PerspectiveSchmittHall implements DrawingObject {
         color);
     }
 
+    /**
+     * Draws the elements in order.
+     */
     @Override
     public void draw(Graphics2D g2d) {
         buildingBase(x, y, new Color(255, 254, 224, opacity)).draw(g2d);
@@ -136,7 +146,5 @@ public class PerspectiveSchmittHall implements DrawingObject {
                 window.draw(g2d);
             }
         }
-    
     }
-
 }

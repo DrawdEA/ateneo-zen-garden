@@ -2,7 +2,6 @@
  * The Tree class creates a tree using Lindenmayer system, which is a 
  * set of rules and symbols used to create a string of instructions.
  * 
- * 
  * @author Edward Joshua M. Diesta (241571), Charles Joshua T. Uy (244644)
  * @version March 3, 2025
  * 
@@ -169,7 +168,10 @@ import javax.swing.Timer;
             leafColors.add(random.nextInt(4));
         }
     }
-     
+    
+    /**
+     * Generates the L-system and draws the tree.
+     */
     @Override
     public void draw(Graphics2D g2d) {
         // Generate the rules.

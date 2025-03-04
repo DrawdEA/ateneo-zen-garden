@@ -1,5 +1,6 @@
 /**
- * TODO: Description
+ * The PerspectiveGonzagaHall class is responsible for an alternative setting of the Gonzaga Hall building.
+ * This includes the main building, windows, signboard, and hallway.
  * 
  * @author Edward Joshua M. Diesta (241571), Charles Joshua T. Uy (244644)
  * @version March 3, 2025
@@ -25,6 +26,12 @@ public class PerspectiveGonzagaHall implements DrawingObject {
     int x, y;
     int opacity = 255;
     
+    /**
+     * Initializes a Perspective Gonzaga Hall.
+     * 
+     * @param xPosition x-value anchor position of the building
+     * @param yPosition y-value anchor position of the building
+     */
     public PerspectiveGonzagaHall(int xPosition, int yPosition){
         x = xPosition;
         y = yPosition;
@@ -37,7 +44,7 @@ public class PerspectiveGonzagaHall implements DrawingObject {
     private ArrayList<Rectangle> window(int x, int y, Color color){
         ArrayList<Rectangle> window = new ArrayList<>();
         
-        // Add Glass
+        // Add Glass.
         window.add(new Rectangle(
             x, 
             y-3, 
@@ -49,8 +56,8 @@ public class PerspectiveGonzagaHall implements DrawingObject {
             y+30, 
         color));
         
-        // Add Frame
-        // Vertical Frames
+        // Add Frame.
+        // Vertical Frames.
         int frameWidth = 1;
         for (int i = 0; i < 4; i++) {
             window.add(new Rectangle(
@@ -64,7 +71,7 @@ public class PerspectiveGonzagaHall implements DrawingObject {
                 y+33 + i-3, 
             Color.WHITE));
         }
-        // Horizontal Frames
+        // Horizontal Frames.
         for (int i = 0; i < 3; i++) {
             window.add(new Rectangle(
                 x, 
@@ -84,7 +91,7 @@ public class PerspectiveGonzagaHall implements DrawingObject {
     private ArrayList<Rectangle> firstFloor(int x, int y, Color canteenBg, Color pillars){
         ArrayList<Rectangle> firstFloor = new ArrayList<>();
 
-        // Black Background 
+        // Black Background.
         firstFloor.add(new Rectangle(
             x, 
             y+180, 
@@ -99,7 +106,7 @@ public class PerspectiveGonzagaHall implements DrawingObject {
         // Pillars
         int pillarWidth = 15;
         for (int i = 0; i < 8; i++){
-            if (i==3 || i==4){ // Center pillars are doubled due to the main Gonz entrance arch
+            if (i==3 || i==4){ // Center pillars are doubled due to the main Gonz entrance arch.
                 firstFloor.add(new Rectangle(
                     x + i*(483/7) - pillarWidth/2 - 3,
                     y + 180,
@@ -120,7 +127,7 @@ public class PerspectiveGonzagaHall implements DrawingObject {
                     x + i*(483/7) + pillarWidth/2 + 3,
                     y + 250 - i*(30/7),
                 pillars));
-            } else if (i == 7){ // The final post needs to be adjusted
+            } else if (i == 7){
                 firstFloor.add(new Rectangle(
                     x + i*(483/7) - pillarWidth,
                     y + 180,
@@ -152,7 +159,7 @@ public class PerspectiveGonzagaHall implements DrawingObject {
     private ArrayList<Rectangle> outerAccent(int x, int y, Color color){
         ArrayList<Rectangle> outerAccent = new ArrayList<>();
         
-        // White "hat" of Gonz
+        // White "hat" of Gonz.
         outerAccent.add(new Rectangle(
             x, 
             y, 
@@ -164,7 +171,7 @@ public class PerspectiveGonzagaHall implements DrawingObject {
             y+30, 
         color));
 
-        // Vertical accents
+        // Vertical accents.
         int verticalAccentWidth = 11;
         for (int i = 0; i < 7; i++) {
             outerAccent.add(new Rectangle(
@@ -179,7 +186,7 @@ public class PerspectiveGonzagaHall implements DrawingObject {
             color));
         }
 
-        // Horizontal Accent
+        // Horizontal Accent.
         outerAccent.add(new Rectangle(
             x,
             y+170+5, 
@@ -208,36 +215,39 @@ public class PerspectiveGonzagaHall implements DrawingObject {
         color);
     }
 
+    /**
+     * Draws the Perspective Gonzaga Hall in order.
+     */
     @Override
     public void draw(Graphics2D g2d) {
-        // Building wall everything is on
+        // Building wall everything is on.
         buildingBase(x, y, new Color(201,115,100,opacity)).draw(g2d);
 
-        // First row of windows
+        // First row of windows.
         for (int i = 0; i < 7; i++) {
             for (Rectangle windowObject : window(x+1 + (i*(12+57)),y+36 + (i*5), new Color(149,143,144,opacity))) {
                 windowObject.draw(g2d);
             }
         }
 
-        // Second row of windows
+        // Second row of windows.
         for (int i = 0; i < 7; i++) {
             for (Rectangle windowObject : window(x+1 + (i*(12+57)),y+100 + (i*5), new Color(149,143,144,opacity))) {
                 windowObject.draw(g2d);
             }
         }
 
-        // First Floor
+        // First Floor.
         for (Rectangle floorElement : firstFloor(x, y, new Color(30,30,30,opacity), new Color(201,115,100,opacity))){
             floorElement.draw(g2d);
         }
 
-        // White accents
+        // White accents.
         for (Rectangle accent : outerAccent(x, y, new Color(198,187,195,opacity))){
             accent.draw(g2d);
         }
 
-        // Gonzaga Signage
+        // Gonzaga Signage.
         gonzagaSignage(x, y, new Color(248,201,133,opacity)).draw(g2d);
     }
 }

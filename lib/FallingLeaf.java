@@ -1,5 +1,6 @@
 /**
- * TODO: description
+ * The FallingLeaf class is responsible for creating and animating a falling leaf.
+ * Its size, color, falling direction and speed can be customized.
  * 
  * @author Edward Joshua M. Diesta (241571), Charles Joshua T. Uy (244644)
  * @version March 3, 2025
@@ -20,23 +21,29 @@
 package lib;
 import java.awt.*;
 import java.awt.geom.*;
-import javax.swing.Timer;
 import java.util.*;
 
 public class FallingLeaf implements DrawingObject {
-    int fallingXIncrement;
-    int fallingYIncrement;
     double x;
     double y;
     double scale;
     Color color;
     int state;
+    Random random;
+    int fallingXIncrement;
+    int fallingYIncrement;
     Ellipse fallingLeaf;
 
-    Timer timer;
-
-    Random random;
-
+    /**
+     * Constructs a FallingLeaf object.
+     * 
+     * @param xPosition x-axis anchor of the leaf
+     * @param yPosition y-axis anchor of the leaf
+     * @param c color of the leaf
+     * @param s the scale of the leaf
+     * @param fX its falling direction and the speed thereof
+     * @param fY its falling speed
+     */
     public FallingLeaf(double xPosition, double yPosition, Color c, double s, int fX, int fY) {
         x = xPosition;
         y = yPosition;
@@ -49,6 +56,9 @@ public class FallingLeaf implements DrawingObject {
         state = random.nextInt(8);
     }
 
+    /**
+     * Draws the falling leaf depending on its state/frame.
+     */
     public void draw(Graphics2D g2d) {
         AffineTransform resetTransform = g2d.getTransform();
         switch(state) {
@@ -93,8 +103,9 @@ public class FallingLeaf implements DrawingObject {
                 fallingLeaf.draw(g2d);
                 break;
         }
-
         g2d.setTransform(resetTransform);
+
+        // Update the state and move the leaf.
         state++;
         if (state > 7) state = 0;
         x = x + fallingXIncrement;

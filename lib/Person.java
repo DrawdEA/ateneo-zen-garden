@@ -1,5 +1,6 @@
 /**
- * TODO: Description
+ * The Person class is responsible for the creation and animation of a person.
+ * The person instance can either be walking or idle.
  * 
  * @author Edward Joshua M. Diesta (241571), Charles Joshua T. Uy (244644)
  * @version March 3, 2025
@@ -18,7 +19,6 @@
  */
 
 package lib;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.Random;
@@ -47,7 +47,21 @@ public class Person implements DrawingObject{
     final double BASE_HEIGHT = 284.6;
     final double BASE_WIDTH = 112.7;
 
-    // Constructor to create walking people
+    /**
+     * Instantiate a walking person.
+     * 
+     * @param state state of the person
+     * @param shirtColor color of the person's shirt
+     * @param pantsColor color of the person's pants
+     * @param skinColor color of the person's skin
+     * @param x1 initial x-value of the person
+     * @param y1 initial y-value of the person
+     * @param x2 final x-value of the person
+     * @param y2 final y-value of the person
+     * @param scale1 initial scale of the person
+     * @param scale2 final scale of the person
+     * @param speed walk speed of the person.
+     */
     public Person(String state, Color shirtColor, Color pantsColor, Color skinColor, int x1, int y1, int x2, int y2, double scale1, double scale2, int speed){
         this.state = state;
         this.shirtColor = shirtColor;
@@ -70,7 +84,17 @@ public class Person implements DrawingObject{
         animationFrameNum = 0;
     }
 
-    // Constructor to create idling people
+    /**
+     * Instantiate an idle person.
+     * 
+     * @param state state of the person
+     * @param shirtColor color of the person's shirt
+     * @param pantsColor color of the person's pants
+     * @param skinColor color of the person's skin
+     * @param x1 x-value location of the person
+     * @param y1 y-value location of the person
+     * @param scale1 scale of the person
+     */
     public Person(String state, Color shirtColor, Color pantsColor,  Color skinColor, int x1, int y1, double scale1){
         this.state = state;
         this.shirtColor = shirtColor;
@@ -91,12 +115,33 @@ public class Person implements DrawingObject{
         animationFrameNum = 0;
     }
 
+    /**
+     * Initializes the person's head.
+     *  
+     * @param g2d Graphics2D of the SceneCanvas
+     * @param baseReset base AffineTransform
+     * @param headX x-value location of the head
+     * @param headY y-value location of the head
+     * @param width width and length of the head
+     */
     private void makeHead(Graphics2D g2d, AffineTransform baseReset, double headX, double headY, double width){
         AffineTransform transform = new AffineTransform(baseReset);
         g2d.setTransform(transform);
         (new Rectangle(x+headX*scale, y+headY*scale, width*scale, width*scale, skinColor)).draw(g2d);
     }
 
+    /**
+     * Initializes the person's limb.
+     * 
+     * @param g2d Graphics2D of the SceneCanvas
+     * @param baseReset base AffineTransform
+     * @param armX x-value location of the arm
+     * @param armY y-value location of the arm
+     * @param degreeRotation rotation of the arm
+     * @param width width of the arm
+     * @param height length of the arm
+     * @param color color of the arm
+     */
     private void makeLimb(Graphics2D g2d, AffineTransform baseReset, double armX, double armY, double degreeRotation, double width, double height, Color color){
         AffineTransform transform = new AffineTransform(baseReset);
         transform.rotate(Math.toRadians(degreeRotation), x+armX*scale, y+armY*scale);
@@ -105,11 +150,26 @@ public class Person implements DrawingObject{
         g2d.setTransform(baseReset);
     }
 
+    /**
+     * Initializes a person's shirt.
+     * 
+     * @param g2d Graphics2D of the SceneCanvas
+     * @param baseReset base AffineTransform
+     * @param shirtX x-value location of the shirt
+     * @param shirtY y-value location of the shirt
+     * @param width width of the shirt
+     * @param height height of the shirt.
+     */
     private void makeShirt(Graphics2D g2d, AffineTransform baseReset, double shirtX, double shirtY, double width, double height){
         g2d.setTransform(baseReset);
         (new Rectangle(x+shirtX*scale, y+shirtY*scale, width*scale, height*scale, shirtColor)).draw(g2d);
     }
 
+    /**
+     * Sets up the idle frame depending on the current animationFrameNum.
+     * 
+     * @param g2d Graphics2D of the SceneCanvas
+     */
     private void getIdleFrame(Graphics2D g2d){
         AffineTransform baseReset = g2d.getTransform();
 
@@ -132,6 +192,11 @@ public class Person implements DrawingObject{
         }
     }
 
+    /**
+     * Sets up the walking frame depending on the current animationFrameNum.
+     * 
+     * @param g2d Graphics2D of the SceneCanvas
+     */
     private void getWalkingFrame(Graphics2D g2d, boolean toTheRight){
         int frameNum = animationFrameNum % 10 + 1;
         
@@ -186,10 +251,16 @@ public class Person implements DrawingObject{
         g2d.setTransform(overallReset);
     }
 
+    /**
+     * Increments the frame number.
+     */
     public void incrementAnimation(){
         animationFrameNum++;
     }
 
+    /**
+     * Draws the person and its animation.
+     */
     @Override
     public void draw(Graphics2D g2d) {
         AffineTransform originalTransform = g2d.getTransform();
