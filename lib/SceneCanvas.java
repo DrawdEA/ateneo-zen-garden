@@ -148,7 +148,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
 
             // Set up the falling leaves.
             leafCounter++;
-            if (leafCounter % fallingLeafSpawnRate == 0 && canSpawnLeaves) {
+            if (leafCounter % fallingLeafSpawnRate == 0 && canSpawnLeaves && hasLeaves) {
                 drawingObjects.add(new FallingLeaf(random.nextInt(-200, 1000), 0, GREEN_COLORS[random.nextInt(4)], random.nextDouble() / 4, random.nextInt(20), random.nextInt(10, 20)));
             }
             canSpawnLeaves = false;
