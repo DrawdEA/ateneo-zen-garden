@@ -192,27 +192,25 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         drawingObjects.add(new Background(0, 0));
         drawingObjects.add(new GonzagaHall(-91.6, 97.3));
         drawingObjects.add(new SchmittHall(574.4,23));
-        drawingObjects.add(new Bush(600, 300, 700, 70));
-        drawingObjects.add(new Bush(-500, 320, 600, 50));
+
+        drawingObjects.add(new Bush(570, 320, 700, 40));
+        drawingObjects.add(new Bush(-500, 320, 600, 40));
+        drawingObjects.add(new Bush(270, 320, 250, 40));
 
         drawingObjects.add(new Tree(timer, hasLeaves, TREE_PARAMETERS[0][0], TREE_PARAMETERS[0][1], TREE_PARAMETERS[0][2], (int) TREE_PARAMETERS[0][3], (int) TREE_PARAMETERS[0][4], (int) TREE_PARAMETERS[0][5]));
         drawingObjects.add(new Tree(timer, hasLeaves, TREE_PARAMETERS[1][0], TREE_PARAMETERS[1][1], TREE_PARAMETERS[1][2], (int) TREE_PARAMETERS[1][3], (int) TREE_PARAMETERS[1][4], (int) TREE_PARAMETERS[1][5]));
         
-        // People should be added in this layer [7]
+        // People should be added in this layer [8]
         
         drawingObjects.add(new Tree(timer, hasLeaves, TREE_PARAMETERS[2][0], TREE_PARAMETERS[2][1], TREE_PARAMETERS[2][2], (int) TREE_PARAMETERS[2][3], (int) TREE_PARAMETERS[2][4], (int) TREE_PARAMETERS[2][5]));
         drawingObjects.add(new Tree(timer, hasLeaves, TREE_PARAMETERS[3][0], TREE_PARAMETERS[3][1], TREE_PARAMETERS[3][2], (int) TREE_PARAMETERS[3][3], (int) TREE_PARAMETERS[3][4], (int) TREE_PARAMETERS[3][5]));
         
+        drawingObjects.add(new Bush(-50, 550, 1000, 100));
         
-        drawingObjects.add(new Bush(-50, 600, 900, 80));
-        drawingObjects.add(new Bush(-50, 550, 600, 80));
-        drawingObjects.add(new Bush(-50, 500, 350, 150));
-        
-
         drawingObjects.add(new Laptop(250, 400, laptopOpened, commandLineOpened, command));
 
         for (DrawingObject person : people){
-            drawingObjects.add(7, person);
+            drawingObjects.add(8, person);
         }
 
         // Set to true so that we know index 5 exists in drawingObjects
