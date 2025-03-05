@@ -174,7 +174,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
 
                     // Checks if the timer function is being called in the constructor or in repaint()
                     if (initializedCanvas) { // If in repaint() then insert the new person into the drawingObjects
-                        drawingObjects.add(7, person);
+                        drawingObjects.add(8, person);
                     } else { // if in the constructor then add it to a temporary people object to added at the right later at the end of the constructor
                         people.add(person);
                     }
@@ -194,7 +194,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         drawingObjects.add(new SchmittHall(574.4,23));
 
         drawingObjects.add(new Bush(570, 320, 700, 40));
-        drawingObjects.add(new Bush(-500, 320, 600, 40));
+        drawingObjects.add(new Bush(-500, 330, 600, 40));
         drawingObjects.add(new Bush(270, 320, 250, 40));
 
         drawingObjects.add(new Tree(timer, hasLeaves, TREE_PARAMETERS[0][0], TREE_PARAMETERS[0][1], TREE_PARAMETERS[0][2], (int) TREE_PARAMETERS[0][3], (int) TREE_PARAMETERS[0][4], (int) TREE_PARAMETERS[0][5]));
@@ -318,7 +318,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                 // Building Commands
                 } else if (command.equals("bldg --toggle")) {
                     isBuildingsToggled = !isBuildingsToggled;
-                    output = String.format("Toggled Buildings in the scenery\n");
+                    output = String.format("Toggled Buildings in the scenery.\n");
 
                     if (isBuildingsToggled){
                         // Set Gonz to the New Gonz
@@ -332,7 +332,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
 
                 // Trees Commands
                 } else if (command.equals("trees --regrow")) {
-                    output = String.format("Regrowing all trees in the scenery\n");
+                    output = String.format("Regrowing all trees in the scenery.\n");
                     int treeCounter = 0;
                     for (int i = 0; i < drawingObjects.size(); i++){
                         if (drawingObjects.get(i) instanceof Tree){
@@ -342,6 +342,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                     }
 
                 } else if (command.equals("leaves --toggle")) {
+                    output = String.format("Stripped all trees of their leaves in the scenery.\n");
                     hasLeaves = !hasLeaves;
                     if (hasLeaves) {
                         output = String.format("Gave leaves to all trees in the scenery\n");
@@ -361,19 +362,19 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                     if (fallingLeafSpawnRate == 1){
                         output = String.format("Falling leaves spawn rate is already at maximum!\n");
                     } else {
-                        output = String.format("Increased falling leaves spawn interval to %d\n", fallingLeafSpawnRate);
+                        output = String.format("Increased falling leaves spawn interval to %d.\n", fallingLeafSpawnRate);
                         fallingLeafSpawnRate--;
                     }
 
                 } else if (command.equals("leaves--")) {
                     fallingLeafSpawnRate++;
-                    output = String.format("Decreased falling leaves spawn interval to %d\n", fallingLeafSpawnRate);
+                    output = String.format("Decreased falling leaves spawn interval to %d.\n", fallingLeafSpawnRate);
 
 
                 // People Commands
                 } else if (command.equals("people++")) {
                     peopleSpawnRate++;
-                    output = String.format("Increased people spawning rate to %d\n", peopleSpawnRate);
+                    output = String.format("Increased people spawning rate to %d.\n", peopleSpawnRate);
 
                 } else if (command.equals("people--")) {
                     if (peopleSpawnRate == 1) {
@@ -381,7 +382,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                         output = String.format("People spawning rate is already at its minimum at 1!\n");
                     } else {
                         peopleSpawnRate--;
-                        output = String.format("Decreased people spawning rate to %d\n", peopleSpawnRate);
+                        output = String.format("Decreased people spawning rate to %d.\n", peopleSpawnRate);
                     }
 
 
