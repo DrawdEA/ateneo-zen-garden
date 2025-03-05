@@ -148,7 +148,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
 
             // Set up the falling leaves.
             leafCounter++;
-            if (leafCounter % fallingLeafSpawnRate == 0 && canSpawnLeaves) {
+            if (leafCounter % fallingLeafSpawnRate == 0 && canSpawnLeaves && hasLeaves) {
                 drawingObjects.add(new FallingLeaf(random.nextInt(-200, 1000), 0, GREEN_COLORS[random.nextInt(4)], random.nextDouble() / 4, random.nextInt(20), random.nextInt(10, 20)));
             }
             canSpawnLeaves = false;
@@ -311,8 +311,8 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                     output += String.format("   people++\t\tIncrease the people spawn rate by 1\n");
                     output += String.format("   people--\t\tDecrease the people spawn rate by 1\n");
                     // Music Commands
-                    output += String.format("   music --playlist\tIncrease the people spawn rate by 1\n");
-                    output += String.format("   music --shuffle\tDecrease the people spawn rate by 1\n");
+                    output += String.format("   music --playlist\tDisplay the current playlist of songs\n");
+                    output += String.format("   music --shuffle\tShuffle all songs in front of the current song\n");
 
 
                 // Building Commands
