@@ -161,7 +161,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                     Color shirtColor = SHIRT_COLORS[random.nextInt(SHIRT_COLORS.length)];
                     Color skinColor = SKIN_COLORS[random.nextInt(SKIN_COLORS.length)];
                     Color pantsColor = PANTS_COLORS[random.nextInt(PANTS_COLORS.length)];
-                    int speed = random.nextInt(5, 10);
+                    int speed = random.nextInt(5, 8);
 
                     Person person = new Person(
                         "walking", 
@@ -174,7 +174,7 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
 
                     // Checks if the timer function is being called in the constructor or in repaint()
                     if (initializedCanvas) { // If in repaint() then insert the new person into the drawingObjects
-                        drawingObjects.add(5, person);
+                        drawingObjects.add(7, person);
                     } else { // if in the constructor then add it to a temporary people object to added at the right later at the end of the constructor
                         people.add(person);
                     }
@@ -194,15 +194,14 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
         drawingObjects.add(new SchmittHall(574.4,23));
         drawingObjects.add(new Bush(600, 300, 700, 70));
         drawingObjects.add(new Bush(-500, 320, 600, 50));
-        //drawingObjects.add(new Bush(100, 400, 300, 70));
 
-        //drawingObjects.add(new Tree(timer, hasLeaves, TREE_PARAMETERS[0][0], TREE_PARAMETERS[0][1], TREE_PARAMETERS[0][2], (int) TREE_PARAMETERS[0][3], (int) TREE_PARAMETERS[0][4], (int) TREE_PARAMETERS[0][5]));
-        //drawingObjects.add(new Tree(timer, hasLeaves, TREE_PARAMETERS[1][0], TREE_PARAMETERS[1][1], TREE_PARAMETERS[1][2], (int) TREE_PARAMETERS[1][3], (int) TREE_PARAMETERS[1][4], (int) TREE_PARAMETERS[1][5]));
+        drawingObjects.add(new Tree(timer, hasLeaves, TREE_PARAMETERS[0][0], TREE_PARAMETERS[0][1], TREE_PARAMETERS[0][2], (int) TREE_PARAMETERS[0][3], (int) TREE_PARAMETERS[0][4], (int) TREE_PARAMETERS[0][5]));
+        drawingObjects.add(new Tree(timer, hasLeaves, TREE_PARAMETERS[1][0], TREE_PARAMETERS[1][1], TREE_PARAMETERS[1][2], (int) TREE_PARAMETERS[1][3], (int) TREE_PARAMETERS[1][4], (int) TREE_PARAMETERS[1][5]));
         
         // People should be added in this layer [7]
         
-        //drawingObjects.add(new Tree(timer, hasLeaves, TREE_PARAMETERS[2][0], TREE_PARAMETERS[2][1], TREE_PARAMETERS[2][2], (int) TREE_PARAMETERS[2][3], (int) TREE_PARAMETERS[2][4], (int) TREE_PARAMETERS[2][5]));
-        //drawingObjects.add(new Tree(timer, hasLeaves, TREE_PARAMETERS[3][0], TREE_PARAMETERS[3][1], TREE_PARAMETERS[3][2], (int) TREE_PARAMETERS[3][3], (int) TREE_PARAMETERS[3][4], (int) TREE_PARAMETERS[3][5]));
+        drawingObjects.add(new Tree(timer, hasLeaves, TREE_PARAMETERS[2][0], TREE_PARAMETERS[2][1], TREE_PARAMETERS[2][2], (int) TREE_PARAMETERS[2][3], (int) TREE_PARAMETERS[2][4], (int) TREE_PARAMETERS[2][5]));
+        drawingObjects.add(new Tree(timer, hasLeaves, TREE_PARAMETERS[3][0], TREE_PARAMETERS[3][1], TREE_PARAMETERS[3][2], (int) TREE_PARAMETERS[3][3], (int) TREE_PARAMETERS[3][4], (int) TREE_PARAMETERS[3][5]));
         
         
         drawingObjects.add(new Bush(-50, 600, 900, 80));
