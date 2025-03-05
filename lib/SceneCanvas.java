@@ -313,8 +313,8 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                     output += String.format("   people++\t\tIncrease the people spawn rate by 1\n");
                     output += String.format("   people--\t\tDecrease the people spawn rate by 1\n");
                     // Music Commands
-                    output += String.format("   music --playlist\tIncrease the people spawn rate by 1\n");
-                    output += String.format("   music --shuffle\tDecrease the people spawn rate by 1\n");
+                    output += String.format("   music --playlist\tDisplay the current playlist of songs\n");
+                    output += String.format("   music --shuffle\tShuffle all songs in front of the current song\n");
 
 
                 // Building Commands
