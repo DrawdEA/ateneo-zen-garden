@@ -342,12 +342,11 @@ public class SceneCanvas extends JComponent implements KeyListener, MouseListene
                     }
 
                 } else if (command.equals("leaves --toggle")) {
-                    output = String.format("Stripped all trees of their leaves in the scenery.\n");
                     hasLeaves = !hasLeaves;
                     if (hasLeaves) {
-                        output = String.format("Gave leaves to all trees in the scenery\n");
+                        output = String.format("Gave leaves to all trees in the scenery.\n");
                     } else {
-                        output = String.format("Stripped all trees of their leaves in the scenery\n");
+                        output = String.format("Stripped all trees of their leaves in the scenery.\n");
                     }
 
                     for (DrawingObject object : drawingObjects) {
